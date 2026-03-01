@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { Container, Padding } from "@mui/icons-material";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 const Login = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    
-    const toggleLogin = () => setIsLogin(false)
+  const [isLogin, setIsLogin] = useState(true);
+
+  const toggleLogin = () => setIsLogin(false);
 
   return (
-    <Container component={"main"} maxWidth="sx">
+    <Container component="main" maxWidth="xs">
       <Paper
         elevation={3}
         sx={{
-          Padding: 4,
+          padding: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -29,7 +30,7 @@ const Login = () => {
                 fullWidth
                 label="Username"
                 margin="normal"
-                varient="outlined"
+                variant="outlined"
               />
               <TextField
                 required
@@ -37,10 +38,10 @@ const Login = () => {
                 label="Password"
                 type="password"
                 margin="normal"
-                varient="outlined"
+                variant="outlined"
               />
               <Button
-                varient="contained"
+                variant="contained"
                 color="primary"
                 type="submit"
                 fullWidth
@@ -49,10 +50,8 @@ const Login = () => {
               </Button>
               <Typography>Or</Typography>
               <Button
-                sx={{
-                  marginTop: "1rem",
-                }}
-                varient="text"
+                sx={{ marginTop: "1rem" }}
+                variant="text"
                 onClick={toggleLogin}
               >
                 Sign
