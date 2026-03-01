@@ -8,15 +8,19 @@ import Button from "@mui/material/Button";
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
 
-  const toggleLogin = () => setIsLogin(false);
+  const toggleLogin = () => setIsLogin((prev)=> !prev);
 
   return (
-    <Container component={"main"} maxWidth="xs" sx={{
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center"
-    }} >
+    <Container
+      component={"main"}
+      maxWidth="xs"
+      sx={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Paper
         elevation={3}
         sx={{
@@ -29,10 +33,12 @@ const Login = () => {
         {isLogin ? (
           <>
             <Typography variant="h5">Login</Typography>
-            <form style={{
-              width: "100%",
-              marginTop: "1rem",
-            }}>
+            <form
+              style={{
+                width: "100%",
+                marginTop: "1rem",
+              }}
+            >
               <TextField
                 required
                 fullWidth
@@ -57,18 +63,69 @@ const Login = () => {
                 Login
               </Button>
 
-              <Typography textAlign={"center"} m={"1rem"} >OR</Typography>
-              <Button
-                fullWidth
-                variant="text"
-                onClick={toggleLogin}
-              >
+              <Typography textAlign={"center"} m={"1rem"}>
+                OR
+              </Typography>
+              <Button fullWidth variant="text" onClick={toggleLogin}>
                 Sign Up Instead
               </Button>
             </form>
           </>
         ) : (
-          <span>register</span>
+          <>
+            <Typography variant="h5">Sign Up</Typography>
+            <form
+              style={{
+                width: "100%",
+                marginTop: "1rem",
+              }}
+            >
+              <TextField
+                required
+                fullWidth
+                label="Name"
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                required
+                fullWidth
+                label="Bio"
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                required
+                fullWidth
+                label="Username"
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                margin="normal"
+                variant="outlined"
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                fullWidth
+              >
+                Sign Up
+              </Button>
+
+              <Typography textAlign={"center"} m={"1rem"}>
+                OR
+              </Typography>
+              <Button fullWidth variant="text" onClick={toggleLogin}>
+                Login Instead
+              </Button>
+            </form>
+          </>
         )}
       </Paper>
     </Container>
