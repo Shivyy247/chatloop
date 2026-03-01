@@ -4,6 +4,9 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { Avatar, IconButton, Stack } from "@mui/material";
+import {CameraAlt as CameraAltIcon} from '@mui/icons-material'
+
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -80,6 +83,22 @@ const Login = () => {
                 marginTop: "1rem",
               }}
             >
+              <Stack position={"relative"} width={"10rem"} margin={"auto"}>
+                <Avatar
+                  sx={{
+                    width: "10rem",
+                    height: "10rem",
+                    objectFit: "contain",
+                  }}
+                />
+
+                <IconButton>
+                  <>
+                    <CameraAltIcon />
+                    <VisuallyHiddenInput type={"file"} />
+                  </>
+                </IconButton>
+              </Stack>
               <TextField
                 required
                 fullWidth
