@@ -11,7 +11,12 @@ const Login = () => {
   const toggleLogin = () => setIsLogin(false);
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component={"main"} maxWidth="xs" sx={{
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    }} >
       <Paper
         elevation={3}
         sx={{
@@ -24,7 +29,10 @@ const Login = () => {
         {isLogin ? (
           <>
             <Typography variant="h5">Login</Typography>
-            <form>
+            <form style={{
+              width: "100%",
+              marginTop: "1rem",
+            }}>
               <TextField
                 required
                 fullWidth
@@ -48,13 +56,14 @@ const Login = () => {
               >
                 Login
               </Button>
-              <Typography>Or</Typography>
+
+              <Typography textAlign={"center"} m={"1rem"} >OR</Typography>
               <Button
-                sx={{ marginTop: "1rem" }}
+                fullWidth
                 variant="text"
                 onClick={toggleLogin}
               >
-                Sign
+                Sign Up Instead
               </Button>
             </form>
           </>
