@@ -1,4 +1,4 @@
-import { Height, styled } from "@mui/icons-material";
+import { styled } from "@mui/material";
 
 export const VisuallyHiddenInput = styled("input")({
     border: 0,

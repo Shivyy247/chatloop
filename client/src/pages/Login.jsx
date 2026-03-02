@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Avatar, IconButton, Stack } from "@mui/material";
-import {CameraAlt as CameraAltIcon} from '@mui/icons-material'
+import { CameraAlt as CameraAltIcon } from '@mui/icons-material'
+import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
 
 
 const Login = () => {
@@ -92,7 +93,18 @@ const Login = () => {
                   }}
                 />
 
-                <IconButton>
+                  <IconButton sx={{
+                    position: "absolute",
+                    bottom: "0",
+                    right: "0",
+                    color: "white",
+                    bgcolor: "rgba(0,0,0,0.5)",
+                    ":hover": {
+                      bgcolor: "rgba(0,0,0,0.7)",
+                    }
+                  }}
+                    component="label"
+                  >
                   <>
                     <CameraAltIcon />
                     <VisuallyHiddenInput type={"file"} />
