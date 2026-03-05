@@ -31,7 +31,7 @@ const AppLayout = (WrappedComponent) => {
             sx={{
               display: { xs: "none", sm: "block" },
               padding: "2rem",
-              bgcolor: "#2F6F6D",
+              bgcolor: "#153D4C",
             }}
           >
             Third
