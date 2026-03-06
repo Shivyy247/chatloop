@@ -10,7 +10,7 @@ const AppLayout = (WrappedComponent) => {
   return (props) => {
     
     const params = useParams();
-    const { chatId } = params;
+    const chatId = params.chatId;
 
     return (
       <>

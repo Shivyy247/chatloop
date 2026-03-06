@@ -6,4 +6,11 @@ export const sampleChats = [
     groupChat: false,
     members: ["1", "2"],
   },
+  {
+    avatar: "./githubdp.jpeg",
+    name: "laila",
+    _id: "2",
+    groupChat: false,
+    members: ["1", "2"],
+  },
 ];
