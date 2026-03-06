@@ -17,8 +17,31 @@ const  Chatlist = ({
   return (
     <Stack width={w} direction={"column"}>
           {
-              chats?.map(data => {
-                  return <Chatitem/>
+              chats?.map((data, index) => {
+                  const { avatar, _id, name, groupChat, members } = data;
+
+                  const messageAlert = newMessageAlert.find(
+                      ({chatId}) => chatId === _id
+                  )
+
+                  const isOnline = members?.some((member) =>
+                    onlineUsers.includes(member),
+                  );
+                  console.log(members, onlineUsers, isOnline);
+
+                  return (
+                    <Chatitem
+                      newMessageAlert={messageAlert}
+                      isOnline={isOnline}
+                      avatar={avatar}
+                      _id={_id}
+                      key={_id}
+                      groupChat={groupChat}
+                      name={name}
+                      sameSender={chatId === _id}
+                      handleDeleteChatOpen={handleDeleteChat}
+                    />
+                  );
               })
       }
     </Stack>
