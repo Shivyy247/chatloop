@@ -1,5 +1,5 @@
-import { Stack } from '@mui/material'
-import React from 'react'
+import { Stack } from '@mui/material'     
+import Chatitem from '../shared/Chatitem'
 
 const  Chatlist = ({
     w = "100%",
@@ -18,7 +18,7 @@ const  Chatlist = ({
     <Stack width={w} direction={"column"}>
           {
               chats?.map(data => {
-                  return <div>{data}</div>
+                  return <Chatitem/>
               })
       }
     </Stack>
