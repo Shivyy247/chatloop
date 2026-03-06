@@ -1,4 +1,4 @@
-import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Backdrop, Box, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import  { lazy, Suspense, useState } from "react";
 import { headerBg } from "../../constants/color";
 import {
@@ -111,17 +111,17 @@ const Header = () => {
       </Box>
 
       {isSearch && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Backdrop open />}>
           <SearchDialog />
         </Suspense>
       )}
       {isNotification && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Backdrop open />}>
           <NofificationDialog />
         </Suspense>
       )}
       {isNewGroup && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Backdrop open />}>
           <NewGroupDialog />
         </Suspense>
       )}
