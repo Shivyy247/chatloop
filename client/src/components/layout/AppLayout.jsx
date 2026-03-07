@@ -12,6 +12,11 @@ const AppLayout = (WrappedComponent) => {
     const params = useParams();
     const chatId = params.chatId;
 
+    const handleDeleteChat = (e, _id, groupChat) => {
+      e.preventDefault()
+      console.log("Delete Chat", _id, groupChat)
+    }
+
     return (
       <>
         <Title />
@@ -25,11 +30,10 @@ const AppLayout = (WrappedComponent) => {
             }}
             height="100%"
           >
-            <Chatlist chats={sampleChats} chatId={chatId} newMessageAlert={[{
-              chatId,
-              count: 4,
-            }]}
-              onlineUsers={["1","2"]}
+            <Chatlist
+              chats={sampleChats}
+              chatId={chatId}
+              handleDeleteChat={handleDeleteChat}
             />
           </Grid>
 
