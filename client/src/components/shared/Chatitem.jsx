@@ -1,6 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { Link } from "../styles/StyledComponents";
 import { memo } from "react";
+import AvatarCard from "./AvatarCard";
 
 const Chatitem = ({
   avatar = [],
@@ -28,8 +29,9 @@ const Chatitem = ({
           alignItems: "center",
           padding: "1rem",
           backgroundColor: sameSender ? "#1F3B5C" : "#162C4A",
-          color: sameSender ? "#E6EDF5" : "#E6EDF5",
+          color: "#E6EDF5",
           position: "relative",
+          borderBottom: "2px solid rgba(255,255,255,0.35)",
         }}
         onMouseEnter={(e) =>
           (e.currentTarget.style.backgroundColor = "#2E5A8A")
@@ -41,6 +43,9 @@ const Chatitem = ({
         }
       >
         {/* avatar card  */}
+
+        <AvatarCard avatar={avatar} />
+
         <Stack>
           <Typography>{name}</Typography>
           {newMessageAlert && (
