@@ -43,3 +43,23 @@ export const sampleUsers = [
     _id: 2,
   },
 ];
+
+export const sampleNotifications = [
+  {
+    sender: {
+      avatar:
+        "https://as1.ftcdn.net/jpg/14/04/65/88/1000_F_1404658802_qSXASYeuQA3yeEzO1ZZzTdP4IE6yGHm3.jpg",
+      name: "nami",
+    },
+    _id: 1,
+  },
+  {
+    sender: {
+      avatar:
+      "https://static.vecteezy.com/system/resources/previews/037/047/063/non_2x/ai-generated-user-web-icon-symbol-3d-isolated-on-transparent-background-png.png",
+    name: "niya",
+    },
+    _id: 2,
+  },
+
+];
