@@ -24,7 +24,7 @@ const Notifications = () => {
         <DialogTitle>Notiifications</DialogTitle>
         {sampleNotifications.length > 0 ? (
           sampleNotifications.map(({ sender, _id }) => (
-            <NotoficationItem sender={sender} _id={_id} handler={friendRequestHandler} key={_id} />
+            <NotificationItem sender={sender} _id={_id} handler={friendRequestHandler} key={_id} />
           ))
         ) : (
           <Typography textAlign={"center"}>0 notifications</Typography>
@@ -34,49 +34,54 @@ const Notifications = () => {
   );
 }
 
-const NotoficationItem = memo(({ sender, _id, handler }) => {
+const NotificationItem = memo(({ sender, _id, handler }) => {
+  const { name, avatar } = sender;
 
-  const { name, Avatar } = sender;
-
-    return (
-      <div>
-        <ListItem>
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            spacing={"1rem"}
-            width={"100%"}
+  return (
+    <div>
+      <ListItem>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          spacing={"1rem"}
+          width={"100%"}
+        >
+          <Avatar src={avatar} />
+          <Typography
+            variant="body1"
+            sx={{
+              flexGrow: 1,
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "100%",
+            }}
           >
-            <Avatar />
-            <Typography
-              variant="body1"
-              sx={{
-                flexGrow: 1,
-                display: "-webkit-box",
-                WebkitLineClamp: 1,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                width: "100%",
-              }}
-            >
-              {`${name} sent you a friend request. `}
-            </Typography>
-            <Stack direction={{
+            {`${name} sent you a friend request.`}
+          </Typography>
+
+          <Stack direction=
+            {{
               xs: "column",
               sm: "row"
-            }} >
-              <Button onClick={() => handler({ _id, accept: true })}>
-                Accept
-              </Button>
-              <Button color='error' onClick={() => handler({ _id, accept: false })}>
-                Reject
-              </Button>
-            </Stack>
+            }}
+          >
+            <Button onClick={() => handler({ _id, accept: true })}>
+              Accept
+            </Button>
+            <Button
+              color="error"
+              onClick={() => handler({ _id, accept: false })}
+            >
+              Reject
+            </Button>
           </Stack>
-        </ListItem>
-      </div>
-    );
+        </Stack>
+      </ListItem>
+    </div>
+  );
 });
 
 
