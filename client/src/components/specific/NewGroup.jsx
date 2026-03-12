@@ -22,7 +22,13 @@ const NewGroup = () => {
 
 
   const addMemberHandler = (id) => {
-    setSelectMembers((prev)=> [...prev, id])
+
+    setMembers(prev=> prev.map(user=>user._id===id? {...user,isAdded:!user.isAdded} : user))
+    setSelectMembers((prev) =>
+      prev.includes(id)
+        ? prev.filter((currElement) => currElement !== id)
+        : [...prev, id],
+    );
   };
   console.log(selectMembers)
   
@@ -41,7 +47,11 @@ const NewGroup = () => {
         <Typography variant="body1">Members</Typography>
         <Stack>
           {members.map((i) => (
-            <UserItem user={i} key={i._id} handler={addMemberHandler} />
+            <UserItem
+              user={i}
+              key={i._id}
+              handler={addMemberHandler}
+              isAdded={selectMembers.includes(i._id)} />
           ))}
         </Stack>
         <Stack direction={"row"} justifyContent={"space-between"}>
