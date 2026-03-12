@@ -33,8 +33,11 @@ const NewGroup = () => {
   console.log(selectMembers)
   
   const submitHandler = () => { };
+
+  const closeHandler = () => {};
+
   return (
-    <Dialog open>
+    <Dialog open onClose={closeHandler}>
       <Stack p={{ xs: "1rem", sm: "3rem" }} width={"25rem"} spacing={"2rem"}>
         <DialogTitle textAlign={"center"} variant="h4">
           New Group
