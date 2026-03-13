@@ -3,6 +3,7 @@ import AppLayout from "../components/layout/AppLayout";
 import { IconButton, Stack } from "@mui/material";
 import { AttachFile as AttachFileIcon, Send as SendIcon } from "@mui/icons-material";
 import { InputBox } from "../components/styles/StyledComponents";
+import FileMenu from "../components/dialogs/FileMenu";
 
 
 const Chat = () => {
@@ -15,7 +16,7 @@ const Chat = () => {
         boxSizing={"border-box"}
         padding={"1rem"}
         spacing={"1rem"}
-        bgcolor={"aqua"}
+        bgcolor={"#4272cc"}
         height={"90%"}
         sx={{
           overflowX: "hidden",
@@ -34,31 +35,37 @@ const Chat = () => {
           alignItems={"center"}
           position={"relative"}
         >
-          <IconButton sx={{
-            position: "absolute",
-            left: "1.5rem",
-            rotate: "30deg",
-          }} >
+          <IconButton
+            sx={{
+              position: "absolute",
+              left: "1.5rem",
+              rotate: "30deg",
+            }}
+          >
             <AttachFileIcon />
           </IconButton>
 
           <InputBox placeholder="Type msg here..." />
 
-          <IconButton type="submit" sx={{
-            rotate: "-30deg",
-            bgcolor: "#1f57c0",
-            color: "white",
-            marginLeft: "1rem",
-            padding: "0.5rem",
-            "&:hover": {
-              bgcolor: "error.dark",
-            }
-
-          }}>
-            <SendIcon/>
+          <IconButton
+            type="submit"
+            sx={{
+              rotate: "-30deg",
+              bgcolor: "#1f57c0",
+              color: "white",
+              marginLeft: "1rem",
+              padding: "0.5rem",
+              "&:hover": {
+                bgcolor: "error.dark",
+              },
+            }}
+          >
+            <SendIcon />
           </IconButton>
         </Stack>
       </form>
+
+      <FileMenu/>
     </>
   );
 };
