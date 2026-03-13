@@ -1,3 +1,5 @@
+import { Attachment } from "@mui/icons-material";
+
 export const sampleChats = [
   {
     avatar: "./gittyhub.jpeg",
@@ -62,4 +64,23 @@ export const sampleNotifications = [
     _id: 2,
   },
 
+];
+
+export const sampleMessage = [
+  {
+    attachment: [
+      {
+        public_id: "nami-sanji",
+        url: "https://tse2.mm.bing.net/th/id/OIP.K8cPOh5r0vB7pYG19sONrgHaGa?rs=1&pid=ImgDetMain&o=7&rm=3",
+      },
+    ],
+    content: "saboady me separate ho gye sab!!",
+    _id: "1122",
+    sender: {
+      _id: "user._id",
+      name: "chopper",
+    },
+    chat: "chatId",
+    createdAt: "2024-03-12T10:41:30.630Z",
+  },
 ];

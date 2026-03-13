@@ -4,10 +4,18 @@ import { IconButton, Stack } from "@mui/material";
 import { AttachFile as AttachFileIcon, Send as SendIcon } from "@mui/icons-material";
 import { InputBox } from "../components/styles/StyledComponents";
 import FileMenu from "../components/dialogs/FileMenu";
+import { sampleMessage } from "../constants/sampleData";
+import MessageComponent from "../components/shared/MessageComponent";
 
+const user = {
+  _id: "112233",
+  name: "farhaan"
+}
 
 const Chat = () => {
   const containerRef = useRef(null);
+
+  const fileMenuRef = useRef(null)
 
   return (
     <>
@@ -22,7 +30,13 @@ const Chat = () => {
           overflowX: "hidden",
           overflowY: "auto",
         }}
-      ></Stack>
+      >
+        {
+          sampleMessage.map((i) => (
+            <MessageComponent message={i} user={user} />
+          ))
+        }
+      </Stack>
       <form
         style={{
           height: "10%",
@@ -41,6 +55,7 @@ const Chat = () => {
               left: "1.5rem",
               rotate: "30deg",
             }}
+
           >
             <AttachFileIcon />
           </IconButton>
@@ -65,7 +80,7 @@ const Chat = () => {
         </Stack>
       </form>
 
-      <FileMenu/>
+      <FileMenu />
     </>
   );
 };
