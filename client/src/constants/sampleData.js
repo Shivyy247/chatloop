@@ -83,4 +83,20 @@ export const sampleMessage = [
     chat: "chatId",
     createdAt: "2024-03-12T10:41:30.630Z",
   },
+  {
+    attachment: [
+      {
+        public_id: "zoro-robin",
+        url: "https://www.bing.com/ck/a?!&&p=8a08e01911efce6515524c89227b3cc57d87e0e98090f4c68fab3c798c1a51dcJmltdHM9MTc3MzQ0NjQwMA&ptn=3&ver=2&hsh=4&fclid=30271025-8ffc-673f-344c-03428eda66f1&u=a1L2ltYWdlcy9zZWFyY2g_cT16b3JvK3JvYmluK2ltYWdlJmlkPUQzQzI2MkRFQjY1MUY1MTc5OTAwMkQxNjk1RkMyMzQxRTIwRkFBRUEmRk9STT1JUUZSQkE",
+      },
+    ],
+    content: "achcha phir mile ki nahi ??",
+    _id: "3344",
+    sender: {
+      _id: "112233",
+      name: "chopper",
+    },
+    chat: "chatId",
+    createdAt: "2024-03-12T10:41:30.630Z",
+  },
 ];
