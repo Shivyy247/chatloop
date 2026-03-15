@@ -6,11 +6,11 @@ const RenderAttachment = () => {
 
     switch (file) {
       case "video":
-        <video src={url} preload="none" width={"200px"} controls />;
-        break;
+        return <video src={url} preload="none" width={"200px"} controls />;
+        
 
       case "image":
-        <img
+        return <img
           src={transfromImage(url, 200)}
           alt="Attachment"
           width={"200px"}
@@ -19,11 +19,11 @@ const RenderAttachment = () => {
             objectFit: "contain",
           }}
         />;
-        break;
+        
 
       case "audio":
-        <audio src={url} preload="none" controls />;
-        break;
+        return <audio src={url} preload="none" controls />;
+        
 
       default:
         <FileOpenIcon/>;

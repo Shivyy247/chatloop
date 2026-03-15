@@ -36,7 +36,8 @@ const MessageComponent = ({ message, user }) => {
         attachments.length > 0 && attachments.map((attachment,index) => {
           const url = attachment.url
           const file = fileFormat(url);
-          return <Box key={index}>
+          return (
+            <Box key={index}>
             <a
               href=""
               target="_blank"
@@ -48,6 +49,7 @@ const MessageComponent = ({ message, user }) => {
               {RenderAttachment(file,url)}
             </a>
           </Box>
+          )
         })}
 
       <Typography
