@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import React, { memo } from "react";
 import { fileFormat } from "../../lib/features";
+import RenderAttachment from "./RenderAttachment";
 
 const MessageComponent = ({ message, user }) => {
   const { sender, content, attachments = [], createdAt } = message;
@@ -44,7 +45,7 @@ const MessageComponent = ({ message, user }) => {
                 color: "black",
               }}
             >
-
+              {RenderAttachment(file,url)}
             </a>
           </Box>
         })}
