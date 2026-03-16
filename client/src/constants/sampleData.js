@@ -33,14 +33,12 @@ export const sampleChats = [
 
 export const sampleUsers = [
   {
-    avatar:
-      "https://as1.ftcdn.net/jpg/14/04/65/88/1000_F_1404658802_qSXASYeuQA3yeEzO1ZZzTdP4IE6yGHm3.jpg",
+    avatar: "https://img.icons8.com/?size=96&id=JFJ1boRErP2w&format=png",
     name: "nami",
     _id: 1,
   },
   {
-    avatar:
-      "https://static.vecteezy.com/system/resources/previews/037/047/063/non_2x/ai-generated-user-web-icon-symbol-3d-isolated-on-transparent-background-png.png",
+    avatar: "https://img.icons8.com/?size=160&id=SsKnVcW7t5dd&format=png",
     name: "niya",
     _id: 2,
   },
@@ -57,21 +55,19 @@ export const sampleNotifications = [
   },
   {
     sender: {
-      avatar:
-      "https://static.vecteezy.com/system/resources/previews/037/047/063/non_2x/ai-generated-user-web-icon-symbol-3d-isolated-on-transparent-background-png.png",
-    name: "niya",
+      avatar: "https://img.icons8.com/?size=100&id=lDbtRAxqXF4Q&format=png",
+      name: "niya",
     },
     _id: 2,
   },
-
 ];
 
 export const sampleMessage = [
   {
-    attachment: [
+    attachments: [
       {
-        public_id: "nami-sanji",
-        url: "https://tse2.mm.bing.net/th/id/OIP.K8cPOh5r0vB7pYG19sONrgHaGa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        public_id: "sanji",
+        url: "https://img.icons8.com/?size=100&id=efFZHeLIWIoB&format=png",
       },
     ],
     content: "saboady me separate ho gye sab!!",
@@ -84,10 +80,10 @@ export const sampleMessage = [
     createdAt: "2026-03-12T10:41:30.630Z",
   },
   {
-    attachment: [
+    attachments: [
       {
-        public_id: "zoro-robin",
-        url: "https://www.bing.com/ck/a?!&&p=8a08e01911efce6515524c89227b3cc57d87e0e98090f4c68fab3c798c1a51dcJmltdHM9MTc3MzQ0NjQwMA&ptn=3&ver=2&hsh=4&fclid=30271025-8ffc-673f-344c-03428eda66f1&u=a1L2ltYWdlcy9zZWFyY2g_cT16b3JvK3JvYmluK2ltYWdlJmlkPUQzQzI2MkRFQjY1MUY1MTc5OTAwMkQxNjk1RkMyMzQxRTIwRkFBRUEmRk9STT1JUUZSQkE",
+        public_id: "zoro",
+        url: "https://img.icons8.com/?size=100&id=7OMdCpw0sxP6&format=png",
       },
     ],
     content: "achcha phir mile ki nahi ??",

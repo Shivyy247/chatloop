@@ -33,23 +33,24 @@ const MessageComponent = ({ message, user }) => {
       {content && <Typography>{content}</Typography>}
 
       {
-        attachments.length > 0 && attachments.map((attachment,index) => {
+        attachments.length > 0 &&
+        attachments.map((attachment, index) => {
           const url = attachment.url
           const file = fileFormat(url);
           return (
             <Box key={index}>
-            <a
-              href=""
-              target="_blank"
-              download
-              style={{
-                color: "black",
-              }}
-            >
-              {RenderAttachment(file,url)}
-            </a>
-          </Box>
-          )
+              <a
+                href={url}
+                target="_blank"
+                download
+                style={{
+                  color: "black",
+                }}
+              >
+                <RenderAttachment file={file} url={url} />
+              </a>
+            </Box>
+          );
         })}
 
       <Typography

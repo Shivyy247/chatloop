@@ -2,7 +2,7 @@ import React from 'react'
 import { transfromImage } from '../../lib/features';
 import { FileOpen as FileOpenIcon } from "@mui/icons-material";
 
-const RenderAttachment = () => {
+const RenderAttachment = ({file, url}) => {
 
     switch (file) {
       case "video":
@@ -26,7 +26,7 @@ const RenderAttachment = () => {
         
 
       default:
-        <FileOpenIcon/>;
+        return <FileOpenIcon/>;
     }
 }
 

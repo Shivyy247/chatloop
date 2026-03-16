@@ -1,9 +1,9 @@
 import { Menu } from '@mui/material'
 import React from 'react'
 
-const FileMenu = ({anchorE1}) => {
+const FileMenu = ({anchorEl}) => {
     return (
-      <Menu anchorE1={anchorE1} open={false} >
+      <Menu anchorEl={anchorEl} open={false} >
             <div style={{
             width: "10rem",
             }}>
