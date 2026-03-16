@@ -1,5 +1,6 @@
 import React from "react";
 import { Avatar, AvatarGroup, Stack } from "@mui/material";
+import { transfromImage } from "../../lib/features";
 
 const AvatarCard = ({ avatar = [], max = 4 }) => {
   const avatars = Array.isArray(avatar) ? avatar : [avatar];
@@ -10,7 +11,7 @@ const AvatarCard = ({ avatar = [], max = 4 }) => {
         {avatars.map((i, index) => (
           <Avatar
             key={index}
-            src={i}
+            src={transfromImage(i)}
             alt={`Avatar ${index}`}
             sx={{ width: "3rem", height: "3rem" }}
           />

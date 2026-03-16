@@ -15,7 +15,8 @@ const UserItem = ({ user, handler, handlerIsLoading }) => {
           spacing={"1rem"}
           width={"100%"}
         >
-          <Avatar src={avatar} />
+          <Avatar/>
+
           <Typography
             variant="body1"
             sx={{
@@ -30,7 +31,6 @@ const UserItem = ({ user, handler, handlerIsLoading }) => {
           >
             {name}
           </Typography>
-          
 
           <IconButton
             size="small"

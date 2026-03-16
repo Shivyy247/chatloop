@@ -65,10 +65,6 @@ export const sampleNotifications = [
 export const sampleMessage = [
   {
     attachments: [
-      {
-        public_id: "sanji",
-        url: "https://img.icons8.com/?size=100&id=efFZHeLIWIoB&format=png",
-      },
     ],
     content: "saboady me separate ho gye sab!!",
     _id: "1122",
@@ -86,7 +82,7 @@ export const sampleMessage = [
         url: "https://img.icons8.com/?size=100&id=7OMdCpw0sxP6&format=png",
       },
     ],
-    content: "achcha phir mile ki nahi ??",
+    content: "",
     _id: "3344",
     sender: {
       _id: "112233",
