@@ -1,17 +1,25 @@
-import { Box, Grid, IconButton, MenuItem, Tooltip } from '@mui/material'
+import { Box, Drawer, Grid, IconButton, MenuItem, Stack, Tooltip, Typography } from '@mui/material'
 import { KeyboardBackspace as KeyboardBackspaceIcon , Menu as MenuIcon} from "@mui/icons-material"
-import React from 'react'
+import React, { memo, useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import { Link } from "../components/styles/StyledComponents"
+import AvatarCard from '../components/shared/AvatarCard'
 
 const Group = () => {
 
   const navigate = useNavigate();
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   const navigateBack = () => {
     navigate("/");
   }
 
-  const handleMobile = () => { };
+  const handleMobile = () => {
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+  
+  const handleMobileClose = () => setIsMobileMenuOpen(false)
 
   const IconBtns = (
     <>
@@ -52,29 +60,74 @@ const Group = () => {
   );
 
   return (
-    <Grid container height={"100vh"} >
-    <Grid item sx={{
-      display: {
-        xs: "none",
-        sm: "block",
-      },
-    }}
-      sm={4}
-      bgcolor={"bisque"}
-    >
-      Group List
+    <Grid container height={"100vh"}>
+      <Grid
+        item
+        sx={{
+          display: {
+            xs: "none",
+            sm: "block",
+          },
+        }}
+        sm={4}
+        bgcolor={"bisque"}
+      >
+        <GroupList />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "relative",
+          padding: "1rem 3rem",
+        }}
+      >
+        {IconBtns}
+      </Grid>
+
+      <Drawer
+        sx={{
+          display: {
+            xs: "block",
+            sm: "none",
+          },
+        }}
+        open={handleMobile}
+        onClose={handleMobileClose}
+      >
+        <GroupList w={"50vw"} />
+      </Drawer>
     </Grid>
-    <Grid item xs={12} sm={8} sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      position: "relative",
-      padding: "1rem 3rem",
-    }} >
-      {IconBtns}
-    </Grid>
-    </Grid>
-  )
-}
+  );
+};
+
+const GroupList = ({ w = "100%", myGroups = [], chatId }) => (
+  <Stack>
+    {
+      myGroups.length > 0 ? (
+        myGroups.map((group) => { })
+      ) : (
+        <Typography textAlign={"center"} padding={"1rem"} >
+          No groups
+        </Typography>
+      )
+    }
+  </Stack>
+);
+
+const GroupListItem = memo(({ group, chatId }) => {
+  const { name, avatar, _id } = group;
+
+  return <Link>
+    <Stack>
+      <AvatarCard avatar={avatar} />
+      <Typography> {name} </Typography>
+    </Stack>
+  </Link>
+});
 
 export default Group
