@@ -4,8 +4,10 @@ import React, { memo, useState } from 'react'
 import { useNavigate } from "react-router-dom"
 import { Link } from "../components/styles/StyledComponents"
 import AvatarCard from '../components/shared/AvatarCard'
-
+import {sampleChats} from "../constants/sampleData"
 const Group = () => {
+
+  const chatId = "1234"
 
   const navigate = useNavigate();
 
@@ -72,7 +74,7 @@ const Group = () => {
         sm={4}
         bgcolor={"bisque"}
       >
-        <GroupList />
+        <GroupList myGroups={sampleChats} chatId={chatId} />
       </Grid>
       <Grid
         item
@@ -109,7 +111,7 @@ const GroupList = ({ w = "100%", myGroups = [], chatId }) => (
   <Stack>
     {
       myGroups.length > 0 ? (
-        myGroups.map((group) => { })
+        myGroups.map((group) => <GroupListItem group={group} chatId={chatId} key={group._id} /> )
       ) : (
         <Typography textAlign={"center"} padding={"1rem"} >
           No groups
@@ -122,8 +124,10 @@ const GroupList = ({ w = "100%", myGroups = [], chatId }) => (
 const GroupListItem = memo(({ group, chatId }) => {
   const { name, avatar, _id } = group;
 
-  return <Link>
-    <Stack>
+  return <Link to={`?group=${_id}`} onClick={(e) => {
+  if (chatId === _id) e.preventDefault();
+  }} >
+    <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
       <AvatarCard avatar={avatar} />
       <Typography> {name} </Typography>
     </Stack>
