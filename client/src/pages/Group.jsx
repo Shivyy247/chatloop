@@ -48,6 +48,11 @@ const Group = () => {
   useEffect(() => {
     setGroupName(`Group Name ${chatId}`);
     setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    return () => {
+      setGroupName("");
+      setGroupNameUpdatedValue("")
+      setIsEdit(false)
+    }
   }, [chatId]);
 
   const IconBtns = (
