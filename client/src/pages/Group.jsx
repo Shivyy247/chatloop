@@ -3,44 +3,52 @@ import {
   Drawer,
   Grid,
   IconButton,
-  MenuItem,
   Stack,
   TextField,
   Tooltip,
-  Typography
-} from '@mui/material'
+  Typography,
+} from "@mui/material";
 import {
   Done as DoneIcon,
   Edit as EditIcon,
   KeyboardBackspace as KeyboardBackspaceIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
-import React, { memo, useState } from 'react'
-import { useNavigate, useSearchParams } from "react-router-dom"
-import { Link } from "../components/styles/StyledComponents"
-import AvatarCard from '../components/shared/AvatarCard'
-import { sampleChats } from "../constants/sampleData"
-
+import React, { memo, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link } from "../components/styles/StyledComponents";
+import AvatarCard from "../components/shared/AvatarCard";
+import { sampleChats } from "../constants/sampleData";
 
 const Group = () => {
-
   const [searchParams] = useSearchParams();
   const chatId = searchParams.get("group");
   const navigate = useNavigate();
 
-
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isEdit, setIsEdit] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [groupName, setGroupName] = useState("");
+  const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
 
   const navigateBack = () => {
     navigate("/");
-  }
+  };
 
   const handleMobile = () => {
     setIsMobileMenuOpen((prev) => !prev);
   };
-  
-  const handleMobileClose = () => setIsMobileMenuOpen(false)
+
+  const handleMobileClose = () => setIsMobileMenuOpen(false);
+
+  const updateGroupName = () => {
+    setGroupName(groupNameUpdatedValue);
+    setIsEdit(false);
+  };
+
+  useEffect(() => {
+    setGroupName(`Group Name ${chatId}`);
+    setGroupNameUpdatedValue(`Group Name ${chatId}`);
+  }, [chatId]);
 
   const IconBtns = (
     <>
@@ -55,7 +63,7 @@ const Group = () => {
           },
         }}
       >
-        <IconButton onClick={handleMobile} >
+        <IconButton onClick={handleMobile}>
           <MenuIcon />
         </IconButton>
       </Box>
@@ -80,31 +88,34 @@ const Group = () => {
     </>
   );
 
-  const GroupName =
+  const GroupName = (
     <Stack
       direction={"row"}
       alignItems={"center"}
       justifyContent={"center"}
       spacing={"1rem"}
-      padding={"3rem"} >
-    {
-      isEdit ? (
-          <>
-            <TextField />
-            <IconButton onClick={() => setIsEdit(false)}>
-              <DoneIcon/>
-            </IconButton>
-          </>
+      padding={"3rem"}
+    >
+      {isEdit ? (
+        <>
+          <TextField
+            value={groupNameUpdatedValue}
+            onChange={(e) => setGroupNameUpdatedValue(e.target.value)}
+          />
+          <IconButton onClick={updateGroupName}>
+            <DoneIcon />
+          </IconButton>
+        </>
       ) : (
         <>
-            <Typography variant='h4' >Group Name</Typography>
-            <IconButton onClick={() => setIsEdit(true)}>
-              <EditIcon/>
-            </IconButton>
+          <Typography variant="h4">{groupName}</Typography>
+          <IconButton onClick={() => setIsEdit(true)}>
+            <EditIcon />
+          </IconButton>
         </>
-      ) 
-    }
-  </Stack>
+      )}
+    </Stack>
+  );
 
   return (
     <Grid container height={"100vh"}>
@@ -121,6 +132,7 @@ const Group = () => {
       >
         <GroupList myGroups={sampleChats} chatId={chatId} />
       </Grid>
+
       <Grid
         item
         xs={12}
@@ -134,10 +146,7 @@ const Group = () => {
         }}
       >
         {IconBtns}
-
-        {
-          GroupName
-        }
+        {groupName && GroupName}
       </Grid>
 
       <Drawer
@@ -147,7 +156,7 @@ const Group = () => {
             sm: "none",
           },
         }}
-        open={handleMobile}
+        open={isMobileMenuOpen}
         onClose={handleMobileClose}
       >
         <GroupList w={"50vw"} myGroups={sampleChats} chatId={chatId} />
@@ -157,30 +166,35 @@ const Group = () => {
 };
 
 const GroupList = ({ w = "100%", myGroups = [], chatId }) => (
-  <Stack width={w} >
-    {
-      myGroups.length > 0 ? (
-        myGroups.map((group) => <GroupListItem group={group} chatId={chatId} key={group._id} /> )
-      ) : (
-        <Typography textAlign={"center"} padding={"1rem"} >
-          No groups
-        </Typography>
-      )
-    }
+  <Stack width={w}>
+    {myGroups.length > 0 ? (
+      myGroups.map((group) => (
+        <GroupListItem group={group} chatId={chatId} key={group._id} />
+      ))
+    ) : (
+      <Typography textAlign={"center"} padding={"1rem"}>
+        No groups
+      </Typography>
+    )}
   </Stack>
 );
 
 const GroupListItem = memo(({ group, chatId }) => {
   const { name, avatar, _id } = group;
 
-  return <Link to={`?group=${_id}`} onClick={(e) => {
-  if (chatId === _id) e.preventDefault();
-  }} >
-    <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
-      <AvatarCard avatar={avatar} />
-      <Typography> {name} </Typography>
-    </Stack>
-  </Link>
+  return (
+    <Link
+      to={`?group=${_id}`}
+      onClick={(e) => {
+        if (chatId === _id) e.preventDefault();
+      }}
+    >
+      <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
+        <AvatarCard avatar={avatar} />
+        <Typography>{name}</Typography>
+      </Stack>
+    </Link>
+  );
 });
 
-export default Group
+export default Group;
