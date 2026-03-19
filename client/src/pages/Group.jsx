@@ -1,4 +1,5 @@
 import {
+  Backdrop,
   Box,
   Button,
   Drawer,
@@ -17,11 +18,12 @@ import {
   KeyboardBackspace as KeyboardBackspaceIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState, lazy, Suspense } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { sampleChats } from "../constants/sampleData";
+const ConfirmDeleteDialog = lazy(() => import("../components/dialogs/ConfirmDeleteDialog"));
 
 const Group = () => {
   const [searchParams] = useSearchParams();
@@ -61,6 +63,11 @@ const Group = () => {
   const openAddMemberHandler = () => {
     console.log("add member");
   };
+
+   const deleteHandler = () => {
+     console.log("delete handler");
+     closeConfirmDeleteHandler();
+   };
 
   useEffect(() => {
     setGroupName(`Group Name ${chatId}`);
@@ -206,7 +213,13 @@ const Group = () => {
         </>}
       </Grid>
 
-      
+      {
+        confirmDeleteDialog && <>
+          <Suspense fallback={<Backdrop/>} open >
+            <ConfirmDeleteDialog open={confirmDeleteDialog} handleClose={closeConfirmDeleteHandler} deleteHandler={deleteHandler} />
+          </Suspense>
+        </>
+      }
 
       <Drawer
         sx={{
