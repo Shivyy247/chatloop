@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Drawer,
   Grid,
   IconButton,
@@ -9,6 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 import {
+  Add as AddIcon,
+  Delete as DeleteIcon,
   Done as DoneIcon,
   Edit as EditIcon,
   KeyboardBackspace as KeyboardBackspaceIcon,
@@ -27,6 +30,7 @@ const Group = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false)
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
 
@@ -45,14 +49,27 @@ const Group = () => {
     setIsEdit(false);
   };
 
+  const openConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(true)
+    console.log("delete group!")
+  }
+
+  const closeConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(false);
+  }
+  
+  const openAddMemberHandler = () => {
+    console.log("add member");
+  };
+
   useEffect(() => {
     setGroupName(`Group Name ${chatId}`);
     setGroupNameUpdatedValue(`Group Name ${chatId}`);
     return () => {
       setGroupName("");
-      setGroupNameUpdatedValue("")
-      setIsEdit(false)
-    }
+      setGroupNameUpdatedValue("");
+      setIsEdit(false);
+    };
   }, [chatId]);
 
   const IconBtns = (
@@ -122,26 +139,40 @@ const Group = () => {
     </Stack>
   );
 
+  const ButtonGroup = <Stack
+    direction={{
+      xs: "column-reverse",
+      sm: "row"
+    }}
+    spacing={"1rem"}
+    p={{
+      xs: "0",
+      sm: "1rem",
+      md: "1rem 4rem",
+    }}
+  
+  >
+    <Button size="large" color="error" variant="outlined" startIcon={<DeleteIcon/>} onClick={openConfirmDeleteHandler} >Delete Group</Button>
+    <Button size="large" variant="contained" startIcon={<AddIcon/>} onClick={openAddMemberHandler}>Add Member</Button>
+  </Stack>
+
   return (
-    <Grid container height={"100vh"}>
+    <Grid container height="100vh">
       <Grid
-        item
+        size={{ xs: 0, sm: 4 }}
         sx={{
           display: {
             xs: "none",
             sm: "block",
           },
         }}
-        sm={4}
-        bgcolor={"bisque"}
+        bgcolor="bisque"
       >
         <GroupList myGroups={sampleChats} chatId={chatId} />
       </Grid>
 
       <Grid
-        item
-        xs={12}
-        sm={8}
+        size={{ xs: 12, sm: 8 }}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -151,8 +182,31 @@ const Group = () => {
         }}
       >
         {IconBtns}
-        {groupName && GroupName}
+        {groupName && <>
+          {GroupName}
+          <Typography margin={"2rem"} alignSelf={"flex-start"} variant="body1" >Members</Typography>
+
+          <Stack
+            maxWidth={"45rem"}
+            width={"100%"}
+            boxSizing={"border-box"}
+            padding={{
+              sm: "1rem",
+              xs: "0",
+              md: "1rem 4rem"
+            }}
+            spacing={"2rem"}
+            bgcolor={"bisque"}
+            height={"50vh"}
+            overflow={"auto"}  
+          >
+          </Stack>
+
+          {ButtonGroup}
+        </>}
       </Grid>
+
+      
 
       <Drawer
         sx={{
@@ -164,7 +218,7 @@ const Group = () => {
         open={isMobileMenuOpen}
         onClose={handleMobileClose}
       >
-        <GroupList w={"50vw"} myGroups={sampleChats} chatId={chatId} />
+        <GroupList w="50vw" myGroups={sampleChats} chatId={chatId} />
       </Drawer>
     </Grid>
   );
