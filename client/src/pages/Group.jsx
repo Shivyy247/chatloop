@@ -24,6 +24,10 @@ import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { sampleChats } from "../constants/sampleData";
 const ConfirmDeleteDialog = lazy(() => import("../components/dialogs/ConfirmDeleteDialog"));
+const AddMemberDialog = lazy(
+  () => import("../components/dialogs/AddMemberDialog"),
+);
+const isAddMember = true;
 
 const Group = () => {
   const [searchParams] = useSearchParams();
@@ -189,37 +193,54 @@ const Group = () => {
         }}
       >
         {IconBtns}
-        {groupName && <>
-          {GroupName}
-          <Typography margin={"2rem"} alignSelf={"flex-start"} variant="body1" >Members</Typography>
+        {groupName && (
+          <>
+            {GroupName}
+            <Typography
+              margin={"2rem"}
+              alignSelf={"flex-start"}
+              variant="body1"
+            >
+              Members
+            </Typography>
 
-          <Stack
-            maxWidth={"45rem"}
-            width={"100%"}
-            boxSizing={"border-box"}
-            padding={{
-              sm: "1rem",
-              xs: "0",
-              md: "1rem 4rem"
-            }}
-            spacing={"2rem"}
-            bgcolor={"bisque"}
-            height={"50vh"}
-            overflow={"auto"}  
-          >
-          </Stack>
+            <Stack
+              maxWidth={"45rem"}
+              width={"100%"}
+              boxSizing={"border-box"}
+              padding={{
+                sm: "1rem",
+                xs: "0",
+                md: "1rem 4rem",
+              }}
+              spacing={"2rem"}
+              bgcolor={"bisque"}
+              height={"50vh"}
+              overflow={"auto"}
+            ></Stack>
 
-          {ButtonGroup}
-        </>}
+            {ButtonGroup}
+          </>
+        )}
       </Grid>
 
-      {
-        confirmDeleteDialog && <>
-          <Suspense fallback={<Backdrop/>} open >
-            <ConfirmDeleteDialog open={confirmDeleteDialog} handleClose={closeConfirmDeleteHandler} deleteHandler={deleteHandler} />
+      {isAddMember && (
+        <Suspense fallback={<Backdrop />} open>
+          <AddMemberDialog />
+        </Suspense>
+      )}
+
+      {confirmDeleteDialog && (
+        <>
+          <Suspense fallback={<Backdrop />} open>
+            <ConfirmDeleteDialog
+              open={confirmDeleteDialog}
+              handleClose={closeConfirmDeleteHandler}
+              deleteHandler={deleteHandler}
+            />
           </Suspense>
         </>
-      }
+      )}
 
       <Drawer
         sx={{
