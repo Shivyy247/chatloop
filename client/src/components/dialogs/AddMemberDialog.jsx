@@ -10,8 +10,6 @@ const AddMemberDialog = ({ addMember, isLoadindMember, chatId }) => {
     
     
       const addMemberHandler = (id) => {
-    
-        setMembers(prev=> prev.map(user=>user._id===id? {...user,isAdded:!user.isAdded} : user))
         setSelectMembers((prev) =>
           prev.includes(id)
             ? prev.filter((currElement) => currElement !== id)
@@ -21,7 +19,10 @@ const AddMemberDialog = ({ addMember, isLoadindMember, chatId }) => {
 
 
 
-    const closeHandler = () => {}
+  const closeHandler = () => {
+    setSelectMembers([]);
+    setMembers([]);
+    }
     const addMemberSubmitHandler = () => { }
     
 
@@ -30,9 +31,14 @@ const AddMemberDialog = ({ addMember, isLoadindMember, chatId }) => {
       <Stack p={"2rem"} width={"20rem"} spacing={"2rem"}>
         <DialogTitle textAlign={"center"}>Add Member</DialogTitle>
         <Stack spacing={"1rem"}>
-          {sampleUsers.length > 0 ? (
-            sampleUsers.map((i) => (
-              <UserItem key={i._id} user={i} handler={addMemberHandler} isAdded={selectMembers.includes(i._id)} />
+          {members.length > 0 ? (
+            members.map((i) => (
+              <UserItem
+                key={i._id}
+                user={i}
+                handler={addMemberHandler}
+                isAdded={selectMembers.includes(i._id)}
+              />
             ))
           ) : (
             <Typography textAlign={"center"}>No Friends</Typography>
