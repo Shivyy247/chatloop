@@ -202,11 +202,6 @@ const Group = () => {
             xs: "none",
             sm: "block",
           },
-          background: `
-          linear-gradient(135deg, #0F2E2D, #1F4F4D),
-          radial-gradient(circle at 20% 20%, rgba(79,154,152,0.2), transparent),
-          radial-gradient(circle at 80% 80%, rgba(0,0,0,0.3), transparent)
-          `,
         }}
       >
         <GroupList myGroups={sampleChats} chatId={chatId} />
@@ -303,7 +298,14 @@ const Group = () => {
 };
 
 const GroupList = ({ w = "100%", myGroups = [], chatId }) => (
-  <Stack width={w}>
+  <Stack
+    width={w}
+    sx={{
+      background: "linear-gradient(135deg, #2F6F6D, #4F9A98)",
+      height: "100%",
+      overflow: "auto",
+    }}
+  >
     {myGroups.length > 0 ? (
       myGroups.map((group) => (
         <GroupListItem group={group} chatId={chatId} key={group._id} />
