@@ -6,7 +6,7 @@ import UserItem from "../shared/UserItem";
 const AddMemberDialog = ({ addMember, isLoadindMember, chatId }) => {
 
     const [members, setMembers] = useState(sampleUsers)
-      const [selectMembers, setSelectMembers] = useState([])
+    const [selectMembers, setSelectMembers] = useState([])
     
     
       const addMemberHandler = (id) => {
@@ -23,7 +23,9 @@ const AddMemberDialog = ({ addMember, isLoadindMember, chatId }) => {
     setSelectMembers([]);
     setMembers([]);
     }
-    const addMemberSubmitHandler = () => { }
+  const addMemberSubmitHandler = () => {
+      closeHandler()
+    }
     
 
   return (

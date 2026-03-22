@@ -3,8 +3,8 @@ import React, { memo } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-const UserItem = ({ user, handler, handlerIsLoading }) => {
-  const { name, _id, avatar, isAdded } = user;
+const UserItem = ({ user, handler, handlerIsLoading, isAdded=false, styling={}, }) => {
+  const { name, _id, avatar } = user;
 
   return (
     <div>
@@ -14,6 +14,7 @@ const UserItem = ({ user, handler, handlerIsLoading }) => {
           alignItems={"center"}
           spacing={"1rem"}
           width={"100%"}
+          {...styling}
         >
           <Avatar/>
 
@@ -41,7 +42,7 @@ const UserItem = ({ user, handler, handlerIsLoading }) => {
                 bgcolor: isAdded ? "error.dark" : "primary.dark",
               },
             }}
-            onClick={() => handler(_id)}
+            onClick={() => handler?.(_id)}
             disabled={handlerIsLoading}
           >
             {isAdded ? <RemoveIcon /> : <AddIcon />}

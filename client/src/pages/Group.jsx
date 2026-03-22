@@ -22,12 +22,15 @@ import React, { memo, useEffect, useState, lazy, Suspense } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
-import { sampleChats } from "../constants/sampleData";
+import { sampleChats, sampleUsers } from "../constants/sampleData";
+import UserItem from "../components/shared/UserItem";
 const ConfirmDeleteDialog = lazy(() => import("../components/dialogs/ConfirmDeleteDialog"));
 const AddMemberDialog = lazy(
   () => import("../components/dialogs/AddMemberDialog"),
 );
-const isAddMember = true;
+
+
+const isAddMember = false;
 
 const Group = () => {
   const [searchParams] = useSearchParams();
@@ -71,11 +74,17 @@ const Group = () => {
    const deleteHandler = () => {
      console.log("delete handler");
      closeConfirmDeleteHandler();
-   };
+  };
+  
+  const removeMemberHandler = (id) => {
+    console.log("Remove Member",id)
+  }
 
   useEffect(() => {
-    setGroupName(`Group Name ${chatId}`);
-    setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    if (chatId) {
+      setGroupName(`Group Name ${chatId}`);
+      setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    }
     return () => {
       setGroupName("");
       setGroupNameUpdatedValue("");
@@ -217,7 +226,23 @@ const Group = () => {
               bgcolor={"bisque"}
               height={"50vh"}
               overflow={"auto"}
-            ></Stack>
+            >
+              {
+                sampleUsers.map((i) => (
+                  <UserItem
+                    user={i}
+                    key={i._id}
+                    isAdded
+                    styling={{
+                    boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
+                    padding: "1rem 2rem",
+                    borderRadius: "1rem",
+                  }}
+                    handler={removeMemberHandler}
+                  />
+                ))
+              }
+            </Stack>
 
             {ButtonGroup}
           </>
