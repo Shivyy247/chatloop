@@ -24,11 +24,12 @@ import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { sampleChats, sampleUsers } from "../constants/sampleData";
 import UserItem from "../components/shared/UserItem";
-const ConfirmDeleteDialog = lazy(() => import("../components/dialogs/ConfirmDeleteDialog"));
+const ConfirmDeleteDialog = lazy(
+  () => import("../components/dialogs/ConfirmDeleteDialog"),
+);
 const AddMemberDialog = lazy(
   () => import("../components/dialogs/AddMemberDialog"),
 );
-
 
 const isAddMember = false;
 
@@ -39,7 +40,7 @@ const Group = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false)
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
 
@@ -59,26 +60,26 @@ const Group = () => {
   };
 
   const openConfirmDeleteHandler = () => {
-    setConfirmDeleteDialog(true)
-    console.log("delete group!")
-  }
+    setConfirmDeleteDialog(true);
+    console.log("delete group!");
+  };
 
   const closeConfirmDeleteHandler = () => {
     setConfirmDeleteDialog(false);
-  }
-  
+  };
+
   const openAddMemberHandler = () => {
     console.log("add member");
   };
 
-   const deleteHandler = () => {
-     console.log("delete handler");
-     closeConfirmDeleteHandler();
+  const deleteHandler = () => {
+    console.log("delete handler");
+    closeConfirmDeleteHandler();
   };
-  
+
   const removeMemberHandler = (id) => {
-    console.log("Remove Member",id)
-  }
+    console.log("Remove Member", id);
+  };
 
   useEffect(() => {
     if (chatId) {
@@ -159,22 +160,38 @@ const Group = () => {
     </Stack>
   );
 
-  const ButtonGroup = <Stack
-    direction={{
-      xs: "column-reverse",
-      sm: "row"
-    }}
-    spacing={"1rem"}
-    p={{
-      xs: "0",
-      sm: "1rem",
-      md: "1rem 4rem",
-    }}
-  
-  >
-    <Button size="large" color="error" variant="outlined" startIcon={<DeleteIcon/>} onClick={openConfirmDeleteHandler} >Delete Group</Button>
-    <Button size="large" variant="contained" startIcon={<AddIcon/>} onClick={openAddMemberHandler}>Add Member</Button>
-  </Stack>
+  const ButtonGroup = (
+    <Stack
+      direction={{
+        xs: "column-reverse",
+        sm: "row",
+      }}
+      spacing={"1rem"}
+      p={{
+        xs: "0",
+        sm: "1rem",
+        md: "1rem 4rem",
+      }}
+    >
+      <Button
+        size="large"
+        color="error"
+        variant="outlined"
+        startIcon={<DeleteIcon />}
+        onClick={openConfirmDeleteHandler}
+      >
+        Delete Group
+      </Button>
+      <Button
+        size="large"
+        variant="contained"
+        startIcon={<AddIcon />}
+        onClick={openAddMemberHandler}
+      >
+        Add Member
+      </Button>
+    </Stack>
+  );
 
   return (
     <Grid container height="100vh">
@@ -185,8 +202,12 @@ const Group = () => {
             xs: "none",
             sm: "block",
           },
+          background: `
+          linear-gradient(135deg, #0F2E2D, #1F4F4D),
+          radial-gradient(circle at 20% 20%, rgba(79,154,152,0.2), transparent),
+          radial-gradient(circle at 80% 80%, rgba(0,0,0,0.3), transparent)
+          `,
         }}
-        bgcolor="bisque"
       >
         <GroupList myGroups={sampleChats} chatId={chatId} />
       </Grid>
@@ -227,21 +248,19 @@ const Group = () => {
               height={"50vh"}
               overflow={"auto"}
             >
-              {
-                sampleUsers.map((i) => (
-                  <UserItem
-                    user={i}
-                    key={i._id}
-                    isAdded
-                    styling={{
+              {sampleUsers.map((i) => (
+                <UserItem
+                  user={i}
+                  key={i._id}
+                  isAdded
+                  styling={{
                     boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
                     padding: "1rem 2rem",
                     borderRadius: "1rem",
                   }}
-                    handler={removeMemberHandler}
-                  />
-                ))
-              }
+                  handler={removeMemberHandler}
+                />
+              ))}
             </Stack>
 
             {ButtonGroup}
