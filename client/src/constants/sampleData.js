@@ -36,41 +36,7 @@ export const sampleChats = [
     groupChat: false,
     members: ["1", "2"],
   },
-  {
-    avatar: "./githubdp.jpeg",
-    name: "Chopper",
-    _id: "4",
-    groupChat: false,
-    members: ["1", "2"],
-  },
-  {
-    avatar: "./githubdp.jpeg",
-    name: "Robin",
-    _id: "4",
-    groupChat: false,
-    members: ["1", "2"],
-  },
-  {
-    avatar: "./githubdp.jpeg",
-    name: "Franky",
-    _id: "4",
-    groupChat: false,
-    members: ["1", "2"],
-  },
-  {
-    avatar: "./githubdp.jpeg",
-    name: "Brook",
-    _id: "4",
-    groupChat: false,
-    members: ["1", "2"],
-  },
-  {
-    avatar: "./githubdp.jpeg",
-    name: "Jimbei",
-    _id: "4",
-    groupChat: false,
-    members: ["1", "2"],
-  },
+
 ];
 
 export const sampleUsers = [

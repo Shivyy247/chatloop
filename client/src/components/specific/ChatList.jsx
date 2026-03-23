@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material";
 import Chatitem from "../shared/Chatitem";
+import { accentDark } from "../../constants/color";
 
 const Chatlist = ({
   w = "100%",
@@ -15,8 +16,14 @@ const Chatlist = ({
   handleDeleteChat,
 }) => {
   return (
-    <Stack width={w} direction={"column"}
-      overflow={"auto"} height={"100%"}
+    <Stack
+      width={w}
+      direction={"column"}
+      overflow={"auto"}
+      height={"100%"}
+      sx={{
+        backgroundImage: accentDark,
+      }}
     >
       {chats?.map((data, index) => {
         const { avatar, _id, name, groupChat, members } = data;
