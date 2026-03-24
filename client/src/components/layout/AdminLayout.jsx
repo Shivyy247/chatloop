@@ -1,24 +1,48 @@
-import { Grid } from '@mui/material'
-import React from 'react'
+import { Box, Drawer, Grid, IconButton, Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Close as CloseIcon, Menu as MenuIcon } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
 
+const Sidebar = ({ w = "100%" }) => {
 
-const Sidebar = () => {
+    const location = useLocation();
+
     return (
-        <div>sidebar</div>
-    )
-}
+        <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"} >
+            <Typography variant="h5" textTransform={"uppercase"} >CHATLOOP</Typography>
+        </Stack>
+  )
+};
 
+const AdminLayout = ({ children }) => {
+  const [isMobile, setIsMobile] = useState(false);
 
-const AdminLayout = ({children}) => {
+  const handleMobile = () => setIsMobile(!isMobile);
+  const handleClose = () => setIsMobile(false);
+
   return (
-    <div>
-      <Grid container minHeight={"100vh"}>
-        <Grid item md={4} lg={3} sx={{ display: { xs: "none", md: "block" } }}>
+    <Box>
+      <Grid container sx={{ minHeight: "100vh" }}>
+        <Box
+          sx={{
+            display: { xs: "block", md: "none" },
+            position: "fixed",
+            right: 16,
+            top: 16,
+            zIndex: 1300,
+          }}
+        >
+          <IconButton onClick={handleMobile}>
+            {isMobile ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+        </Box>
+
+        <Grid md={4} lg={3} sx={{ display: { xs: "none", md: "block" } }}>
           <Sidebar />
         </Grid>
+
         <Grid
-                  item
-                  xs={12}
+          xs={12}
           md={8}
           lg={9}
           sx={{
@@ -27,9 +51,13 @@ const AdminLayout = ({children}) => {
         >
           {children}
         </Grid>
-      </Grid>
-    </div>
-  );
-}
 
-export default AdminLayout
+        <Drawer open={isMobile} onClose={handleClose}>
+          <Sidebar w="50vw" />
+        </Drawer>
+      </Grid>
+    </Box>
+  );
+};
+
+export default AdminLayout;
