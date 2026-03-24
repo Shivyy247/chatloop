@@ -5,6 +5,10 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useInputValidation } from "6pp";
+import { Navigate } from "react-router-dom";
+
+const isAdmin = true;
+
 
 const Admin = () => {
   const secretKey = useInputValidation("");
@@ -13,6 +17,8 @@ const Admin = () => {
     e.preventDefault();
     console.log("submit");
   };
+
+  if(isAdmin) return <Navigate to="/admin/dashboard"/>
   return (
     <div
       style={{
