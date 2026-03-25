@@ -1,4 +1,4 @@
-import { Box, Drawer, Grid, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Drawer, Grid, IconButton, Stack, styled, Typography } from "@mui/material";
 import React, { useState } from "react";
 import {
   Close as CloseIcon,
@@ -8,8 +8,19 @@ import {
   Menu as MenuIcon,
   Message as MessageIcon,
 } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
-import { Link } from "../styles/StyledComponents";
+import { useLocation, Link as LinkComponent } from "react-router-dom";
+import { accent } from "../../constants/color";
+
+const Link = styled(LinkComponent)`
+text-decoration: none;
+border-radius: 2rem;
+padding: 1rem 2rem;
+color: black;
+&:hover{
+  color: rgba(0,0,0,0.54);
+}
+`
+
 
 const adminTabs = [
   {
@@ -39,23 +50,32 @@ const Sidebar = ({ w = "100%" }) => {
     const location = useLocation();
 
     return (
-        <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"} >
-        <Typography variant="h5" textTransform={"uppercase"} >CHATLOOP</Typography>
-        <Stack spacing={"1rem"} >
-          {
-            adminTabs.map((tab) => (
-              <Link key={tab.path} to={tab.path} >
-
-                <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
-                  {tab.icon}
-                  <Typography>{tab.name}</Typography>
-                </Stack>
-              </Link>
-            ))
-          }
+      <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"}>
+        <Typography variant="h5" textTransform={"uppercase"}>
+          CHATLOOP
+        </Typography>
+        <Stack spacing={"1rem"}>
+          {adminTabs.map((tab) => (
+            <Link
+              key={tab.path}
+              to={tab.path}
+              sx={{
+                ...(location.pathname === tab.path && {
+                  bgcolor: accent,
+                  color: "white",
+                  "&:hover": { color: "black" },
+                }),
+              }}
+            >
+              <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
+                {tab.icon}
+                <Typography>{tab.name}</Typography>
+              </Stack>
+            </Link>
+          ))}
         </Stack>
-        </Stack>
-  )
+      </Stack>
+    );
 };
 
 const AdminLayout = ({ children }) => {
