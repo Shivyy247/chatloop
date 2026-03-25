@@ -1,7 +1,38 @@
 import { Box, Drawer, Grid, IconButton, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Close as CloseIcon, Menu as MenuIcon } from "@mui/icons-material";
+import {
+  Close as CloseIcon,
+  Dashboard as DashboardIcon,
+  Groups as GroupsIcon,
+  ManageAccounts as ManageAccountsIcon,
+  Menu as MenuIcon,
+  Message as MessageIcon,
+} from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
+import { Link } from "../styles/StyledComponents";
+
+const adminTabs = [
+  {
+    name: "Dashboard",
+    path: "/admin/dashboard",
+    icon: <DashboardIcon />,
+  },
+  {
+    name: "Users",
+    path: "/admin/users-management",
+    icon: <ManageAccountsIcon />,
+  },
+  {
+    name: "Chats",
+    path: "/admin/chats-management",
+    icon: <GroupsIcon />,
+  },
+  {
+    name: "Messages",
+    path: "/admin/message",
+    icon: <MessageIcon />,
+  },
+];
 
 const Sidebar = ({ w = "100%" }) => {
 
@@ -9,7 +40,20 @@ const Sidebar = ({ w = "100%" }) => {
 
     return (
         <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"} >
-            <Typography variant="h5" textTransform={"uppercase"} >CHATLOOP</Typography>
+        <Typography variant="h5" textTransform={"uppercase"} >CHATLOOP</Typography>
+        <Stack spacing={"1rem"} >
+          {
+            adminTabs.map((tab) => (
+              <Link key={tab.path} to={tab.path} >
+
+                <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
+                  {tab.icon}
+                  <Typography>{tab.name}</Typography>
+                </Stack>
+              </Link>
+            ))
+          }
+        </Stack>
         </Stack>
   )
 };
