@@ -35,3 +35,14 @@ export const InputBox = styled("input")`
   background-color: #3b62bc;
 
 `
+
+export const SearchField = styled("input")`
+padding: 1rem 2rem;
+width: 20vmax;
+border: none;
+outline: none;
+border-radius: 1.5rem;
+background-color: #0b3151;
+color: white;
+font-size: 1.1rem;
+`
