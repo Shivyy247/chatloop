@@ -42,11 +42,21 @@ width: 20vmax;
 border: none;
 outline: none;
 border-radius: 1.5rem;
-background-color: #0b3151;
-color: white;
+background-color: #242854;
+color: black;
 font-size: 1.1rem;
 `
 
-export const curveButton = styled("button")`
+export const CurveButton = styled("button")`
   border-radius: 1.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  font-size: 1.1rem;
+  &:hover{
+    background-color: rgba(0,0,0,0.8);
+  }
 `

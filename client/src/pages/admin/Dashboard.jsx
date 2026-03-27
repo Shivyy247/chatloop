@@ -1,9 +1,9 @@
 import React from 'react'
 import AdminLayout from '../../components/layout/AdminLayout'
-import { Container, Paper, Stack, Typography } from '@mui/material'
+import { Box, Container, Paper, Stack, Typography } from '@mui/material'
 import { AdminPanelSettings as AdminPanelSettingsIcon } from "@mui/icons-material";
 import moment from 'moment'
-import { SearchField } from '../../components/styles/StyledComponents';
+import { CurveButton, SearchField  } from '../../components/styles/StyledComponents';
 const Dashboard = () => {
 
   const Appbar = (
@@ -18,11 +18,14 @@ const Dashboard = () => {
           fontSize: '3rem'
         }} />
         
-        <SearchField  />
+        <SearchField placeholder='Search...' />
 
-        <button>sdf</button>
+        <CurveButton>Search</CurveButton>
+        <Box flexGrow={1} />
 
         <Typography>
+
+          
           {moment().format("MMMMM Do YYYY")}
         </Typography>
       </Stack>
