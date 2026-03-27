@@ -46,3 +46,7 @@ background-color: #0b3151;
 color: white;
 font-size: 1.1rem;
 `
+
+export const curveButton = styled("button")`
+  border-radius: 1.5rem;
+`
