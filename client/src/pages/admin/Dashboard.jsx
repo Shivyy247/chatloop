@@ -3,10 +3,14 @@ import AdminLayout from '../../components/layout/AdminLayout'
 import { Box, Container, Paper, Stack, Typography } from '@mui/material'
 import {
   AdminPanelSettings as AdminPanelSettingsIcon,
+  Group as GroupIcon,
+  Message as MessageIcon,
   Notifications as NotificationsIcon,
+  Person as PersonIcon,
 } from "@mui/icons-material";
 import moment from 'moment'
 import { CurveButton, SearchField  } from '../../components/styles/StyledComponents';
+import { darkPrimary } from '../../constants/color';
 const Dashboard = () => {
 
   const Appbar = (
@@ -34,15 +38,30 @@ const Dashboard = () => {
           color={"rgba(0,0,0,0.7)"}
           textAlign={"center"}
         >
-       {moment().format("dddd, D MMMMM YYYY")}
+          {moment().format("dddd, D MMMMM YYYY")}
         </Typography>
-        <NotificationsIcon/>
+        <NotificationsIcon />
       </Stack>
-    </Paper> 
+    </Paper>
   )
-  const Widgets = <>dsf</>;
+  const Widgets = (
+    <Stack
+      direction={{
+        xs: "column",
+        sm: "row",
+      }}
+      spacing="2rem"
+      justifyContent="space-between"
+      alignItems={"center"}
+      margin={"2rem 0"}
+    >
+      <Widget title={"Users"} value={34} Icon={<PersonIcon/>} />
+      <Widget title={"Chats"} value={3} Icon={<GroupIcon/>} />
+      <Widget title={"Messages"} value={453} Icon={<MessageIcon/>} />
+    </Stack>
+  );
   return (
-      <AdminLayout>
+    <AdminLayout>
       <Container component={"main"} >
         {
           Appbar
@@ -58,6 +77,7 @@ const Dashboard = () => {
               borderRadius: "1rem",
               width: "100%",
               maxWidth: "45rem",
+              height: "25rem"
             }}
           >
             <Typography margin={"2rem 0"} variant='h4' >
@@ -76,18 +96,66 @@ const Dashboard = () => {
               alignItems: "center",
               position: "relative",
               width: "100%",
-              maxWidth: "25rem"
+              maxWidth: "25rem",
+              height: "25rem"
             }}
           >
-            sd
+            {"Dougnut Chart"}
+            <Stack
+              position={"absolute"}
+              direction={"row"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              spacing={"0.5rem"}
+              width={"100%"}
+              height={"100%"}
+            >
+              <GroupIcon />
+              <Typography>VS</Typography>
+              <PersonIcon />
+            </Stack>
           </Paper>
         </Stack>
         {
           Widgets
         }
-          </Container>
+      </Container>
     </AdminLayout>
   )
-}
+};
+
+const Widget = ({ title, value, Icon }) => (
+  <Paper
+    elevation={3}
+    sx={{
+      padding: "2rem",
+      margin: "2rem 0",
+      borderRadius: "1.5rem",
+      width: "20rem",
+    }}
+  >
+    <Stack alignItems={"center"} spacing={"1rem"}>
+      <Typography
+        sx={{
+          color: `${darkPrimary}`,
+          fontSize: "Bold",
+          borderRadius: "50%",
+          border: `5px solid ${darkPrimary}`,
+          width: "5rem",
+          height: "5rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {value}
+      </Typography>
+      <Stack direction={"row"} spacing={"1rem"} alignItems={"center"} >
+        {Icon}
+        <Typography>{title}</Typography>
+      </Stack>
+    </Stack>
+  </Paper>
+);
 
 export default Dashboard
