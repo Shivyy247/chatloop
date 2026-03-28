@@ -1,7 +1,10 @@
 import React from 'react'
 import AdminLayout from '../../components/layout/AdminLayout'
 import { Box, Container, Paper, Stack, Typography } from '@mui/material'
-import { AdminPanelSettings as AdminPanelSettingsIcon } from "@mui/icons-material";
+import {
+  AdminPanelSettings as AdminPanelSettingsIcon,
+  Notifications as NotificationsIcon,
+} from "@mui/icons-material";
 import moment from 'moment'
 import { CurveButton, SearchField  } from '../../components/styles/StyledComponents';
 const Dashboard = () => {
@@ -23,19 +26,64 @@ const Dashboard = () => {
         <CurveButton>Search</CurveButton>
         <Box flexGrow={1} />
 
-        <Typography>
-
-          
-          {moment().format("MMMMM Do YYYY")}
+        <Typography
+          display={{
+            xs: "none",
+            lg: "block"
+          }}
+          color={"rgba(0,0,0,0.7)"}
+          textAlign={"center"}
+        >
+       {moment().format("dddd, D MMMMM YYYY")}
         </Typography>
+        <NotificationsIcon/>
       </Stack>
-    </Paper>
+    </Paper> 
   )
+  const Widgets = <>dsf</>;
   return (
       <AdminLayout>
       <Container component={"main"} >
         {
           Appbar
+        }
+
+        <Stack
+          direction={"row"} spacing={"2rem"} flexWrap={"wrap"}
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              padding: "2rem 3.5rem",
+              borderRadius: "1rem",
+              width: "100%",
+              maxWidth: "45rem",
+            }}
+          >
+            <Typography margin={"2rem 0"} variant='h4' >
+              {" "}
+              Last Messages
+            </Typography>
+            {"chat"}
+          </Paper>
+          <Paper
+            elevation={3}
+            sx={{
+              padding: "1rem",
+              borderRadius: "1rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+              width: "100%",
+              maxWidth: "25rem"
+            }}
+          >
+            sd
+          </Paper>
+        </Stack>
+        {
+          Widgets
         }
           </Container>
     </AdminLayout>

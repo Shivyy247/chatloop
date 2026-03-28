@@ -43,7 +43,7 @@ border: none;
 outline: none;
 border-radius: 1.5rem;
 background-color: #242854;
-color: black;
+color: white;
 font-size: 1.1rem;
 `
 
