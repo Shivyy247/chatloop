@@ -11,6 +11,8 @@ import {
 import moment from 'moment'
 import { CurveButton, SearchField  } from '../../components/styles/StyledComponents';
 import { darkPrimary } from '../../constants/color';
+import { LineChart, DoughnutChart } from "../../components/specific/Charts";
+
 const Dashboard = () => {
 
   const Appbar = (
@@ -62,14 +64,10 @@ const Dashboard = () => {
   );
   return (
     <AdminLayout>
-      <Container component={"main"} >
-        {
-          Appbar
-        }
+      <Container component={"main"}>
+        {Appbar}
 
-        <Stack
-          direction={"row"} spacing={"2rem"} flexWrap={"wrap"}
-        >
+        <Stack direction={"row"} spacing={"2rem"} flexWrap={"wrap"}>
           <Paper
             elevation={3}
             sx={{
@@ -77,14 +75,14 @@ const Dashboard = () => {
               borderRadius: "1rem",
               width: "100%",
               maxWidth: "45rem",
-              height: "25rem"
+              height: "25rem",
             }}
           >
-            <Typography margin={"2rem 0"} variant='h4' >
+            <Typography margin={"2rem 0"} variant="h4">
               {" "}
               Last Messages
             </Typography>
-            {"chat"}
+            <LineChart />
           </Paper>
           <Paper
             elevation={3}
@@ -97,10 +95,10 @@ const Dashboard = () => {
               position: "relative",
               width: "100%",
               maxWidth: "25rem",
-              height: "25rem"
+              height: "25rem",
             }}
           >
-            {"Dougnut Chart"}
+            <DoughnutChart />
             <Stack
               position={"absolute"}
               direction={"row"}
@@ -116,12 +114,10 @@ const Dashboard = () => {
             </Stack>
           </Paper>
         </Stack>
-        {
-          Widgets
-        }
+        {Widgets}
       </Container>
     </AdminLayout>
-  )
+  );
 };
 
 const Widget = ({ title, value, Icon }) => (
