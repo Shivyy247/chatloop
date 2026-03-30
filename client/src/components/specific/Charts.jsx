@@ -13,6 +13,8 @@ import {
     plugins,
     scales,
 } from "chart.js";
+import { lightpurple, purple } from "../../constants/color";
+import { getLast70Days } from "../../lib/features";
 
 
 ChartJS.register(
@@ -25,6 +27,8 @@ ChartJS.register(
   ArcElement,
   Legend,
 );
+
+const labels = getLast70Days();
 
 const lineChartOptions = {
     responsive: true,
@@ -52,24 +56,17 @@ const lineChartOptions = {
 };
 
 
-const LineChart = () => {
+const LineChart = ({value=[]}) => {
 
     const data = {
-      labels: ["January", "Febuary", "March", "April", "May", "June"],
+      labels,
       datasets: [
         {
-          data: [1, 2, 34,6],
+          data: value,
           label: "Revenue",
-          fill: false,
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
-        },
-        {
-          data: [1, 22, 5, 6],
-          label: "Revenue 2",
-          fill: false,
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
+          fill: true,
+          backgroundColor: purple,
+          borderColor: lightpurple,
         },
       ],
     };

@@ -82,7 +82,9 @@ const Dashboard = () => {
               {" "}
               Last Messages
             </Typography>
-            <LineChart />
+
+            <LineChart value={[23,56,33,67,33,2]} />
+
           </Paper>
           <Paper
             elevation={3}

@@ -9,3 +9,5 @@ export const primary = "#16A085";
 export const textPrimary = "#E6F4F3";
 export const border = "rgba(255,255,255,0.08)";
 
+export const purple = "rgba(75,12,192,0.2)";
+export const lightpurple = "rgba(75,12,192,1)";
