@@ -4,7 +4,8 @@ export const sidebarBg = "#153D4C";
 export const chatBg = "#15565B";
 export const accentDark = "#156F69";
 export const accent = "#168777";
-export const primary = "#16A085";
+export const primary = "#13725f";
+export const lightprimary = "#68b2a3"
 
 export const textPrimary = "#E6F4F3";
 export const border = "rgba(255,255,255,0.08)";

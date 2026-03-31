@@ -11,7 +11,7 @@ import {
     ArcElement,
     Legend,
 } from "chart.js";
-import { darkPrimary, lightpurple, purple } from "../../constants/color";
+import { lightprimary, lightpurple, primary, purple } from "../../constants/color";
 import { getLast70Days } from "../../lib/features";
 
 ChartJS.register(
@@ -72,21 +72,37 @@ const LineChart = ({value=[]}) => {
     )
 }
 
+const DoughnutChartOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        title: {
+            display: false,
+        },
+    },
+    cutout: 120,
+};
+
 const DoughnutChart = ({value = [], labels = []}) => {
     const data = {
       labels,
       datasets: [
         {
           data: value,
-          label: "Total Chats vs Group Chats",
-          backgroundColor: [darkPrimary, lightpurple],
-          borderColor: [darkPrimary, purple],
+          backgroundColor: [purple, lightprimary],
+          hoverBackgroundColor: [lightpurple, primary],
+          borderColor: [lightpurple, primary],
+          offset: 40,
         },
       ],
     };
-    return (
-        <Doughnut data={data} />
-    );
+    return <Doughnut
+        style={{zIndex: 10}}
+        data={data}
+        options={DoughnutChartOptions}
+    />;
 };
 
 export {LineChart, DoughnutChart};
