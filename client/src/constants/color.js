@@ -11,3 +11,4 @@ export const border = "rgba(255,255,255,0.08)";
 
 export const purple = "rgba(75,12,192,0.2)";
 export const lightpurple = "rgba(75,12,192,1)";
+export const orange = "#db9846"

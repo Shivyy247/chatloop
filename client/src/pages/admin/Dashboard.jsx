@@ -75,7 +75,6 @@ const Dashboard = () => {
               borderRadius: "1rem",
               width: "100%",
               maxWidth: "45rem",
-              height: "25rem",
             }}
           >
             <Typography margin={"2rem 0"} variant="h4">
@@ -100,7 +99,12 @@ const Dashboard = () => {
               height: "25rem",
             }}
           >
-            <DoughnutChart />
+            <DoughnutChart
+              labels={["Single Chats", "Group Chats"]}
+              value={[23, 66]}
+            />
+            
+
             <Stack
               position={"absolute"}
               direction={"row"}

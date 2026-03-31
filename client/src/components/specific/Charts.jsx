@@ -10,12 +10,9 @@ import {
     LineElement,
     ArcElement,
     Legend,
-    plugins,
-    scales,
 } from "chart.js";
-import { lightpurple, purple } from "../../constants/color";
+import { darkPrimary, lightpurple, purple } from "../../constants/color";
 import { getLast70Days } from "../../lib/features";
-
 
 ChartJS.register(
   CategoryScale,
@@ -75,9 +72,20 @@ const LineChart = ({value=[]}) => {
     )
 }
 
-const DoughnutChart = () => {
+const DoughnutChart = ({value = [], labels = []}) => {
+    const data = {
+      labels,
+      datasets: [
+        {
+          data: value,
+          label: "Total Chats vs Group Chats",
+          backgroundColor: [darkPrimary, lightpurple],
+          borderColor: [darkPrimary, purple],
+        },
+      ],
+    };
     return (
-        <div>charts</div>
+        <Doughnut data={data} />
     );
 };
 
