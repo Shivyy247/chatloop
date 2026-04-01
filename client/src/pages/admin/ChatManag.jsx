@@ -4,6 +4,8 @@ import Table from '../../components/shared/Table'
 import { Avatar } from '@mui/material';
 import { dashboardData } from '../../constants/sampleData';
 import { transfromImage } from "../../lib/features";
+import AvatarCard from "../../components/shared/AvatarCard"
+
 
 const columns = [
   {
@@ -13,8 +15,8 @@ const columns = [
     width: 200,
   },
   {
-    field: "attachments",
-    headerName: "Attachments",
+    field: "avatar",
+    headerName: "Avatar",
     headerClassName: "table-header",
     width: 200,
     renderCell: (params) => (
@@ -22,40 +24,43 @@ const columns = [
     ),
   },
   {
-    field: "content",
-    headerName: "Content",
+    field: "name",
+    headerName: "Name",
+    headerClassName: "table-header",
+    width: 300,
+  },
+  {
+    field: "totalMembers",
+    headerName: "Total Members",
     headerClassName: "table-header",
     width: 200,
   },
   {
-    field: "sender",
-    headerName: "Sent By",
+    field: "members",
+    headerName: "Members",
     headerClassName: "table-header",
-    width: 200,
+    width: 150,
     renderCell: (params) => (
-      <Stack>
-        <Avatar alt={params.row.sender.name} src={params.row.sender.avatar} />
-        <span>{params.row.sender.name}</span>
-      </Stack>
+      <AvatarCard max={100} avatar={params.row.members} />
     ),
   },
   {
-    field: "chat",
-    headerName: "Chat",
+    field: "totalMessage",
+    headerName: "Total Message",
     headerClassName: "table-header",
-    width: 150,
+    width: 200,
   },
   {
-    field: "groupChat",
-    headerName: "Group Chat",
-    headerClassName: "table-header",
-    width: 100,
-  },
-  {
-    field: "createdAt",
-    headerName: "Time",
+    field: "creator",
+    headerName: "Created By",
     headerClassName: "table-header",
     width: 250,
+    renderCell: (params) => (
+      <Stack direction="row" alignItems="center" spacing={"1rem"}>
+        <Avatar alt={params.row.creator.name} src={params.row.creator.avatar} />
+        <span>{params.row.creator.name}</span>
+      </Stack>
+    ),
   },
 ];
 
