@@ -180,4 +180,38 @@ export const dashboardData = {
       },
     },
   ],
+
+  messages: [
+    {
+      attachments: [],
+      content: "mesage aaya hai!",
+      _id: "1",
+      sender: {
+        avatar:
+          "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        name: "Chaman",
+      },
+      chat: "chatId",
+      groupChat: false,
+      createdAt: "2024-02-12T10:41:30.630Z",
+    },
+    {
+      attachments: [
+        {
+          public_id: "ladybug",
+          url: "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        },
+      ],
+      content: "mesage received!",
+      _id: "2",
+      sender: {
+        avatar:
+          "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        name: "Suraj",
+      },
+      chat: "chatId",
+      groupChat: true,
+      createdAt: "2024-02-12T10:41:30.630Z",
+    },
+  ],
 };
