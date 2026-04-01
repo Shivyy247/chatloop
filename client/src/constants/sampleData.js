@@ -100,3 +100,27 @@ export const sampleMessage = [
     createdAt: "2026-03-14T10:41:30.630Z",
   },
 ];
+
+
+export const dashboardData = {
+  users: [
+    {
+      name: "Eren Yeager",
+      avatar:
+        "https://i.pinimg.com/1200x/b6/6d/22/b66d22a8b57900e75cbab27192cd58a3.jpg",
+      _id: "1",
+      username: "eren",
+      friends: 40,
+      groups: 5,
+    },
+    {
+      name: "Mikasa Ackerman",
+      avatar:
+        "https://aniyuki.com/wp-content/uploads/2021/07/aniyuki-mikasa_ackerman-14.jpg",
+      _id: "2",
+      username: "mikasa",
+      friends: 20,
+      groups: 25,
+    },
+  ],
+};
