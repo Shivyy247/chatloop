@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../components/layout/AdminLayout'
 import Table from '../../components/shared/Table'
-import { Avatar } from '@mui/material';
+import { Avatar, Stack } from '@mui/material';
 import { dashboardData } from '../../constants/sampleData';
 import { transfromImage } from "../../lib/features";
 import AvatarCard from "../../components/shared/AvatarCard"
@@ -18,10 +18,9 @@ const columns = [
     field: "avatar",
     headerName: "Avatar",
     headerClassName: "table-header",
-    width: 200,
-    renderCell: (params) => (
-      <Avatar alt={params.row.name} src={params.row.avatar} />
-    ),
+    width: 150,
+    renderCell: (params) =>
+      <AvatarCard avatar={params.row.avatar} />
   },
   {
     field: "name",
@@ -45,7 +44,7 @@ const columns = [
     ),
   },
   {
-    field: "totalMessage",
+    field: "totalMessages",
     headerName: "Total Message",
     headerClassName: "table-header",
     width: 200,
@@ -69,9 +68,18 @@ const ChatManag = () => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
+    setRows(dashboardData.chats.map((i) => ({
+      ...i,
+      id: i._id,
+      avatar: i.avatar.map((i) => transfromImage(i, 50)),
+      members: i.members.map((i) => transfromImage(i.avatar, 50)),
+      creator: {
+        name: i.creator.name,
+        avatar: transfromImage(i.creator.avatar, 50)
+      }
+    })
+  ))
   }, []);
-
-  console.log(rows);
 
   return (
     <AdminLayout>

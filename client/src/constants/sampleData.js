@@ -123,4 +123,61 @@ export const dashboardData = {
       groups: 25,
     },
   ],
+
+  chats: [
+    {
+      name: "Homies",
+      avatar: [
+        "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+      ],
+      _id: "1",
+      groupChat: false,
+      members: [
+        {
+          _id: "1",
+          avatar:
+            "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        },
+        {
+          _id: "2",
+          avatar:
+            "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        },
+      ],
+      totalMembers: 2,
+      totalMessages: 20,
+      creator: {
+        name: "shivi",
+        avatar:
+          "https://cdn.inspireuplift.com/uploads/images/seller_products/33104/1705825347_FlorkmemeinloveflowerLong.png",
+      },
+    },
+    {
+      name: "Pshychopaths",
+      avatar: [
+        "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+      ],
+      _id: "2",
+      groupChat: false,
+      members: [
+        {
+          _id: "1",
+          avatar:
+            "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        },
+        {
+          _id: "2",
+          avatar:
+            "https://i.pinimg.com/736x/fa/7a/b2/fa7ab2b703da6fae85e83d7d75754797.jpg",
+        },
+      ],
+      totalMembers: 2,
+      totalMessages: 20,
+      creator: {
+        name: "siri",
+        avatar:
+          "https://cdn.inspireuplift.com/uploads/images/seller_products/33104/1705825347_FlorkmemeinloveflowerLong.png",
+      },
+    },
+  ],
 };
