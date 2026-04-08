@@ -18,7 +18,7 @@ const schema = new Schema(
     },
     avatar: {
       public_id: {
-        type: string,
+        type: String,
         required: true,
       },
       url: {
