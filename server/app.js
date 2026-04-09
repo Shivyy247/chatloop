@@ -5,6 +5,8 @@ import { connectDB } from "./utils/features.js";
 
 const app = express();
 
+app.use(express.json());
+
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 

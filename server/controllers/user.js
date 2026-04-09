@@ -4,6 +4,8 @@ import {User} from '../models/user.js'
 
 //create a new user and save it to the database and save in cookie
 const newUser = async (req, res) => {
+
+  const {name, username, password, bio } = req.body;
   
   const avatar = {
     public_id: "Sdfsd",
@@ -11,9 +13,10 @@ const newUser = async (req, res) => {
   }
 
   await User.create({
-    name: "Chaman",
-    username: "chaman",
-    password: "chaman",
+    name,
+    bio,
+    username,
+    password,
     avatar,
   })
 
