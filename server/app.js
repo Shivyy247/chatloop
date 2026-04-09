@@ -1,19 +1,22 @@
+import "dotenv/config";
 import express from "express";
-import userRoute from './routes/user.js'
+import userRoute from "./routes/user.js";
 import { connectDB } from "./utils/features.js";
-
 
 const app = express();
 
-connectDB("mongodb://localhost:27017/chatloop")
-
-app.use('/user', userRoute)
-
-app.get('/', (req, res) => {
-    res.send("hello world!")
-})
+const mongoURI = process.env.MONGO_URI;
+const port = process.env.PORT || 3000;
 
 
-app.listen(3000, () => {
-    console.log("Server is running at port 3000");
-})
+connectDB(mongoURI);
+
+app.use("/user", userRoute);
+
+app.get("/", (req, res) => {
+  res.send("hello world!");
+});
+
+app.listen(port, () => {
+  console.log(`Server is running at port ${port}`);
+});
