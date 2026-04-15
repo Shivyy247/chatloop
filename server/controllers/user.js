@@ -1,4 +1,5 @@
 import {User} from '../models/user.js'
+import { sendToken } from '../utils/features.js';
 
 
 
@@ -12,17 +13,16 @@ const newUser = async (req, res) => {
     url: "asdfd",
   }
 
-  await User.create({
+  const user = await User.create({
     name,
     bio,
     username,
     password,
     avatar,
-  })
+  });
 
-  res
-    .status(201)
-    .json({ message: "User Created successfully!" })
+
+  sendToken(res, user, 201, "User Created!");
 };
 
 const login = (req, res) => {
