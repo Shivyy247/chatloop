@@ -1,6 +1,7 @@
 import express from "express"
-import { login, newUser } from "../controllers/user.js";
+import { getMyProfile, login, newUser } from "../controllers/user.js";
 import { singleAvatar } from "../middlewares/multer.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const app = express.Router();
 
@@ -8,5 +9,9 @@ const app = express.Router();
 app.post("/new",singleAvatar, newUser);
 
 app.post("/login", login);
+
+// after here user must be logged in to access the routes
+
+app.get("/me", isAuthenticated ,getMyProfile)
 
 export default app
