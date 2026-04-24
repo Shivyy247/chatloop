@@ -12,6 +12,11 @@ app.post("/login", login);
 
 // after here user must be logged in to access the routes
 
-app.get("/me", isAuthenticated ,getMyProfile)
+app.use(isAuthenticated);
+
+app.get("/me", getMyProfile);
+
+app.get("/logout", getMyProfile);
+
 
 export default app

@@ -28,7 +28,6 @@ const newUser = async (req, res) => {
 };
 
 
-
 const login = TryCatch(async (req, res, next) => {
   const { username, password } = req.body;
 
@@ -46,11 +45,20 @@ const login = TryCatch(async (req, res, next) => {
 }
 )
 
-const getMyProfile = (req, res) => {
+const getMyProfile = TryCatch(async (req, res) => {
+  const user = await User.findById(req.user);
   res.status(200).json({
     success: true,
-    data: "req.user",
-  })
-}
+    user,
+  });
+});
 
-export { login, newUser, getMyProfile };
+const logout = TryCatch(async (req, res) => {
+  return  res.status(200).cookie("chattu-token","", cookie).json({
+    success: true,
+    message: "Logged out Successfully!"
+  });
+});
+
+
+export { login, newUser, getMyProfile, logout };
