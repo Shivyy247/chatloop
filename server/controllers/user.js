@@ -1,6 +1,6 @@
 import { TryCatch } from '../middlewares/error.js';
 import {User} from '../models/user.js'
-import { sendToken } from '../utils/features.js';
+import { cookieOptions, sendToken } from '../utils/features.js';
 import { ErrorHandler } from '../utils/utility.js';
 
 
@@ -54,10 +54,13 @@ const getMyProfile = TryCatch(async (req, res) => {
 });
 
 const logout = TryCatch(async (req, res) => {
-  return  res.status(200).cookie("chattu-token","", cookie).json({
-    success: true,
-    message: "Logged out Successfully!"
-  });
+  return res
+    .status(200)
+    .cookie("chattu-token", "", { ...cookieOptions , maxAge: 0})
+    .json({
+      success: true,
+      message: "Logged out Successfully!",
+    });
 });
 
 

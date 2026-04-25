@@ -16,7 +16,7 @@ app.use(isAuthenticated);
 
 app.get("/me", getMyProfile);
 
-app.get("/logout", getMyProfile);
+app.get("/logout", logout);
 
 
 export default app
