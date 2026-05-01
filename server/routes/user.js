@@ -1,5 +1,11 @@
 import express from "express"
-import { getMyProfile, login, newUser, searchUser } from "../controllers/user.js";
+import {
+  getMyProfile,
+  login,
+  newUser,
+  searchUser,
+  logout,
+} from "../controllers/user.js";
 import { singleAvatar } from "../middlewares/multer.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 

@@ -11,4 +11,4 @@ app.use(isAuthenticated);
 
 
 
-export default app
+export default app;
