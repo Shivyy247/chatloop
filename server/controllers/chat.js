@@ -176,4 +176,45 @@ const removeMembers = TryCatch(async (req, res, next) => {
     
 });
 
-export { newGroupChat, getMyChats, getMyGroups, addMembers, removeMembers };
+const leaveMembers = TryCatch(async (req, res, next) => {
+    
+    const chatId = req.params.id;
+
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) return next(new ErrorHandler("Chat not Found!", 404));
+
+    if (!chat.groupChat)
+        return next(new ErrorHandler("this is not a group chat!", 400));
+
+    if (chat.creator.toString() === req.user.toString()) {
+        const remainingMembers = chat.members.filter
+    }
+
+    chat.members = chat.members.filter(
+        (member) => member.toString() !== req.user.toString()
+    );
+
+  emitEvent(
+    req,
+    ALERT,
+    chat.members,
+    `${userThatWillBeRemoved.name} has been removed from the group!`,
+  );
+
+  emitEvent(req, REFETCH_CHATS, chat.members);
+
+  return res.status(200).json({
+    success: true,
+    message: "Member removed Successfully!",
+  });
+});
+
+export {
+  newGroupChat,
+  getMyChats,
+  getMyGroups,
+  addMembers,
+  removeMembers,
+  leaveMembers,
+};
