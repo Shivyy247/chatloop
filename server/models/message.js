@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, Types, model } from "mongoose";
 
 
 const schema = new Schema(
@@ -8,7 +8,7 @@ const schema = new Schema(
     attachments: [
       {
       public_id: {
-        type: string,
+        type: String,
         required: true,
       },
       url: {
