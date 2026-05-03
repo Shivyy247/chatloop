@@ -1,3 +1,4 @@
+import { compare } from 'bcrypt';
 import { TryCatch } from '../middlewares/error.js';
 import {User} from '../models/user.js'
 import { cookieOptions, sendToken } from '../utils/features.js';
@@ -31,7 +32,7 @@ const newUser = async (req, res) => {
 const login = TryCatch(async (req, res, next) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username }).select("password");
+  const user = await User.findOne({ username }).select("+password name");
   
   if (!user) return next(new ErrorHandler("Invalid Username or Password"))
 
@@ -40,7 +41,7 @@ const login = TryCatch(async (req, res, next) => {
   if (!isMatch) return next(new Error("Invalid Password!"));
   
   
-  sendToken(res, user, 201, `Welcome Back!, ${user.name}`);
+  sendToken(res, user, 200, `Welcome Back!, ${user.name}`);
 
 }
 )
