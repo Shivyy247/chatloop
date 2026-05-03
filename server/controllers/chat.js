@@ -187,22 +187,40 @@ const leaveMembers = TryCatch(async (req, res, next) => {
     if (!chat.groupChat)
         return next(new ErrorHandler("this is not a group chat!", 400));
 
+    const remainingMembers = chat.members.filter(
+      (member) => member.toString() !== req.user.toString(),
+    );
+
+    if (remainingMembers.length < 3)
+        return next(new ErrorHandler("Group must have at least 3 members", 400));
+
     if (chat.creator.toString() === req.user.toString()) {
-        const remainingMembers = chat.members.filter
+
+        const randomElement = Math.floor(
+          Math.random() * remainingMembers.length
+        );
+        const newCreator = remainingMembers[randomElement];
+
+        chat.creator = newCreator;
     }
 
-    chat.members = chat.members.filter(
-        (member) => member.toString() !== req.user.toString()
-    );
+    chat.members = remainingMembers;
+
+    const [user] = await Promise
+        .all([
+            User.findById
+                (req.user, "name"),
+        chat.save(),
+    ])
+
 
   emitEvent(
     req,
     ALERT,
     chat.members,
-    `${userThatWillBeRemoved.name} has been removed from the group!`,
+    `User ${user.name} has left the group!`,
   );
 
-  emitEvent(req, REFETCH_CHATS, chat.members);
 
   return res.status(200).json({
     success: true,
