@@ -4,6 +4,7 @@ import {
     addMembers,
     deleteChat,
     getChatDetails,
+    getMessages,
     getMyChats,
     getMyGroups,
     leaveMembers,
@@ -39,14 +40,16 @@ app.delete("/levave/:id", leaveMembers);
 app.post("/message", attachmentsMulter, sendAttachments);
 
 // get message
-// app.get("/chat/:id/", A);
-// app.put("/chat/:id/", B);
-// app.delete("/chat/:id/", C);
+
+app.get("/message/:id", getMessages);
 
 
 // get chat details, rename, delete
 app.route("/:id").get(getChatDetails).put(renameGroup).delete(deleteChat);
 
+// app.get("/chat/:id/", A);
+// app.put("/chat/:id/", B);
+// app.delete("/chat/:id/", C);
 
 
 export default app;
