@@ -19,10 +19,6 @@ const newGroupChat = TryCatch(async (req, res, next) => {
       creator: req.user,
       members: allMembers,
     });
-    
-    if (members.length < 2)
-        return next(
-            new ErrorHandler("Group Chats atleast have at least 3 members!!", 400));
 
     
     emitEvent(req, ALERT, allMembers, `Welcome to ${name} group`);
