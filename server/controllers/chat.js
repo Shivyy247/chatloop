@@ -88,9 +88,6 @@ const addMembers = TryCatch(async (req, res, next) => {
   
     const { chatId, members } = req.body;
 
-    if (!members || members.length < 1)
-      return next(new ErrorHandler("please provide members", 400));
-
     const chat = await Chat.findById(chatId);
 
     if (!chat) return next(new ErrorHandler("Chat not Found!", 404));
