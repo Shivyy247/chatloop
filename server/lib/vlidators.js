@@ -89,6 +89,10 @@ const acceptRequestvalidator = () => [
     .withMessage("Please add accept"),
 ];
 
+const adminLoginvalidator = () => [
+  body("secretKey","Please Enter Secret Key").notEmpty(),
+];
+
 export {
   registervalidator,
   validateHandle,
@@ -103,4 +107,5 @@ export {
   renameGroupvalidator,
   sendRequestvalidator,
   acceptRequestvalidator,
+  adminLoginvalidator,
 };

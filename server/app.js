@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
-
+import adminRoute from "./routes/admin.js";
 
 
 const app = express();
@@ -17,6 +17,7 @@ app.use(cookieParser());
 
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
+export const adminSecretKey = process.env.ADMIN_SECRET_KEY || "shivi";
 
 
 connectDB(mongoURI);
@@ -24,6 +25,8 @@ connectDB(mongoURI);
 
 app.use("/user", userRoute);
 app.use("/chat", chatRoute);
+app.use("/admin", adminRoute);
+
 
 
 app.get("/", (req, res) => {
