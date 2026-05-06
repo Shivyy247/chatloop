@@ -20,7 +20,6 @@ const registervalidator = () => [
   body("username", "Please Enter username:").notEmpty(),
   body("bio", "Please Enter bio:").notEmpty(),
   body("password", "Please Enter password:").notEmpty(),
-  check("avatar", "Please Upload Avatar").notEmpty(),
 ];
 
 const loginvalidator = () => [
@@ -57,11 +56,6 @@ const leaveGroupvalidator = () => [
 
 const sendAttachmentsvalidator = () => [
   body("chatId", "Please Enter chatId:").notEmpty(),
-  check("files")
-    .notEmpty()
-    .withMessage("please upload attachments!")
-    .isArray({ min: 1, max: 5 })
-    .withMessage("Members must be 1-5"),
 ];
 
 const getMessagesvalidator = () => [
