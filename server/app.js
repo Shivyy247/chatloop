@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import cors from 'cors'
+import {v2 as cloudinary} from 'cloudinary';
+
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
@@ -41,6 +43,12 @@ const adminSecretKey = process.env.ADMIN_SECRET_KEY || "shivi";
 const userSocketIDs = new Map();
 
 connectDB(mongoURI);
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 
 app.use("/api/v1/user", userRoute);

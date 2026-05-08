@@ -40,11 +40,11 @@ const login = TryCatch(async (req, res, next) => {
 
   const user = await User.findOne({ username }).select("+password name");
   
-  if (!user) return next(new ErrorHandler("Invalid Username or Password", 404))
+  if (!user) return next(new ErrorHandler("Invalid Username or Password", 401))
 
   const isMatch = await compare(password, user.password);
 
-  if (!isMatch) return next(new Error("Invalid Password!"));
+  if (!isMatch) return next(new Error("Invalid Password!", 401));
   
   
   sendToken(res, user, 200, `Welcome Back!, ${user.name}`);
