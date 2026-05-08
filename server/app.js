@@ -5,6 +5,7 @@ import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import cors from 'cors'
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
@@ -21,6 +22,16 @@ const io = new Server(server,{});
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:4173",
+      process.env.CLIENT_URL,
+    ],
+    credentials: true,
+  }),
+);
 
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
@@ -32,9 +43,9 @@ const userSocketIDs = new Map();
 connectDB(mongoURI);
 
 
-app.use("/user", userRoute);
-app.use("/chat", chatRoute);
-app.use("/admin", adminRoute);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/chat", chatRoute);
+app.use("/api/v1/admin", adminRoute);
 
 
 
