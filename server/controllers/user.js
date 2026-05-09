@@ -46,7 +46,7 @@ const login = TryCatch(async (req, res, next) => {
 
   const isMatch = await compare(password, user.password);
 
-  if (!isMatch) return next(new Error("Invalid Password!", 401));
+ if (!isMatch) return next(new ErrorHandler("Invalid Password!", 401));
   
   
   sendToken(res, user, 200, `Welcome Back!, ${user.name}`);
