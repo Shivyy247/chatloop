@@ -64,9 +64,9 @@ const Login = () => {
 
     const config = {
       withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
+      // headers: {
+      //   "Content-Type": "multipart/form-data"
+      // },
     }      
 
     const formData = new FormData();
@@ -83,7 +83,7 @@ const Login = () => {
         config,
       );
 
-      dispatch(userExists(true));
+      dispatch(userExists(data.user));
       toast.success(data.message);
 
     } catch (error) {
@@ -215,7 +215,7 @@ const Login = () => {
                     "&:hover": { bgcolor: "rgba(255,255,255,0.05)" },
                   }}
                 >
-                  Create an account
+                  Don't have an account? Sign up Instead
                 </Button>
               </form>
             </>
@@ -281,7 +281,7 @@ const Login = () => {
                     color="error"
                     variant="caption"
                   >
-                    {avatar.error}
+                    {avatar.error?.message}
                   </Typography>
                 )}
 
@@ -333,7 +333,7 @@ const Login = () => {
 
                 {username.error && (
                   <Typography color="error" variant="caption">
-                    {username.error}
+                    {username.error?.message}
                   </Typography>
                 )}
 
@@ -356,7 +356,7 @@ const Login = () => {
 
                 {password.error && (
                   <Typography color="error" variant="caption">
-                    {password.error}
+                    {password.error?.message}
                   </Typography>
                 )}
 

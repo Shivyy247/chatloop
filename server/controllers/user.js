@@ -1,7 +1,7 @@
 import { compare } from 'bcrypt';
 import { TryCatch } from '../middlewares/error.js';
 import {User} from '../models/user.js'
-import { cookieOptions, emitEvent, sendToken } from '../utils/features.js';
+import { cookieOptions, emitEvent, sendToken, uploadFilesToCloudinary } from '../utils/features.js';
 import { ErrorHandler } from '../utils/utility.js';
 import { Chat } from "../models/chat.js";
 import {Request} from "../models/request.js";
@@ -16,11 +16,13 @@ const newUser = TryCatch(async (req, res, next) => {
   
   const file = req.file;
   
-  if (!file) return next(new ErrorHandler("please upload avatar!"));
+  if (!file) return next(new ErrorHandler("please upload avatar!",400));
+
+  const result = await uploadFilesToCloudinary([file]);
   
   const avatar = {
-    public_id: "Sdfsd",
-    url: "asdfd",
+    public_id: result[0].public_id,
+    url: result[0].url,
   }
 
   const user = await User.create({
