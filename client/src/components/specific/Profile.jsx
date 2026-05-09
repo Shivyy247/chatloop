@@ -6,11 +6,13 @@ import {
 } from "@mui/icons-material"
 import React from 'react'
 import moment from "moment"
+import { transfromImage } from '../../lib/features';
 
-const Profile = () => {
+const Profile = ({user}) => {
   return (
     <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
       <Avatar
+        src={transfromImage(user?.avatar?.url)}
         sx={{
           width: 200,
           height: 200,
@@ -19,16 +21,17 @@ const Profile = () => {
           border: "5px solid white",
         }}
       />
-      <ProfileCard heading={"Bio"} text={"kab banega bhai tuu jaldi ban jaa"} />
+      <ProfileCard heading={"Bio"} text={user?.bio} />
       <ProfileCard
         heading={"Username"}
-        text={"shivyy"}
+        text={user?.username}
         Icon={<UserNameIcon />}
       />
-      <ProfileCard heading={"Name"} text={"shivi barman"} Icon={<FaceIcon />} />
+      <ProfileCard heading={"Name"} text={user?.name} Icon={<FaceIcon />} />
+
       <ProfileCard
         heading={"Joined"}
-        text={moment('2025-03-09T00:00:00.000Z').fromNow()}
+        text={moment(user.createdAt).fromNow()}
         Icon={<CalenderIcon />}
       />
     </Stack>

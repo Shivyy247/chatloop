@@ -14,13 +14,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsSearch } from "../../redux/reducers/misc";
 import {useLazySearchUserQuery, useSendFriendRequestMutation } from "../../redux/api/api";
 import toast from "react-hot-toast";
+import { useAsyncMutation } from "../../constants/hooks/hooks";
 
 const Search = () => {
   const { isSearch } = useSelector((state) => state.misc);
 
   const [searchUser] = useLazySearchUserQuery();
 
-  const [sendFriendRequest] = useSendFriendRequestMutation();
+  const [sendFriendRequest, isLoadingSendFriendRequest] = useAsyncMutation(
+    useSendFriendRequestMutation,
+  );
 
   const dispatch = useDispatch();
 
@@ -28,49 +31,44 @@ const Search = () => {
 
   const [users, setUsers] = useState([]);
 
-  let isLoadingSendFriendRequest = false;
-
   const addFriendHandler = async (id) => {
-    console.log(id);
-    try {
-      const res = sendFriendRequest({ userId: id });
-      if (res.data) {
-        toast.success("friend request sent!");
-        console.log(res.data);
-      } else {
-        toast.error(res?.error?.data?.message || "something went wrong!");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("something went wrong!");
-    }
+    await sendFriendRequest("Sending friend request....", { userId: id });
+
+    // console.log(id);
+    // try {
+    //   const res = sendFriendRequest({ userId: id });
+    //   if (res.data) {
+    //     toast.success("friend request sent!");
+    //     console.log(res.data);
+    //   } else {
+    //     toast.error(res?.error?.data?.message || "something went wrong!");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error("something went wrong!");
+    // }
   };
 
   const searchCloseHandler = () => {
     dispatch(setIsSearch(false));
   };
 
-  useEffect(() => {
-    const timeOutId = setTimeout(() => {
-      if (!search.value.trim()) {
-        setUsers([]);
-        return;
-      }
+ useEffect(() => {
+   const timeOutId = setTimeout(() => {
+     searchUser(search.value)
+       .then(({ data }) => {
+         setUsers(data?.users || []);
+       })
+       .catch((e) => {
+         console.log(e);
+         setUsers([]);
+       });
+   }, 1000);
 
-      searchUser(search.value)
-        .then(({ data }) => {
-          setUsers(data?.users || []);
-        })
-        .catch((e) => {
-          console.log(e);
-          setUsers([]);
-        });
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeOutId);
-    };
-  }, [search.value, searchUser]);
+   return () => {
+     clearTimeout(timeOutId);
+   };
+ }, [search.value, searchUser]);
 
   return (
     <Dialog open={isSearch} onClose={searchCloseHandler}>

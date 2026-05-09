@@ -77,29 +77,32 @@ const logout = TryCatch(async (req, res) => {
 });
 
 const searchUser = TryCatch(async (req, res) => {
-
   const { name = "" } = req.query;
 
   const myChats = await Chat.find({
     groupChat: false,
-    members: req.user
+    members: req.user,
   });
 
+  const allUsersFromMyChats = myChats.flatMap((chat) =>
+    chat.members.map((member) => member.toString()),
+  );
 
-  // All users from my chats means friends or people I have chatted with
-  const allUsersFromMyChats = myChats.flatMap((chat) => chat.members);
-
-  const allUsersExpectMeAndFriends = await User.find({
-    _id: { $nin: allUsersFromMyChats },
-    name: {$regex: name, $options: "i"},
+  const allUsersExceptMeAndFriends = await User.find({
+    _id: {
+      $nin: [...allUsersFromMyChats, req.user],
+    },
+    name: {
+      $regex: name,
+      $options: "i",
+    },
   });
 
-    //modyfying the response
-  const users = allUsersExpectMeAndFriends.map(({_id, name, avatar}) => ({
+  const users = allUsersExceptMeAndFriends.map(({ _id, name, avatar }) => ({
     _id,
     name,
     avatar: avatar.url,
-  }))
+  }));
 
   return res.status(200).json({
     success: true,
@@ -117,7 +120,7 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
     ],
   });
 
-  if (request) return next(new ErrorHandler("Request already sent", 4000));
+  if (request) return next(new ErrorHandler("Request already sent", 400));
 
   await Request.create({
     sender: req.user,
@@ -202,13 +205,13 @@ const getMyFriends = TryCatch(async (req, res) => {
 
   const chatId = req.query.chaId;
 
-  const chats = await chat.find({
+  const chats = await Chat.find({
     members: req.user,
     groupChat: false,
   }).populate("members", "name avatar");
 
   const friends = chats.map(({ members }) => {
-    const otherUser = getOtherMember(members, req, user)
+    const otherUser = getOtherMember(members, req.user)
     
     return {
       _id: otherUser._id,
@@ -232,7 +235,7 @@ const getMyFriends = TryCatch(async (req, res) => {
   else {
     return res.status(200).json({
       success: true,
-      allRequests,
+      friends,
     });
   }
 });
