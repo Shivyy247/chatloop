@@ -7,32 +7,28 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 import cors from 'cors'
 import {v2 as cloudinary} from 'cloudinary';
-
-
-import userRoute from "./routes/user.js";
-import chatRoute from "./routes/chat.js";
-import adminRoute from "./routes/admin.js";
 import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
 import { v4 as uuid } from "uuid";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
+import { corsOptions } from "./constants/config.js";
+import { socketAuthenticator } from "./middlewares/auth.js";
+
+import userRoute from "./routes/user.js";
+import chatRoute from "./routes/chat.js";
+import adminRoute from "./routes/admin.js";
 
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server,{});
+const io = new Server(server, {
+  cors: corsOptions,
+});
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:4173",
-      process.env.CLIENT_URL,
-    ],
-    credentials: true,
-  }),
+  cors(corsOptions),
 );
 
 const mongoURI = process.env.MONGO_URI;
@@ -62,14 +58,17 @@ app.get("/", (req, res) => {
 });
 
 io.use((socket, next) => {
+
+  cookieParser()(socket.request, socket.request.res, async(err) => {
+    socketAuthenticator(err, socket, next);
+  });
   
+
+
 })
 
 io.on("connection", (socket) => {
-  const user = {
-    _id: "123",
-    name: "shivi",
-  };
+  const user = socket.user;
   userSocketIDs.set(user._id.toString(), socket.id);
 
   console.log(userSocketIDs);

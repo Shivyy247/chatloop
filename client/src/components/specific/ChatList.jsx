@@ -36,7 +36,6 @@ const Chatlist = ({
           onlineUsers.includes(member),
         );
 
-        console.log(members, onlineUsers, isOnline);
 
         return (
           <Chatitem
