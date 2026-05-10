@@ -135,28 +135,36 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
   });
 });
 
-const acceptFriendRequest = TryCatch(async (req, res,next) => {
-
+const acceptFriendRequest = TryCatch(async (req, res, next) => {
   const { requestId, accept } = req.body;
 
-  const request = await Request.findById(requestId)
-    .populate("sender", "name")
-    .populate("receiver", "name")
-  
-  if (!request) return next(new ErrorHandler("Request not found!", 404));
+  console.log("BODY:", req.body);
 
-  if (request.receiver._id.toString() !== req.user.toString())
+  const request = await Request.findById(requestId)
+    .populate("sender", "name avatar")
+    .populate("receiver", "name avatar");
+
+  if (!request) {
     return next(
-      new ErrorHandler("you are not authorized to accept this request!", 401)
+      new ErrorHandler("Request not found or already processed", 404),
     );
-  
+  }
+
+  if (!request.receiver || !request.sender) {
+    return next(new ErrorHandler("Invalid request data", 400));
+  }
+
+ if (request.receiver._id.toString() !== String(req.user)) {
+   return next(new ErrorHandler("Not authorized to handle this request", 401));
+ }
+
   if (!accept) {
     await request.deleteOne();
 
     return res.status(200).json({
       success: true,
       message: "Request Rejected!",
-    })
+    });
   }
 
   const members = [request.sender._id, request.receiver._id];
@@ -164,20 +172,18 @@ const acceptFriendRequest = TryCatch(async (req, res,next) => {
   await Promise.all([
     Chat.create({
       members,
-      name: `${request.sender.name} -${request.receiver.name}`,
+      name: `${request.sender.name} - ${request.receiver.name}`,
     }),
     request.deleteOne(),
-  ])
+  ]);
 
   emitEvent(req, REFETCH_CHATS, members);
 
-  return res
-    .status(200)
-    .json({
-      success: true,
-      message: "Friend request accepted!",
-      senderId: request.sender._id,
-    });
+  return res.status(200).json({
+    success: true,
+    message: "Friend request accepted!",
+    senderId: request.sender._id,
+  });
 });
 
 const getMyNotifications = TryCatch(async (req, res) => {

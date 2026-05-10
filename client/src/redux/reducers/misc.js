@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isNewFroup: false,
+    isNewGroup: false,
     isAddMember: false,
-    isNotofication: false,
+    isNotification: false,
     isMobile: false,
     isSearch: false,
     isFileMenu: false,
@@ -20,13 +20,13 @@ const miscSlice = createSlice({
   initialState,
   reducers: {
     setIsNewGroup: (state, action) => {
-      state.isNewFroup = action.payload;
+      state.isNewgroup = action.payload;
     },
     setIsAddMember: (state, action) => {
       state.isAddMember = action.payload;
     },
-    setIsNotofication: (state, action) => {
-      state.isNotofication = action.payload;
+    setIsNotification: (state, action) => {
+      state.isNotification = action.payload;
     },
     setIsMobile: (state, action) => {
       state.isMobile = action.payload;
@@ -53,7 +53,7 @@ export default miscSlice;
 export const {
   setIsNewGroup,
   setIsAddMember,
-  setIsNotofication,
+  setIsNotification,
   setIsMobile,
   setIsSearch,
   setIsFileMenu,

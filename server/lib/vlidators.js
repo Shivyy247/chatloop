@@ -77,10 +77,7 @@ const sendRequestvalidator = () => [
 
 const acceptRequestvalidator = () => [
   body("requestId", "Please Enter request Id!").notEmpty(),
-  body("accept")
-    .notEmpty()
-    .isBoolean()
-    .withMessage("Please add accept"),
+  body("accept").isBoolean().withMessage("Please add accept"),
 ];
 
 const adminLoginvalidator = () => [
