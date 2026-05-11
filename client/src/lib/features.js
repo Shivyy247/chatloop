@@ -15,7 +15,11 @@ const fileFormat = (url="") => {
     return "file"
 };
  
-const transfromImage = (url = "") => url;
+const transfromImage = (url = "", width = 100) => {
+
+    const newUrl = url.replace("upload/", `upload/dpr_auto/w_${width}/`);
+    return newUrl;
+}
 
 const getLast70Days = () => { 
     const currentData = moment();

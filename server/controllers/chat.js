@@ -2,7 +2,7 @@ import { ALERT, NEW_ATTACHMENT, NEW_MESSAGE_ALERT, REFETCH_CHATS } from "../cons
 import { getOtherMember } from "../lib/helper.js";
 import { TryCatch } from "../middlewares/error.js";
 import { Chat } from "../models/chat.js";
-import { deleteFilesFromCloudinary, emitEvent } from "../utils/features.js";
+import { deleteFilesFromCloudinary, emitEvent, uploadFilesToCloudinary } from "../utils/features.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { User } from "../models/user.js";
 import { Message } from "../models/message.js";
@@ -244,7 +244,7 @@ const sendAttachments = TryCatch(async (req, res, next) => {
 
     // upload files here
 
-    const attachments = [];
+    const attachments = await uploadFilesToCloudinary(files);
 
 
     const messageForDB = {

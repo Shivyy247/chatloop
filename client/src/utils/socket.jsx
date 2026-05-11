@@ -12,6 +12,7 @@ const SocketProvider = ({ children }) => {
         () => io(server, { withCredentials: true }),
         []
     );
+    
 
 
     return (

@@ -5,12 +5,18 @@ export const getOtherMember = (members, userId) =>
     members.find((member) =>
         member._id.toString() !== userId.toString());
 
-export const getSockets = (users = []) => {
-    const sockets = users.map(user =>
-        userSocketIDs.get(user._id.toString()));
+// export const getSockets = (users = []) => {
+//     const sockets = users.map(user =>
+//         userSocketIDs.get(user.toString()));
     
-    return sockets;
-}
+//     return sockets;
+// }
+
+export const getSockets = (users = []) => {
+  return users
+    .map((user) => userSocketIDs.get(user._id?.toString()))
+    .filter(Boolean);
+};
 
 export const getBase64 = (file) =>
     `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;

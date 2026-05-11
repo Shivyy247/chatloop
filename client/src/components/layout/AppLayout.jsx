@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Title from "../shared/Title";
 import Header from "./Header";
 import { Drawer, Grid, Skeleton } from "@mui/material";
@@ -9,7 +9,6 @@ import Profile from "../specific/Profile";
 import { useMyChatsQuery } from "../../redux/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMobile } from "../../redux/reducers/misc";
-import toast from "react-hot-toast";
 import { useErrors } from "../../constants/hooks/hooks";
 import { getSocket } from "../../utils/socket";
 
@@ -21,7 +20,6 @@ const AppLayout = (WrappedComponent) => {
     const chatId = params.chatId;
 
     const socket = getSocket();
-    console.log(socket.id);
 
     const { isMobile } = useSelector((state) => state.misc);
     const { user } = useSelector((state) => state.auth);
@@ -47,9 +45,9 @@ const AppLayout = (WrappedComponent) => {
         {isLoading ? (
           <Skeleton />
         ) : (
-          <Drawer open={isMobile} onClose={handleMobileClose} >
-              <Chatlist
-                w="70vw"
+          <Drawer open={isMobile} onClose={handleMobileClose}>
+            <Chatlist
+              w="70vw"
               chats={data?.chats}
               chatId={chatId}
               handleDeleteChat={handleDeleteChat}
@@ -77,7 +75,7 @@ const AppLayout = (WrappedComponent) => {
           </Grid>
 
           <Grid size={{ xs: 12, sm: 8, md: 5, lg: 6 }} height="100%">
-            <WrappedComponent {...props} />
+            <WrappedComponent {...props} chatId={chatId} user={user} />
           </Grid>
 
           <Grid
