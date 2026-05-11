@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import AppLayout from "../components/layout/AppLayout";
 import { IconButton, Skeleton, Stack } from "@mui/material";
 import { AttachFile as AttachFileIcon, Send as SendIcon } from "@mui/icons-material";
@@ -67,11 +67,25 @@ const Chat = ({ chatId, user }) => {
 
   };
 
+  useEffect(() => {
+    return () => {
+      setMessages([]);
+      setMessage("");
+      setOldMessages([]);
+      setPage(1);
+    }
+  },[chatId])
+
   // const fileMenuRef = useRef(null);
 
-  const newMessageHandler = useCallback((data) => {
-    setMessages((prev) => [...prev, data.message]);
-  }, []);
+  const newMessageHandler = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+
+      setMessages((prev) => [...prev, data.message]);
+    },
+    [chatId],
+  );
 
 
   const eventHandler = useMemo(

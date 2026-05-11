@@ -25,6 +25,8 @@ const io = new Server(server, {
   cors: corsOptions,
 });
 
+app.set("io", io);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -68,7 +70,6 @@ io.use((socket, next) => {
 })
 
 io.on("connection", (socket) => {
-  console.log("user connected:", socket.id);
   const user = socket.user;
   userSocketIDs.set(user._id.toString(), socket.id);
 

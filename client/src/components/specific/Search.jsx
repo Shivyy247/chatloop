@@ -13,7 +13,6 @@ import UserItem from "../shared/UserItem";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsSearch } from "../../redux/reducers/misc";
 import {useLazySearchUserQuery, useSendFriendRequestMutation } from "../../redux/api/api";
-import toast from "react-hot-toast";
 import { useAsyncMutation } from "../../constants/hooks/hooks";
 
 const Search = () => {
