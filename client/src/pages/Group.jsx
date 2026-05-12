@@ -24,6 +24,9 @@ import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { sampleChats, sampleUsers } from "../constants/sampleData";
 import UserItem from "../components/shared/UserItem";
+import { useMyGroupsQuery } from "../redux/api/api";
+import { useErrors } from "../constants/hooks/hooks";
+import { LayoutLoader } from "../components/layout/Loaders";
 const ConfirmDeleteDialog = lazy(
   () => import("../components/dialogs/ConfirmDeleteDialog"),
 );
@@ -38,11 +41,20 @@ const Group = () => {
   const chatId = searchParams.get("group");
   const navigate = useNavigate();
 
+  const myGroups = useMyGroupsQuery("");
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
+
+  const errors = [{
+    isError: myGroups.isError,
+    error: myGroups.error,
+  }]
+
+  useErrors()
 
   const navigateBack = () => {
     navigate("/");
@@ -193,7 +205,9 @@ const Group = () => {
     </Stack>
   );
 
-  return (
+  return myGroups.isLoading ?
+    <LayoutLoader /> :
+    (
     <Grid container height="100vh">
       <Grid
         size={{ xs: 0, sm: 4 }}

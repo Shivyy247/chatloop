@@ -20,7 +20,7 @@ const miscSlice = createSlice({
   initialState,
   reducers: {
     setIsNewGroup: (state, action) => {
-      state.isNewgroup = action.payload;
+      state.isNewGroup = action.payload;
     },
     setIsAddMember: (state, action) => {
       state.isAddMember = action.payload;
