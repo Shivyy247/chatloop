@@ -6,23 +6,31 @@ import { InputBox } from "../components/styles/StyledComponents";
 import FileMenu from "../components/dialogs/FileMenu";
 import MessageComponent from "../components/shared/MessageComponent";
 import { getSocket } from "../utils/socket";
-import { NEW_MESSAGE } from "../constants/events";
+import { NEW_MESSAGE, START_TYPING, STOP_TYPING } from "../constants/events";
 import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
 import { useErrors, useSocketEvents } from "../constants/hooks/hooks";
 import { useInfiniteScrollTop } from "6pp";
 import { useDispatch } from "react-redux";
 import { setIsFileMenu } from "../redux/reducers/misc";
+import { removeNewMessageAlert } from "../redux/reducers/chat";
+import { TypingLoader } from "../components/layout/Loaders";
 
 const Chat = ({ chatId, user }) => {
   
-  const containerRef = useRef(null);
   const socket = getSocket();
   const dispatch = useDispatch();
+
+  const containerRef = useRef(null);
+  const bottmRef = useRef(null);
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [fileMenuAnchor, setFileMenuAnchor] = useState(null);
+
+  const [iAmTyping, setiAmTyping] = useState(false);
+  const [userTyping, setUserTyping] = useState(false);
+  const typingTimeout = useRef(null);
 
   const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
 
@@ -51,6 +59,22 @@ const Chat = ({ chatId, user }) => {
 
   const members = chatDetails?.data?.chat?.members;
 
+  const messageOnChange = (e) => {
+    setMessage(e.target.value);
+
+    if (!iAmTyping) {
+      socket.emit(START_TYPING, { members, chatId });
+      setiAmTyping(true);
+    }
+
+    if (typingTimeout.current) clearTimeout(typingTimeout.current);
+
+    typingTimeout.current = setTimeout(() => {
+      socket.emit(STOP_TYPING, {members, chatId});
+      setiAmTyping(false);
+     }, [2000]);
+  }
+
   const handleFileOpen = (e) => {
     dispatch(setIsFileMenu(true));
     setFileMenuAnchor(e.currentTarget);
@@ -68,17 +92,25 @@ const Chat = ({ chatId, user }) => {
   };
 
   useEffect(() => {
+
+    dispatch(removeNewMessageAlert(chatId));
     return () => {
       setMessages([]);
       setMessage("");
       setOldMessages([]);
       setPage(1);
     }
-  },[chatId])
+  }, [chatId])
+  
+  useEffect(() => { 
+    if (bottmRef.current) bottmRef.current.scrollIntoView({
+      behavior: "smooth"
+    });
+  }, [messages]);
 
   // const fileMenuRef = useRef(null);
 
-  const newMessageHandler = useCallback(
+  const newMessageListner = useCallback(
     (data) => {
       if (data.chatId !== chatId) return;
 
@@ -87,13 +119,32 @@ const Chat = ({ chatId, user }) => {
     [chatId],
   );
 
+  const startTypingListner = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
 
-  const eventHandler = useMemo(
-    () => ({
-      [NEW_MESSAGE]: newMessageHandler,
-    }),
-    [newMessageHandler],
+      console.log("typing", data)
+      setUserTyping(true);
+    },
+    [chatId],
   );
+
+  const stopTypingListner = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+
+      console.log("typing", data);
+      setUserTyping(false);
+    },
+    [chatId],
+  );
+
+
+  const eventHandler = {
+    [NEW_MESSAGE]: newMessageListner,
+    [START_TYPING]: startTypingListner,
+    [STOP_TYPING]: stopTypingListner,
+  };
 
   useSocketEvents(socket, eventHandler);
 
@@ -120,6 +171,11 @@ const Chat = ({ chatId, user }) => {
         {allMessages.map((i) => (
           <MessageComponent key={i._id} message={i} user={user} />
         ))}
+
+        {userTyping && <TypingLoader />}
+          <div ref={bottmRef} />
+          
+
       </Stack>
       <form
         style={{
@@ -148,7 +204,7 @@ const Chat = ({ chatId, user }) => {
           <InputBox
             placeholder="Type msg here..."
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={messageOnChange}
           />
 
           <IconButton

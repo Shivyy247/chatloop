@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import Title from "../shared/Title";
 import Header from "./Header";
 import { Drawer, Grid, Skeleton } from "@mui/material";
@@ -12,7 +12,8 @@ import { setIsMobile } from "../../redux/reducers/misc";
 import { useErrors, useSocketEvents } from "../../constants/hooks/hooks";
 import { getSocket } from "../../utils/socket";
 import { NEW_MESSAGE, NEW_MESSAGE_ALERT, NEW_REQUEST } from "../../constants/events";
-import { incrementNotification } from "../../redux/reducers/chat";
+import { incrementNotification, setNewMessagesAlert } from "../../redux/reducers/chat";
+import { getOrSaveFromStorage } from "../../lib/features";
 
 const AppLayout = (WrappedComponent) => {
   return (props) => {
@@ -25,10 +26,17 @@ const AppLayout = (WrappedComponent) => {
 
     const { isMobile } = useSelector((state) => state.misc);
     const { user } = useSelector((state) => state.auth);
+    const { newMessageAlert } = useSelector((state) => state.chat);
 
-    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("")
+    
+
+    const { isLoading, data, isError, error } = useMyChatsQuery("")
     
     useErrors([{ isError, error }]);
+
+    useEffect(() => {
+      getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessageAlert});
+    },[newMessageAlert])
 
 
     const handleDeleteChat = (e, _id, groupChat) => {
@@ -39,11 +47,22 @@ const AppLayout = (WrappedComponent) => {
 
     const handleMobileClose = () => dispatch(setIsMobile(false));
 
-    const newMessagesAlertHandler = useCallback(() => { }, []);
+    const newMessagesAlertHandler = useCallback(
+      (data) => {
+        if (data.chatId === chatId) return;
+
+        dispatch(setNewMessagesAlert(data));
+      },
+      [chatId, dispatch],
+    );
+
+
 
     const newRequestHandler = useCallback(() => {
       dispatch(incrementNotification());
     }, [dispatch]);
+
+
 
     const eventHandler = {
       [NEW_MESSAGE_ALERT]: newMessagesAlertHandler,
@@ -66,6 +85,7 @@ const AppLayout = (WrappedComponent) => {
               chats={data?.chats}
               chatId={chatId}
               handleDeleteChat={handleDeleteChat}
+              newMessageAlert={newMessageAlert}
             />
           </Drawer>
         )}
@@ -85,6 +105,7 @@ const AppLayout = (WrappedComponent) => {
                 chats={data?.chats}
                 chatId={chatId}
                 handleDeleteChat={handleDeleteChat}
+                newMessageAlert={newMessageAlert}
               />
             )}
           </Grid>
