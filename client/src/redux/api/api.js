@@ -105,6 +105,18 @@ const api = createApi({
 
       providesTags: ["Chat"],
     }),
+
+    newgroup: builder.mutation({
+      query: ({name, members}) => ({
+        url: "chat/new",
+        method: "POST",
+        credentials: "include",
+        body: {name, members},
+      }),
+      invalidatesTags: ["Chat"],
+    }),
+
+
   }),
 });
 
@@ -122,5 +134,6 @@ export const {
   useGetMessagesQuery,
   useSendAttachmentsMutation,
   useMyGroupsQuery,
-  useAvailableFriendsQuery
+  useAvailableFriendsQuery,
+  useNewgroupMutation
 } = api;

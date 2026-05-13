@@ -33,7 +33,7 @@ app.put("/addmembers",addMembervalidator(), validateHandle, addMembers);
 
 app.put("/removemembers", removeMembervalidator(), validateHandle, removeMembers);
 
-app.delete("/levave/:id",leaveGroupvalidator(), validateHandle, leaveMembers);
+app.delete("/leave/:id",leaveGroupvalidator(), validateHandle, leaveMembers);
 
 
 // send attachments

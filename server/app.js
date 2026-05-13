@@ -35,7 +35,7 @@ app.use(
 
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
-const envMode = process.env.NODE_ENV.trim() || "production";
+const envMode = process.env.NODE_ENV?.trim() || "production";
 const adminSecretKey = process.env.ADMIN_SECRET_KEY || "shivi";
 
 const userSocketIDs = new Map();

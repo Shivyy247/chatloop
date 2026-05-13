@@ -32,7 +32,7 @@ const Chat = ({ chatId, user }) => {
   const [userTyping, setUserTyping] = useState(false);
   const typingTimeout = useRef(null);
 
-  const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
+ const chatDetails = useChatDetailsQuery({ chatId }, { skip: !chatId });
 
   const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
 
@@ -72,7 +72,7 @@ const Chat = ({ chatId, user }) => {
     typingTimeout.current = setTimeout(() => {
       socket.emit(STOP_TYPING, {members, chatId});
       setiAmTyping(false);
-     }, [2000]);
+     }, 2000);
   }
 
   const handleFileOpen = (e) => {
@@ -141,6 +141,7 @@ const Chat = ({ chatId, user }) => {
 
   const alertListener = useCallback(
     (content) => {
+      
       const messageForAlert = {
         content,
         sender: {

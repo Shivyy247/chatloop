@@ -30,13 +30,13 @@ const AppLayout = (WrappedComponent) => {
 
     
 
-    const { isLoading, data, isError, error } = useMyChatsQuery("")
+    const { isLoading, data, isError, error } = useMyChatsQuery()
     
     useErrors([{ isError, error }]);
 
     useEffect(() => {
-      getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessageAlert});
-    },[newMessageAlert])
+      getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessageAlert });
+    }, [newMessageAlert]);
 
 
     const handleDeleteChat = (e, _id, groupChat) => {

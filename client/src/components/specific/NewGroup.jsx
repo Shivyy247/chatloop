@@ -13,8 +13,8 @@ import { sampleUsers } from "../../constants/sampleData";
 import UserItem from "../shared/UserItem";
 import { useInputValidation } from "6pp";
 import { useDispatch, useSelector } from "react-redux";
-import { useAvailableFriendsQuery } from "../../redux/api/api";
-import { useErrors } from "../../constants/hooks/hooks";
+import { useAvailableFriendsQuery, useNewgroupMutation } from "../../redux/api/api";
+import { useAsyncMutation, useErrors } from "../../constants/hooks/hooks";
 import { setIsNewGroup } from "../../redux/reducers/misc";
 import toast from "react-hot-toast";
 
@@ -23,7 +23,9 @@ const NewGroup = () => {
   const {isNewGroup } = useSelector((state) => state.misc);
   const dispatch = useDispatch();
 
-  const {isError, isLoading, error, data} = useAvailableFriendsQuery()
+  const { isError, isLoading, error, data } = useAvailableFriendsQuery();
+
+  const [newGroup, isLoaingNewgroup] = useAsyncMutation(useNewgroupMutation());
 
   const groupName = useInputValidation("")
 
@@ -53,6 +55,8 @@ const NewGroup = () => {
 
     if (selectMembers.length < 2)
       return toast.error("please select atleast three members!!");
+
+    newGroup("Creating New Group...",{ name: groupName.value, members: selectMembers });
 
     closeHandler();
 
@@ -98,7 +102,12 @@ const NewGroup = () => {
           >
             Cancel
           </Button>
-          <Button variant="contained" size="large" onClick={submitHandler}>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={submitHandler}
+            disabled={isLoaingNewgroup}
+          >
             Create
           </Button>
         </Stack>

@@ -24,7 +24,7 @@ import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { sampleChats, sampleUsers } from "../constants/sampleData";
 import UserItem from "../components/shared/UserItem";
-import { useMyGroupsQuery } from "../redux/api/api";
+import { useChatDetailsQuery, useMyGroupsQuery } from "../redux/api/api";
 import { useErrors } from "../constants/hooks/hooks";
 import { LayoutLoader } from "../components/layout/Loaders";
 const ConfirmDeleteDialog = lazy(
@@ -41,7 +41,15 @@ const Group = () => {
   const chatId = searchParams.get("group");
   const navigate = useNavigate();
 
-  const myGroups = useMyGroupsQuery("");
+  const myGroups = useMyGroupsQuery();
+
+  console.log(myGroups);
+  console.log(myGroups.data);
+
+  const groupDetails = useChatDetailsQuery(
+    { chatId, populate: true },
+    { skip: !chatId }
+  )
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -54,7 +62,7 @@ const Group = () => {
     error: myGroups.error,
   }]
 
-  useErrors()
+  useErrors(errors);
 
   const navigateBack = () => {
     navigate("/");
@@ -205,9 +213,9 @@ const Group = () => {
     </Stack>
   );
 
-  return myGroups.isLoading ?
-    <LayoutLoader /> :
-    (
+  return myGroups.isLoading ? (
+    <LayoutLoader />
+  ) : (
     <Grid container height="100vh">
       <Grid
         size={{ xs: 0, sm: 4 }}
@@ -218,7 +226,7 @@ const Group = () => {
           },
         }}
       >
-        <GroupList myGroups={sampleChats} chatId={chatId} />
+        <GroupList myGroups={myGroups?.data?.groups} chatId={chatId} />
       </Grid>
 
       <Grid
@@ -305,7 +313,7 @@ const Group = () => {
         open={isMobileMenuOpen}
         onClose={handleMobileClose}
       >
-        <GroupList w="50vw" myGroups={sampleChats} chatId={chatId} />
+        <GroupList w="50vw" myGroups={myGroups?.data?.groups} chatId={chatId} />
       </Drawer>
     </Grid>
   );
