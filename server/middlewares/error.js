@@ -17,8 +17,10 @@ const errorMiddleware = (err, req, res, next) => {
     }
 
     return res.status(err.statusCode).json({
+      //   success: false,
+      //   message: envMode === "development" ? err : err.message,
       success: false,
-      message: envMode === "development" ? err : err.message,
+      message: err.message,
     });
 };
 

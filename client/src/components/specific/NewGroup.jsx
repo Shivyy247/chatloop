@@ -25,7 +25,7 @@ const NewGroup = () => {
 
   const { isError, isLoading, error, data } = useAvailableFriendsQuery();
 
-  const [newGroup, isLoaingNewgroup] = useAsyncMutation(useNewgroupMutation());
+  const [newGroup, isLoaingNewgroup] = useAsyncMutation(useNewgroupMutation);
 
   const groupName = useInputValidation("")
 
