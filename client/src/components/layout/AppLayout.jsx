@@ -4,11 +4,11 @@ import Header from "./Header";
 import { Drawer, Grid, Skeleton } from "@mui/material";
 import Chatlist from "../specific/Chatlist";
 // import { sampleChats } from "../../constants/sampleData";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Profile from "../specific/Profile";
 import { useMyChatsQuery } from "../../redux/api/api";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsMobile } from "../../redux/reducers/misc";
+import { setIsDeleteMenu, setIsMobile } from "../../redux/reducers/misc";
 import { useErrors, useSocketEvents } from "../../constants/hooks/hooks";
 import { getSocket } from "../../utils/socket";
 import { NEW_MESSAGE, NEW_MESSAGE_ALERT, NEW_REQUEST, REFETCH_CHATS } from "../../constants/events";
@@ -19,6 +19,7 @@ const AppLayout = (WrappedComponent) => {
   return (props) => {
     
     const params = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const chatId = params.chatId;
 
@@ -40,8 +41,9 @@ const AppLayout = (WrappedComponent) => {
 
 
     const handleDeleteChat = (e, _id, groupChat) => {
-      e.preventDefault()
-      console.log("Delete Chat", _id, groupChat)
+      dispatch(setIsDeleteMenu(true));
+      e.preventDefault();
+      console.log("Delete Chat", _id, groupChat);
     }
 
 
@@ -62,7 +64,8 @@ const AppLayout = (WrappedComponent) => {
 
     const refetchListener = useCallback(() => {
       refetch();
-    }, [refetch]);
+      navigate("/");
+    }, [refetch, navigate]);
 
 
 

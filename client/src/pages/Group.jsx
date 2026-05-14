@@ -2,6 +2,7 @@ import {
   Backdrop,
   Box,
   Button,
+  CircularProgress,
   Drawer,
   Grid,
   IconButton,
@@ -22,9 +23,8 @@ import React, { memo, useEffect, useState, lazy, Suspense } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
-import { sampleUsers } from "../constants/sampleData";
 import UserItem from "../components/shared/UserItem";
-import { useAddGroupMembersMutation, useChatDetailsQuery, useMyGroupsQuery, useRemoveGroupMemberMutation, useRenameGroupMutation } from "../redux/api/api";
+import {  useChatDetailsQuery, useDeleteChatMutation, useMyGroupsQuery, useRemoveGroupMemberMutation, useRenameGroupMutation } from "../redux/api/api";
 import { useAsyncMutation, useErrors } from "../constants/hooks/hooks";
 import { LayoutLoader } from "../components/layout/Loaders";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,8 +53,13 @@ const Group = () => {
   );
 
   const [updateGroup, isLoadingGroupName] = useAsyncMutation(useRenameGroupMutation);
-   const [removeMember, isLoadingRemoveMember] = useAsyncMutation(
+
+  const [removeMember, isLoadingRemoveMember] = useAsyncMutation(
      useRemoveGroupMemberMutation,
+  );
+
+  const [deleteGroup, isLoadingDeleteGroup] = useAsyncMutation(
+    useDeleteChatMutation,
   );
   
 
@@ -66,7 +71,7 @@ const Group = () => {
 
   // const members = groupDetails?.data?.chat?.members || [];
 
-  const [members, setMembers] = useState({});
+  const [members, setMembers] = useState([]);
 
   const errors = [
     {
@@ -129,8 +134,9 @@ const Group = () => {
   };
 
   const deleteHandler = () => {
-    console.log("delete handler");
+    deleteGroup("Deleting Group...",{chatId})
     closeConfirmDeleteHandler();
+    navigate("/group");
   };
 
   const removeMemberHandler = (userId) => {
@@ -304,7 +310,12 @@ const Group = () => {
               height={"50vh"}
               overflow={"auto"}
             >
-              {members.map((i) => (
+                {
+                  isLoadingDeleteGroup ?
+                (
+                  <CircularProgress/>
+                )
+                  : members.map((i) => (
                 <UserItem
                   user={i}
                   key={i._id}

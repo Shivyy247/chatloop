@@ -14,11 +14,13 @@ import { useDispatch } from "react-redux";
 import { setIsFileMenu } from "../redux/reducers/misc";
 import { removeNewMessageAlert } from "../redux/reducers/chat";
 import { TypingLoader } from "../components/layout/Loaders";
+import { useNavigate } from "react-router-dom";
 
 const Chat = ({ chatId, user }) => {
   
   const socket = getSocket();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const containerRef = useRef(null);
   const bottmRef = useRef(null);
@@ -107,6 +109,10 @@ const Chat = ({ chatId, user }) => {
       behavior: "smooth"
     });
   }, [messages]);
+
+  useEffect(() => {
+    if (!chatDetails.data?.chat) return navigate('/');
+  }, [chatDetails.data]);
 
   // const fileMenuRef = useRef(null);
 
