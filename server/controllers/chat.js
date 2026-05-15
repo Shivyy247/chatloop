@@ -366,7 +366,7 @@ const deleteChat = TryCatch(async (req, res, next) => {
             new ErrorHandler("you are not allowed to delete the group!", 403)
         );
 
-    if (!chat.groupChat && !chat.members.include(req.user.toString())) {
+    if (!chat.groupChat && !chat.members.includes(req.user.toString())) {
         return next(
             new ErrorHandler("you are not allowed to delete the group chat!", 403)
         );

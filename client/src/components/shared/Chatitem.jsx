@@ -24,7 +24,10 @@ const Chatitem = ({
         padding: "0",
       }}
       to={`/chat/${_id}`}
-      onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        handleDeleteChat(e, _id, groupChat);
+      }}
     >
       <div
         style={{
