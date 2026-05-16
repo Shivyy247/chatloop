@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import AdminLayout from '../../components/layout/AdminLayout'
-import Table from '../../components/shared/Table'
-import { Avatar, Stack } from '@mui/material';
-import { dashboardData } from '../../constants/sampleData';
+import React, { useEffect, useState } from "react";
+import AdminLayout from "../../components/layout/AdminLayout";
+import Table from "../../components/shared/Table";
+import { Avatar, Skeleton, Stack } from "@mui/material";
 import { transfromImage } from "../../lib/features";
-import AvatarCard from "../../components/shared/AvatarCard"
-
+import AvatarCard from "../../components/shared/AvatarCard";
+import axios from "axios";
+import { server } from "../../constants/config";
+import toast from "react-hot-toast";
 
 const columns = [
   {
@@ -19,14 +20,19 @@ const columns = [
     headerName: "Avatar",
     headerClassName: "table-header",
     width: 150,
-    renderCell: (params) =>
-      <AvatarCard avatar={params.row.avatar} />
+    renderCell: (params) => <AvatarCard avatar={params.row.avatar} />,
   },
   {
     field: "name",
     headerName: "Name",
     headerClassName: "table-header",
     width: 300,
+  },
+  {
+    field: "groupChat",
+    headerName: "Group",
+    headerClassName: "table-header",
+    width: 100,
   },
   {
     field: "totalMembers",
@@ -45,7 +51,7 @@ const columns = [
   },
   {
     field: "totalMessages",
-    headerName: "Total Message",
+    headerName: "Total Messages",
     headerClassName: "table-header",
     width: 200,
   },
@@ -63,30 +69,64 @@ const columns = [
   },
 ];
 
-
 const ChatManag = () => {
+  const [chats, setChats] = useState([]);
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setRows(dashboardData.chats.map((i) => ({
-      ...i,
-      id: i._id,
-      avatar: i.avatar.map((i) => transfromImage(i, 50)),
-      members: i.members.map((i) => transfromImage(i.avatar, 50)),
-      creator: {
-        name: i.creator.name,
-        avatar: transfromImage(i.creator.avatar, 50)
+    const fetchChats = async () => {
+      try {
+        const { data } = await axios.get(`${server}/api/v1/admin/chats`, {
+          withCredentials: true,
+        });
+
+        setChats(data.chats);
+
+        console.log("RAW DATA:", data);
+        console.log("CHATS:", data.chats);
+      } catch (error) {
+        console.log(error);
+
+        toast.error(
+          error?.response?.data?.message ||
+            error?.message ||
+            "Something went wrong!",
+        );
+      } finally {
+        setLoading(false);
       }
-    })
-  ))
+    };
+
+    fetchChats();
   }, []);
+
+  useEffect(() => {
+    if (chats.length) {
+      setRows(
+        chats.map((i) => ({
+          ...i,
+          id: i._id,
+          avatar: i.avatar.map((img) => transfromImage(img, 50)),
+          members: i.members.map((member) => transfromImage(member.avatar, 50)),
+          creator: {
+            name: i.creator.name,
+            avatar: transfromImage(i.creator.avatar, 50),
+          },
+        })),
+      );
+    }
+  }, [chats]);
 
   return (
     <AdminLayout>
-      {<Table heading={"All Chats"} columns={columns} rows={rows} />}
+      {loading ? (
+        <Skeleton height={"100vh"} />
+      ) : (
+        <Table heading={"All Chats"} columns={columns} rows={rows} />
+      )}
     </AdminLayout>
   );
 };
 
-
-export default ChatManag
+export default ChatManag;
