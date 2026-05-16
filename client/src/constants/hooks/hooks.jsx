@@ -17,52 +17,51 @@ const useErrors = (errors = []) => {
 
 
 
-const useAsyncMutation = (mutationHook) => { 
+const useAsyncMutation = (mutationHook) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
 
+  const [mutate] = mutationHook();
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState(null);
+  const executeMutation = async (toastMessage, ...args) => {
+    setIsLoading(true);
 
-    const [mutate] = mutationHook();
+    const toastId = toast.loading(toastMessage || "Updating data...");
 
-    const executeMutation = async (toastMessage, ...args) => { 
+    try {
+      const res = await mutate(...args);
 
-        setIsLoading(true);
-        const toastId = toast.loading(toastMessage || "updating data...");
+      if (res.data) {
+        setData(res.data);
 
-        try {
-            const res = await mutate(...args);
-            if (res.data) {
-                toast.success(
-                  String(res.data.message || "Updated data successfully!!"),
-                  {
-                    id: toastId,
-                  },
-                );
-            }
-            else {
-                toast.error(
-                  typeof res?.error?.data?.message === "string"
-                    ? res.error.data.message
-                    : "Something went wrong!",
-                  {
-                    id: toastId,
-                  },
-                );
-            }
-        } catch (error) {
+        toast.success(
+          String(res.data.message || "Updated data successfully!!"),
+          {
+            id: toastId,
+          },
+        );
+      } else {
+        toast.error(
+          typeof res?.error?.data?.message === "string"
+            ? res.error.data.message
+            : "Something went wrong!",
+          {
+            id: toastId,
+          },
+        );
+      }
+    } catch (error) {
+      console.log(error);
 
-            console.log(error);
-            toast.error("something went wrong!!", { id: toastId });
-            
-        } finally {
-            setIsLoading(false);
-        }
+      toast.error("Something went wrong!!", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    };
-
-    return [ executeMutation, isLoading, data ];
-
+  return [executeMutation, isLoading, data];
 };
 
 const useSocketEvents = (socket, handlers) => {
@@ -80,7 +79,7 @@ const useSocketEvents = (socket, handlers) => {
         socket.off(event, handler);
       });
     };
-  }, [socket]);
+  }, [socket, handlers]);
 };
 
 export { useErrors, useAsyncMutation, useSocketEvents };
