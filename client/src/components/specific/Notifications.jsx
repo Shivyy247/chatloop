@@ -9,48 +9,38 @@ import {
   Typography,
 } from "@mui/material";
 import { memo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAsyncMutation, useErrors } from "../../constants/hooks/hooks";
 import {
   useAcceptFriendRequestMutation,
   useGetNotificationQuery,
 } from "../../redux/api/api";
-import { useErrors } from "../../constants/hooks/hooks";
-import { useDispatch, useSelector } from "react-redux";
 import { setIsNotification } from "../../redux/reducers/misc";
-import toast from "react-hot-toast";
 
 const Notifications = () => {
   const { isNotification } = useSelector((state) => state.misc);
   const dispatch = useDispatch();
 
   const { isLoading, data, error, isError } = useGetNotificationQuery();
-  const [acceptRequest] = useAcceptFriendRequestMutation();
 
   const [loadingId, setLoadingId] = useState(null);
 
-  const closeHandler = () => dispatch(setIsNotification(false));
+  const [acceptRequest] = useAsyncMutation(useAcceptFriendRequestMutation);
 
   const friendRequestHandler = async ({ _id, accept }) => {
-    if (loadingId) return;
-
     setLoadingId(_id);
 
-    try {
-      const data = await acceptRequest({
-        requestId: _id,
-        accept,
-      }).unwrap();
+    dispatch(setIsNotification(false));
 
-      toast.success(data.message);
-      dispatch(setIsNotification(false));
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.data?.message || "something went wrong!");
-    } finally {
-      setLoadingId(null);
-    }
+    await acceptRequest("Accepting...", {
+      requestId: _id,
+      accept,
+    });
 
-    
+    setLoadingId(null);
   };
+
+  const closeHandler = () => dispatch(setIsNotification(false));
 
   useErrors([{ error, isError }]);
 

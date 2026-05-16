@@ -3,7 +3,7 @@ import { Link } from "../styles/StyledComponents";
 import { memo } from "react";
 import AvatarCard from "./AvatarCard";
 import { useParams } from "react-router-dom";
-
+import { motion } from 'framer-motion';
 const Chatitem = ({
   avatar = [],
   name,
@@ -29,7 +29,10 @@ const Chatitem = ({
         handleDeleteChat(e, _id, groupChat);
       }}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
         style={{
           display: "flex",
           gap: "1rem",
@@ -74,7 +77,7 @@ const Chatitem = ({
             }}
           />
         )}
-      </div>
+      </motion.div>
     </Link>
   );
 };

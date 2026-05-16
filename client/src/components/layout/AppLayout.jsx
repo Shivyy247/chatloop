@@ -64,10 +64,9 @@ const AppLayout = (WrappedComponent) => {
       dispatch(incrementNotification());
     }, [dispatch]);
 
-    const refetchListener = useCallback(() => {
-      refetch();
-      navigate("/");
-    }, [refetch, navigate]);
+    const refetchListener = useCallback(async () => {
+      await refetch();
+    }, [refetch]);
 
 
 

@@ -8,13 +8,16 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from 'react-router-dom';
 import { useAsyncMutation } from '../../constants/hooks/hooks';
-import { useDeleteChatMutation } from '../../redux/api/api';
+import { useDeleteChatMutation, useLeaveGroupMutation } from '../../redux/api/api';
 
 const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
     const navigate = useNavigate();
     const { isDeleteMenu, selectedDeleteChat } = useSelector((state) => state.misc);
 
     const [deleteChat, , deleteChatData] = useAsyncMutation(useDeleteChatMutation)
+    const [leaveGroup,  , leaveGroupData] = useAsyncMutation(
+      useLeaveGroupMutation,
+    );
 
     const isGroup = selectedDeleteChat?.groupChat;
     
@@ -23,14 +26,21 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
         deleteMenuAnchor.current = null;
     };
 
-    const leaveGroupHandler = () => {};
+    const leaveGroupHandler = () => {
+        closeHandler();
+        leaveGroup("Leaving Group...", { chatId: selectedDeleteChat.chatId });
+     };
+    
     const deleteChatHandler = () => {
+        closeHandler();
         deleteChat("Deleting Chat...", { chatId: selectedDeleteChat.chatId });
     };
 
     useEffect(() => {
-        if (deleteChatData) navigate("/");
-    }, [deleteChatData, navigate]);
+      if (deleteChatData?.success || leaveGroupData?.success) {
+        navigate("/");
+      }
+    }, [deleteChatData, leaveGroupData]);
     
   return (
     <Menu

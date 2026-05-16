@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleLogin = () => setIsLogin((prev) => !prev);
 
@@ -31,6 +32,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const toastId = toast.loading("Loagging...");
+    setIsLoading(true);
 
     const config = {
       withCredentials: true,
@@ -50,15 +53,22 @@ const Login = () => {
       );
 
       dispatch(userExists(data.user));
-      toast.success(data.message);
+      toast.success(data.message, {
+        id: toastId,
+      });
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      toast.error(error?.response?.data?.message || "Something went wrong!", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+    const toastId = toast.loading("Signing Up...");
+    setIsLoading(true);
     const config = {
       withCredentials: true,
     };
@@ -79,9 +89,13 @@ const Login = () => {
       );
 
       dispatch(userExists(data.user));
-      toast.success(data.message);
+      toast.success(data.message, { id: toastId });
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      toast.error(error?.response?.data?.message || "Something went wrong!", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -182,6 +196,7 @@ const Login = () => {
                     fontSize: "1rem",
                     "&:hover": { bgcolor: "#3f449b" },
                   }}
+                  disabled={isLoading}
                 >
                   Login
                 </Button>
@@ -205,6 +220,7 @@ const Login = () => {
                       bgcolor: "rgba(255,255,255,0.05)",
                     },
                   }}
+                  disabled={isLoading}
                 >
                   Don't have an account? Sign up Instead
                 </Button>
@@ -362,6 +378,7 @@ const Login = () => {
                     textTransform: "none",
                     "&:hover": { bgcolor: "#3f449b" },
                   }}
+                  disabled={isLoading}
                 >
                   Sign Up
                 </Button>
@@ -385,6 +402,7 @@ const Login = () => {
                       bgcolor: "rgba(255,255,255,0.05)",
                     },
                   }}
+                  disabled={isLoading}
                 >
                   Back to Login
                 </Button>

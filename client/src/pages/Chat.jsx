@@ -111,8 +111,10 @@ const Chat = ({ chatId, user }) => {
   }, [messages]);
 
   useEffect(() => {
-    if (!chatDetails.data?.chat) return navigate('/');
-  }, [chatDetails.data]);
+    if (chatDetails.isError) {
+      navigate("/");
+    }
+  }, [chatDetails.isError, navigate]);
 
   // const fileMenuRef = useRef(null);
 
@@ -146,10 +148,10 @@ const Chat = ({ chatId, user }) => {
   );
 
   const alertListener = useCallback(
-    (content) => {
-      
+    ({data,chatId}) => {
+      if (data.chatId !== chatId) return;
       const messageForAlert = {
-        content,
+        content: data.message,
         sender: {
           _id: "shivi123",
           name: "Admin",

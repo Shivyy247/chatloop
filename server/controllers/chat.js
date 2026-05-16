@@ -159,12 +159,10 @@ const removeMembers = TryCatch(async (req, res, next) => {
 
     await chat.save();
 
-    emitEvent(
-        req,
-        ALERT,
-        chat.members,
-        `${userThatWillBeRemoved.name} has been removed from the group!`
-    );
+    emitEvent(req, ALERT, chat.members, {
+        message: `${userThatWillBeRemoved.name} has been removed from the group!`,
+        chatId
+    });
 
     emitEvent(req, REFETCH_CHATS, allChatMembers);
 
@@ -213,17 +211,14 @@ const leaveMembers = TryCatch(async (req, res, next) => {
     ])
 
 
-  emitEvent(
-    req,
-    ALERT,
-    chat.members,
-    `User ${user.name} has left the group!`,
-  );
+  emitEvent(req, ALERT, chat.members, {
+    message: `User ${user.name} has left the group!`,chatId
+  });
 
 
   return res.status(200).json({
     success: true,
-    message: "Member removed Successfully!",
+    message: "Leave Group Successfully!",
   });
 });
 
@@ -366,10 +361,14 @@ const deleteChat = TryCatch(async (req, res, next) => {
             new ErrorHandler("you are not allowed to delete the group!", 403)
         );
 
-    if (!chat.groupChat && !chat.members.includes(req.user.toString())) {
-        return next(
-            new ErrorHandler("you are not allowed to delete the group chat!", 403)
-        );
+    const isMember = chat.members.some(
+      (member) => member.toString() === req.user.toString(),
+    );
+
+    if (!chat.groupChat && !isMember) {
+      return next(
+        new ErrorHandler("You are not allowed to delete the group chat!", 403),
+      );
     }   
 
     // here we have to delete all messages as well as attachments or files on cloudianary
@@ -418,10 +417,15 @@ const getMessages = TryCatch(async (req, res, next) => {
 
     if (!chat) return next(new ErrorHandler("Chat not Found", 404));
 
-    if (!chat.members.includes(req.user.toString()))
-        return next(
-            new ErrorHandler("You Are not allowed to access this chat!", 403)
-        )
+    const isMember = chat.members.some(
+      (member) => member.toString() === req.user.toString(),
+    );
+
+    if (!isMember) {
+      return next(
+        new ErrorHandler("You are not allowed to access this chat!", 403),
+      );
+    }
 
     const [messages, totalMessageCount] = await Promise.all([
         Message.find({ chat: chatId })
