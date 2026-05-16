@@ -6,7 +6,7 @@ import { adminOnly } from "../middlewares/auth.js";
 const app = express.Router();
 
 app.post("/verify",adminLoginvalidator(), validateHandle, adminLogin);
-app.get("/logout", adminLogout);
+app.post("/logout", adminLogout);
 
 //only admin can access these routes
 
