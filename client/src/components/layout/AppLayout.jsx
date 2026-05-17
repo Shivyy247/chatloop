@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Title from "../shared/Title";
 import Header from "./Header";
 import { Drawer, Grid, Skeleton } from "@mui/material";
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsDeleteMenu, setIsMobile, setSelectedDeleteChat } from "../../redux/reducers/misc";
 import { useErrors, useSocketEvents } from "../../constants/hooks/hooks";
 import { getSocket } from "../../utils/socket";
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT, NEW_REQUEST, REFETCH_CHATS } from "../../constants/events";
+import { NEW_MESSAGE, NEW_MESSAGE_ALERT, NEW_REQUEST, ONLINE_USERS, REFETCH_CHATS } from "../../constants/events";
 import { incrementNotification, setNewMessagesAlert } from "../../redux/reducers/chat";
 import { getOrSaveFromStorage } from "../../lib/features";
 import DeleteChatMenu from "./DeleteChatMenu";
@@ -24,6 +24,8 @@ const AppLayout = (WrappedComponent) => {
     const dispatch = useDispatch();
     const chatId = params.chatId;
     const deleteMenuAnchor = useRef(null);
+
+    const [onlineUsers, setOnlineUsers] = useState([]);
 
     const socket = getSocket();
 
@@ -68,12 +70,17 @@ const AppLayout = (WrappedComponent) => {
       await refetch();
     }, [refetch]);
 
+    const onlineUsersListener = useCallback((data) => {
+      setOnlineUsers(data);
+    }, []);
+
 
 
     const eventHandler = {
       [NEW_MESSAGE_ALERT]: newMessagesAlertHandler,
       [NEW_REQUEST]: newRequestHandler,
       [REFETCH_CHATS]: refetchListener,
+      [ONLINE_USERS]: onlineUsersListener,
     };
 
     useSocketEvents(socket, eventHandler);
@@ -82,7 +89,10 @@ const AppLayout = (WrappedComponent) => {
       <>
         <Title />
         <Header />
-        <DeleteChatMenu dispatch={dispatch} deleteMenuAnchor={deleteMenuAnchor} />
+        <DeleteChatMenu
+          dispatch={dispatch}
+          deleteMenuAnchor={deleteMenuAnchor}
+        />
 
         {isLoading ? (
           <Skeleton />
@@ -94,6 +104,7 @@ const AppLayout = (WrappedComponent) => {
               chatId={chatId}
               handleDeleteChat={handleDeleteChat}
               newMessageAlert={newMessageAlert}
+              onlineUsers={onlineUsers}
             />
           </Drawer>
         )}
@@ -114,6 +125,7 @@ const AppLayout = (WrappedComponent) => {
                 chatId={chatId}
                 handleDeleteChat={handleDeleteChat}
                 newMessageAlert={newMessageAlert}
+                onlineUsers={onlineUsers}
               />
             )}
           </Grid>
