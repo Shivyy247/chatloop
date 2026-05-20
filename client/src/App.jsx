@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectRoute from "./components/auth/ProtectRoute";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { LayoutLoader } from "./components/layout/Loaders";
 import axios from "axios";
 import { server } from "./constants/config";
@@ -26,12 +26,26 @@ const App = () => {
 
   const dispatch = useDispatch();
 
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark",
+  );
+
   useEffect(() => {
     axios
       .get(`${server}/api/v1/user/me`, { withCredentials: true })
       .then(({ data }) => dispatch(userExists(data.user)))
-      .catch((err) => dispatch(userNotExists()));
+      .catch(() => dispatch(userNotExists()));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   return loader ? (
     <LayoutLoader />
@@ -42,13 +56,28 @@ const App = () => {
           <Route
             element={
               <SocketProvider>
-                <ProtectRoute user={user} />
+                <ProtectRoute
+                  user={user}
+                  darkMode={darkMode}
+                  setDarkMode={setDarkMode}
+                />
               </SocketProvider>
             }
           >
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/group" element={<Group />} />
-            <Route path="/chat/:chatId" element={<Chat />} />
+            <Route
+              path="/"
+              element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />}
+            />
+
+            <Route
+              path="/group"
+              element={<Group darkMode={darkMode} setDarkMode={setDarkMode} />}
+            />
+
+            <Route
+              path="/chat/:chatId"
+              element={<Chat darkMode={darkMode} setDarkMode={setDarkMode} />}
+            />
           </Route>
 
           <Route
@@ -62,7 +91,7 @@ const App = () => {
           <Route path="/admin/chats" element={<ChatManag />} />
           <Route path="/admin/message" element={<MessageMang />} />
 
-          <Route path="*" element={<NotFound />}></Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
 

@@ -70,7 +70,7 @@
 //   animation: `${bounceAnimation} is infinite`,
 // }));
 
-import { keyframes, Skeleton, styled } from "@mui/material";
+/* import { keyframes, Skeleton, styled } from "@mui/material";
 import { Link as LinkComponent } from "react-router-dom";
 
 export const VisuallyHiddenInput = styled("input")({
@@ -193,6 +193,156 @@ const bounceAnimation = keyframes`
 
   50%{
     transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100%{
+    transform: scale(1);
+    opacity: 0.7;
+  }
+`;
+
+export const BouncingSkeleton = styled(Skeleton)(() => ({
+  animation: `${bounceAnimation} 1.5s infinite ease`,
+  transformOrigin: "center",
+})); */
+
+import { keyframes, Skeleton, styled } from "@mui/material";
+import { Link as LinkComponent } from "react-router-dom";
+
+export const VisuallyHiddenInput = styled("input")({
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: 1,
+  margin: -1,
+  overflow: "hidden",
+  padding: 0,
+  position: "absolute",
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+export const Link = styled(LinkComponent)`
+  text-decoration: none;
+  color: var(--text-primary);
+
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+`;
+
+export const InputBox = styled("input")`
+  width: 100%;
+  height: 100%;
+
+  border: 1px solid var(--border-color);
+  outline: none;
+
+  padding: 0 3.5rem;
+
+  border-radius: 16px;
+
+  background-color: #ffffff;
+
+  color: var(--text-primary);
+
+  font-size: 0.95rem;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: 0.2s ease;
+
+  &::placeholder {
+    color: var(--text-secondary);
+  }
+
+  &:focus {
+    border-color: var(--emerald);
+
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+  }
+`;
+
+export const SearchField = styled("input")`
+  padding: 0.95rem 1.2rem;
+
+  width: 20vmax;
+
+  border: 1px solid var(--border-color);
+
+  outline: none;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: var(--text-primary);
+
+  font-size: 0.95rem;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: 0.2s ease;
+
+  &::placeholder {
+    color: var(--text-secondary);
+  }
+
+  &:focus {
+    border-color: var(--emerald);
+
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+export const CurveButton = styled("button")`
+  border-radius: 14px;
+
+  padding: 0.95rem 1.6rem;
+
+  border: none;
+
+  outline: none;
+
+  cursor: pointer;
+
+  background-color: var(--emerald);
+
+  color: white;
+
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  transition: 0.2s ease;
+
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    background-color: #059669;
+
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const bounceAnimation = keyframes`
+  0%{
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  50%{
+    transform: scale(1.04);
     opacity: 1;
   }
 
