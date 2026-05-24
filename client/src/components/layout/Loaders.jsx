@@ -1,5 +1,4 @@
 import { Grid, Skeleton, Stack, Box } from "@mui/material";
-
 import { BouncingSkeleton } from "../styles/StyledComponents";
 
 const LayoutLoader = () => {
@@ -8,60 +7,57 @@ const LayoutLoader = () => {
       container
       height={"calc(100vh - 4.5rem)"}
       sx={{
-        background: "var(--bg-primary)",
+        background: "#0b141a", // Main Dark Background
       }}
     >
-      {/* SIDEBAR */}
-
+      {/* SIDEBAR SKELETON */}
       <Grid
-        size={{ sm: 4, md: 3 }}
+        item
+        sm={4}
+        md={3}
         sx={{
           display: { xs: "none", sm: "block" },
-
           height: "100%",
-
-          borderRight: "1px solid var(--border-color)",
-
-          background: "var(--bg-secondary)",
-
+          borderRight: "1px solid #222d34",
+          background: "#111b21", // Sidebar Dark
           padding: "1rem",
         }}
       >
         <Stack spacing={1}>
-          {Array.from({ length: 8 }).map((_, index) => (
+          {Array.from({ length: 9 }).map((_, index) => (
             <Skeleton
               key={index}
               variant="rounded"
               height={70}
               sx={{
-                borderRadius: "18px",
-
-                bgcolor: "var(--bg-chat)",
+                borderRadius: "12px",
+                bgcolor: "#1f2c33", // Subtle grey for skeletal items
+                opacity: 0.6,
               }}
             />
           ))}
         </Stack>
       </Grid>
 
-      {/* CHAT AREA */}
-
+      {/* CHAT AREA SKELETON */}
       <Grid
-        size={{ xs: 12, sm: 8, md: 5, lg: 6 }}
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        lg={6}
         sx={{
           height: "100%",
-
-          background: "var(--bg-primary)",
-
+          background: "#0b141a",
           padding: "1.2rem",
         }}
       >
         <Stack spacing={2}>
-          {Array.from({ length: 10 }).map((_, index) => (
+          {Array.from({ length: 8 }).map((_, index) => (
             <Box
               key={index}
               sx={{
                 display: "flex",
-
                 justifyContent: index % 2 === 0 ? "flex-start" : "flex-end",
               }}
             >
@@ -70,9 +66,12 @@ const LayoutLoader = () => {
                 width={index % 2 === 0 ? "55%" : "45%"}
                 height={60}
                 sx={{
-                  borderRadius: "20px",
-
-                  bgcolor: "var(--bg-secondary)",
+                  borderRadius:
+                    index % 2 === 0
+                      ? "0px 12px 12px 12px"
+                      : "12px 0px 12px 12px",
+                  bgcolor: index % 2 === 0 ? "#202c33" : "#005c4b", // WhatsApp bubble colors
+                  opacity: 0.5,
                 }}
               />
             </Box>
@@ -80,67 +79,57 @@ const LayoutLoader = () => {
         </Stack>
       </Grid>
 
-      {/* PROFILE */}
-
+      {/* PROFILE SKELETON */}
       <Grid
-        size={{ md: 4, lg: 3 }}
+        item
+        md={4}
+        lg={3}
         sx={{
           display: { xs: "none", md: "block" },
-
           height: "100%",
-
           padding: "1.5rem",
-
-          borderLeft: "1px solid var(--border-color)",
-
-          background: "var(--bg-secondary)",
+          borderLeft: "1px solid #222d34",
+          background: "#111b21",
         }}
       >
         <Stack spacing={2} alignItems={"center"}>
           <Skeleton
             variant="circular"
-            width={110}
-            height={110}
-            sx={{
-              bgcolor: "var(--bg-chat)",
-            }}
+            width={120}
+            height={120}
+            sx={{ bgcolor: "#1f2c33" }}
           />
 
           <Skeleton
             variant="rounded"
-            width={"70%"}
-            height={28}
-            sx={{
-              borderRadius: "12px",
-
-              bgcolor: "var(--bg-chat)",
-            }}
+            width={"60%"}
+            height={24}
+            sx={{ borderRadius: "8px", bgcolor: "#1f2c33" }}
           />
 
           <Skeleton
             variant="rounded"
-            width={"50%"}
-            height={18}
-            sx={{
-              borderRadius: "12px",
-
-              bgcolor: "var(--bg-chat)",
-            }}
+            width={"40%"}
+            height={16}
+            sx={{ borderRadius: "8px", bgcolor: "#1f2c33" }}
           />
 
-          {Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton
-              key={index}
-              variant="rounded"
-              width={"100%"}
-              height={70}
-              sx={{
-                borderRadius: "18px",
-
-                bgcolor: "var(--bg-chat)",
-              }}
-            />
-          ))}
+          <Box sx={{ width: "100%", mt: 2 }}>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rounded"
+                width={"100%"}
+                height={60}
+                sx={{
+                  borderRadius: "12px",
+                  bgcolor: "#1f2c33",
+                  mb: 2,
+                  opacity: 0.4,
+                }}
+              />
+            ))}
+          </Box>
         </Stack>
       </Grid>
     </Grid>
@@ -151,30 +140,23 @@ const TypingLoader = () => {
   return (
     <Stack
       direction={"row"}
-      spacing={"0.45rem"}
+      spacing={"0.4rem"}
       sx={{
         padding: "0.6rem 1rem",
-
         width: "fit-content",
-
-        borderRadius: "16px",
-
-        background: "var(--bg-secondary)",
-
-        border: "1px solid var(--border-color)",
-
-        boxShadow: "var(--shadow-sm)",
+        borderRadius: "0px 12px 12px 12px", // WhatsApp tail style
+        background: "#202c33",
+        border: "1px solid rgba(255,255,255,0.05)",
       }}
     >
-      {Array.from({ length: 4 }).map((_, index) => (
+      {Array.from({ length: 3 }).map((_, index) => (
         <BouncingSkeleton
           key={index}
           variant="circular"
-          width={12}
-          height={12}
+          width={8}
+          height={8}
           sx={{
-            bgcolor: "var(--emerald)",
-
+            bgcolor: "#00a884", // Pure Emerald Green
             animationDelay: `${index * 0.15}s`,
           }}
         />

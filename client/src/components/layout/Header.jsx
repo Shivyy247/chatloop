@@ -8,10 +8,9 @@ import {
   Tooltip,
   Typography,
   Stack,
+  Avatar,
 } from "@mui/material";
-
-import { lazy, Suspense } from "react";
-
+import { lazy, Suspense, cloneElement } from "react";
 import {
   Menu as MenuIcon,
   Group as GroupIcon,
@@ -20,26 +19,19 @@ import {
   Add as AddIcon,
   Logout as LogoutIcon,
 } from "@mui/icons-material";
-
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
-
 import { server } from "../../constants/config";
-
 import toast from "react-hot-toast";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { userNotExists } from "../../redux/reducers/auth";
-
 import {
   setIsMobile,
   setIsNotification,
   setIsSearch,
   setIsNewGroup,
+  setIsProfile,
 } from "../../redux/reducers/misc";
-
 import { resetNotificationCount } from "../../redux/reducers/chat";
 
 const SearchDialog = lazy(() => import("../specific/Search"));
@@ -48,24 +40,20 @@ const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
 
 const Header = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const { isSearch, isNotification, isNewGroup } = useSelector(
     (state) => state.misc,
   );
-
+  const { user } = useSelector((state) => state.auth);
   const { notificationCount } = useSelector((state) => state.chat);
 
   const handleMobile = () => dispatch(setIsMobile(true));
-
   const OpenSearchDialog = () => dispatch(setIsSearch(true));
-
   const openNewGroup = () => dispatch(setIsNewGroup(true));
-
+  const openProfile = () => dispatch(setIsProfile(true));
   const openNotification = () => {
     dispatch(setIsNotification(true));
-
     dispatch(resetNotificationCount());
   };
 
@@ -76,9 +64,7 @@ const Header = () => {
       const { data } = await axios.get(`${server}/api/v1/user/logout`, {
         withCredentials: true,
       });
-
       dispatch(userNotExists());
-
       toast.success(data.message);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong!");
@@ -87,140 +73,96 @@ const Header = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          padding: {
-            xs: "0.7rem",
-            sm: "0.9rem",
-          },
-
-          paddingBottom: 0,
-
-          background: "transparent",
-        }}
-      >
+      <Box sx={{ flexGrow: 0 }}>
         <AppBar
           position="static"
           elevation={0}
           sx={{
-            background: "rgba(17, 24, 39, 0.78)",
-
-            border: "1px solid var(--border-color)",
-
-            backdropFilter: "blur(18px)",
-
-            borderRadius: "24px",
-
-            boxShadow: "var(--shadow-sm)",
-
-            color: "var(--text-primary)",
+            bgcolor: "#202C33 !important",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+            color: "#E9EDEF",
           }}
         >
-          <Toolbar
-            sx={{
-              minHeight: "4.5rem !important",
-
-              px: {
-                xs: 1.2,
-                sm: 2,
-                md: 2.5,
-              },
-            }}
-          >
+          {/* disableGutters + px:0 poori padding khatam kar dega */}
+          <Toolbar disableGutters sx={{ minHeight: "64px !important", px: 0 }}>
+            {/* EXTREME LEFT: tight alignment */}
             <Stack
               direction="row"
               alignItems="center"
-              spacing={1.1}
+              spacing={0.5} // Gap ekdum kam kar diya
               onClick={() => navigate("/")}
-              sx={{
-                cursor: "pointer",
-              }}
+              sx={{ cursor: "pointer", ml: 1 }} // Sirf halka sa margin taaki screen edge se na chipke
             >
               <Box
                 component="img"
-                src="/logof.png"
-                alt="Logo"
+                src="/logo1.png"
                 sx={{
-                  width: 40,
-                  height: 40,
+                  width: 32,
+                  height: 32,
                   objectFit: "contain",
-
-                  filter: "drop-shadow(0 0 12px rgba(94,234,212,0.35))",
                 }}
               />
-
               <Typography
                 variant="h6"
                 sx={{
-                  display: {
-                    xs: "none",
-                    sm: "block",
-                  },
-
                   fontWeight: 700,
-
-                  fontSize: "1.15rem",
-
-                  letterSpacing: "-0.4px",
-
-                  color: "var(--text-primary)",
+                  fontSize: "1.1rem",
+                  color: "#E9EDEF",
+                  letterSpacing: "0.2px", // Tight letter spacing
+                  ml: 0.2, // Extra push correction
+                  display: { xs: "none", sm: "block" },
                 }}
               >
                 ChatLoop
               </Typography>
             </Stack>
 
-            <Box
-              sx={{
-                display: {
-                  xs: "block",
-                  sm: "none",
-                },
-
-                ml: 1,
-              }}
-            >
-              <IconBtn
-                title="Menu"
-                icon={<MenuIcon />}
-                onClick={handleMobile}
-              />
-            </Box>
-
+            {/* Push everything to the right */}
             <Box sx={{ flexGrow: 1 }} />
 
+            {/* RIGHT ICONS */}
             <Stack
-              direction={"row"}
-              spacing={{
-                xs: 0.5,
-                sm: 0.7,
-              }}
-              alignItems={"center"}
+              direction="row"
+              spacing={0}
+              alignItems="center"
+              sx={{ mr: 1 }}
             >
+              <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                <IconButton color="inherit" onClick={handleMobile}>
+                  <MenuIcon sx={{ fontSize: "1.4rem" }} />
+                </IconButton>
+              </Box>
+
               <IconBtn
                 title="Search"
                 icon={<SearchIcons />}
                 onClick={OpenSearchDialog}
               />
-
               <IconBtn
                 title="New Group"
                 icon={<AddIcon />}
                 onClick={openNewGroup}
               />
-
               <IconBtn
                 title="Groups"
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
               />
-
               <IconBtn
                 title="Notifications"
                 icon={<NotificationsIcon />}
                 onClick={openNotification}
                 value={notificationCount}
               />
+
+              <Tooltip title="My Profile">
+                <IconButton onClick={openProfile} sx={{ p: "4px", ml: 0.5 }}>
+                  <Avatar
+                    src={user?.avatar?.url}
+                    sx={{ width: 30, height: 30, border: "2px solid #00A884" }}
+                  />
+                </IconButton>
+              </Tooltip>
 
               <IconBtn
                 title="Logout"
@@ -232,18 +174,17 @@ const Header = () => {
         </AppBar>
       </Box>
 
+      {/* Dialogs logic... */}
       {isSearch && (
         <Suspense fallback={<Backdrop open />}>
           <SearchDialog />
         </Suspense>
       )}
-
       {isNotification && (
         <Suspense fallback={<Backdrop open />}>
           <NofificationDialog />
         </Suspense>
       )}
-
       {isNewGroup && (
         <Suspense fallback={<Backdrop open />}>
           <NewGroupDialog />
@@ -257,37 +198,33 @@ const IconBtn = ({ title, icon, onClick, value }) => {
   return (
     <Tooltip title={title}>
       <IconButton
-        size="large"
         onClick={onClick}
         sx={{
-          color: "var(--text-secondary)",
-
-          width: 42,
-          height: 42,
-
-          borderRadius: "14px",
-
-          background: "rgba(255,255,255,0.03)",
-
-          border: "1px solid rgba(255,255,255,0.04)",
-
-          transition: "var(--transition)",
-
+          color: "#AEBAC1",
+          padding: "8px",
           "&:hover": {
-            backgroundColor: "var(--primary-hover)",
-
-            color: "var(--primary)",
-
-            transform: "translateY(-2px)",
+            bgcolor: "rgba(255,255,255,0.08)",
+            color: "#00A884",
           },
         }}
       >
         {value ? (
-          <Badge badgeContent={value} color="error">
-            {icon}
+          <Badge
+            badgeContent={value}
+            sx={{
+              "& .MuiBadge-badge": {
+                bgcolor: "#00A884",
+                color: "white",
+                fontSize: "0.6rem",
+                minWidth: "16px",
+                height: "16px",
+              },
+            }}
+          >
+            {cloneElement(icon, { sx: { fontSize: "1.3rem" } })}
           </Badge>
         ) : (
-          icon
+          cloneElement(icon, { sx: { fontSize: "1.3rem" } })
         )}
       </IconButton>
     </Tooltip>

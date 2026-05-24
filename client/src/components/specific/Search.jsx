@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
 import { useInputValidation } from "6pp";
-
 import {
   Dialog,
   DialogTitle,
@@ -11,35 +9,26 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
 import { Search as SearchIcon } from "@mui/icons-material";
-
 import UserItem from "../shared/UserItem";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { setIsSearch } from "../../redux/reducers/misc";
-
 import {
   useLazySearchUserQuery,
   useSendFriendRequestMutation,
 } from "../../redux/api/api";
-
 import { useAsyncMutation } from "../../constants/hooks/hooks";
 
 const Search = () => {
   const { isSearch } = useSelector((state) => state.misc);
 
   const [searchUser] = useLazySearchUserQuery();
-
   const [sendFriendRequest, isLoadingSendFriendRequest] = useAsyncMutation(
     useSendFriendRequestMutation,
   );
 
   const dispatch = useDispatch();
-
   const search = useInputValidation("");
-
   const [users, setUsers] = useState([]);
 
   const addFriendHandler = async (id) => {
@@ -76,32 +65,22 @@ const Search = () => {
         sx: {
           width: "100%",
           maxWidth: "28rem",
-
-          borderRadius: "24px",
-
-          background: "var(--bg-secondary)",
-
-          border: "1px solid var(--border-color)",
-
-          boxShadow: "var(--shadow-md)",
-
-          color: "var(--text-primary)",
+          borderRadius: "16px", // Professional look
+          bgcolor: "#111b21", // WhatsApp Sidebar Dark
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          backgroundImage: "none", // Remove default MUI overlay
         },
       }}
     >
-      <Stack p={"2rem"} spacing={2}>
-        <Stack spacing={0.5}>
+      <Stack p={"1.5rem"} spacing={2}>
+        <Stack spacing={0.2}>
           <DialogTitle
             sx={{
               padding: 0,
-
               textAlign: "center",
-
               fontWeight: 700,
-
-              fontSize: "1.5rem",
-
-              color: "var(--text-primary)",
+              fontSize: "1.4rem",
+              color: "#e9edef", // Soft Ivory
             }}
           >
             Find People
@@ -110,11 +89,11 @@ const Search = () => {
           <Typography
             textAlign={"center"}
             sx={{
-              color: "var(--text-secondary)",
-              fontSize: "0.92rem",
+              color: "#8696a0", // Muted Slate
+              fontSize: "0.85rem",
             }}
           >
-            Search users and send friend requests
+            Connect with friends on ChatLoop
           </Typography>
         </Stack>
 
@@ -123,14 +102,15 @@ const Search = () => {
           onChange={search.changeHandler}
           variant="outlined"
           size="small"
-          placeholder="Search user..."
+          placeholder="Search by name..."
           fullWidth
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon
                   sx={{
-                    color: "var(--text-secondary)",
+                    color: "#8696a0",
+                    fontSize: "1.2rem",
                   }}
                 />
               </InputAdornment>
@@ -138,43 +118,35 @@ const Search = () => {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              borderRadius: "14px",
-
-              background: "var(--bg-primary)",
-
-              color: "var(--text-primary)",
-
+              borderRadius: "10px",
+              bgcolor: "#202c33", // Input field dark tone
+              color: "#e9edef",
               "& fieldset": {
-                borderColor: "var(--border-color)",
+                borderColor: "rgba(255,255,255,0.05)",
               },
-
               "&:hover fieldset": {
-                borderColor: "var(--emerald)",
+                borderColor: "#00a884",
               },
-
               "&.Mui-focused fieldset": {
-                borderColor: "var(--emerald)",
+                borderColor: "#00a884", // Emerald focus
               },
-            },
-
-            "& input": {
-              color: "var(--text-primary)",
-            },
-
-            "& input::placeholder": {
-              color: "var(--text-secondary)",
-              opacity: 1,
             },
           }}
         />
 
         <List
           sx={{
-            maxHeight: "22rem",
-
+            maxHeight: "20rem",
             overflowY: "auto",
-
-            padding: 0,
+            padding: "0.5rem 0",
+            // Custom scrollbar for the list
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              bgcolor: "rgba(255,255,255,0.1)",
+              borderRadius: "10px",
+            },
           }}
         >
           {users.length > 0 ? (
@@ -184,17 +156,23 @@ const Search = () => {
                 user={i}
                 handler={addFriendHandler}
                 handlerIsLoading={isLoadingSendFriendRequest}
+                // Custom styling to match dialog theme
+                styling={{
+                  bgcolor: "#1f2c33",
+                  mb: "0.5rem",
+                }}
               />
             ))
           ) : (
             <Typography
               textAlign={"center"}
               sx={{
-                color: "var(--text-secondary)",
-                padding: "2rem 0",
+                color: "#8696a0",
+                padding: "3rem 0",
+                fontSize: "0.9rem",
               }}
             >
-              No users found
+              Start typing to find new friends
             </Typography>
           )}
         </List>

@@ -9,39 +9,30 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-
 import { memo, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { useAsyncMutation, useErrors } from "../../constants/hooks/hooks";
-
 import {
   useAcceptFriendRequestMutation,
   useGetNotificationQuery,
 } from "../../redux/api/api";
-
 import { setIsNotification } from "../../redux/reducers/misc";
 
 const Notifications = () => {
   const { isNotification } = useSelector((state) => state.misc);
-
   const dispatch = useDispatch();
 
   const { isLoading, data, error, isError } = useGetNotificationQuery();
-
   const [loadingId, setLoadingId] = useState(null);
 
   const [acceptRequest] = useAsyncMutation(useAcceptFriendRequestMutation);
 
   const friendRequestHandler = async ({ _id, accept }) => {
     setLoadingId(_id);
-
     await acceptRequest("Processing...", {
       requestId: _id,
       accept,
     });
-
     setLoadingId(null);
   };
 
@@ -56,70 +47,55 @@ const Notifications = () => {
       PaperProps={{
         sx: {
           width: "100%",
-          maxWidth: "30rem",
-
-          borderRadius: "24px",
-
-          background: "var(--bg-secondary)",
-
-          border: "1px solid var(--border-color)",
-
-          boxShadow: "var(--shadow-md)",
-
-          color: "var(--text-primary)",
+          maxWidth: "28rem",
+          borderRadius: "16px",
+          bgcolor: "#111b21", // WhatsApp Dark sidebar color
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          backgroundImage: "none",
         },
       }}
     >
-      <Stack
-        p={{
-          xs: "1.2rem",
-          sm: "1.8rem",
-        }}
-        spacing={2}
-      >
-        <Stack spacing={0.5}>
+      <Stack p={{ xs: "1rem", sm: "1.5rem" }} spacing={2.5}>
+        <Stack spacing={0.2}>
           <DialogTitle
             sx={{
               padding: 0,
-
               textAlign: "center",
-
               fontWeight: 700,
-
-              fontSize: "1.5rem",
-
-              color: "var(--text-primary)",
+              fontSize: "1.4rem",
+              color: "#e9edef", // Ivory text
             }}
           >
             Notifications
           </DialogTitle>
-
           <Typography
             textAlign={"center"}
             sx={{
-              color: "var(--text-secondary)",
-              fontSize: "0.92rem",
+              color: "#8696a0",
+              fontSize: "0.85rem",
             }}
           >
-            Friend requests and updates
+            Stay updated with your requests
           </Typography>
         </Stack>
 
         {isLoading ? (
           <Skeleton
             variant="rounded"
-            height={120}
-            sx={{
-              borderRadius: "18px",
-              bgcolor: "var(--bg-primary)",
-            }}
+            height={100}
+            sx={{ bgcolor: "rgba(255, 255, 255, 0.05)", borderRadius: "12px" }}
           />
         ) : (
           <Box
             sx={{
-              maxHeight: "24rem",
-
+              maxHeight: "22rem",
               overflowY: "auto",
+              pr: "5px",
+              "&::-webkit-scrollbar": { width: "4px" },
+              "&::-webkit-scrollbar-thumb": {
+                bgcolor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: "10px",
+              },
             }}
           >
             {data?.allRequests?.length > 0 ? (
@@ -136,11 +112,12 @@ const Notifications = () => {
               <Typography
                 textAlign={"center"}
                 sx={{
-                  color: "var(--text-secondary)",
-                  padding: "2rem 0",
+                  color: "#8696a0",
+                  padding: "3rem 0",
+                  fontSize: "0.9rem",
                 }}
               >
-                No notifications yet
+                No pending requests at the moment
               </Typography>
             )}
           </Box>
@@ -157,41 +134,27 @@ const NotificationItem = memo(({ sender, _id, handler, loadingId }) => {
     <ListItem
       sx={{
         padding: 0,
-        marginBottom: "0.8rem",
+        marginBottom: "1rem",
       }}
     >
       <Stack
-        direction={{
-          xs: "column",
-          sm: "row",
-        }}
-        alignItems={{
-          xs: "flex-start",
-          sm: "center",
-        }}
+        direction="row"
+        alignItems="center"
         spacing={"1rem"}
         width={"100%"}
         sx={{
-          padding: "1rem",
-
-          borderRadius: "18px",
-
-          background: "var(--bg-primary)",
-
-          border: "1px solid var(--border-color)",
-
-          transition: "0.25s ease",
-
-          "&:hover": {
-            background: "var(--hover-color)",
-          },
+          padding: "0.8rem",
+          borderRadius: "12px",
+          bgcolor: "#1f2c33", // Slightly lighter dark tone
+          border: "1px solid rgba(255, 255, 255, 0.05)",
         }}
       >
         <Avatar
           src={avatar}
           sx={{
-            width: 52,
-            height: 52,
+            width: 48,
+            height: 48,
+            border: "1px solid rgba(255, 255, 255, 0.1)",
           }}
         />
 
@@ -199,76 +162,52 @@ const NotificationItem = memo(({ sender, _id, handler, loadingId }) => {
           variant="body1"
           sx={{
             flexGrow: 1,
-
-            color: "var(--text-primary)",
-
-            fontSize: "0.94rem",
-
-            lineHeight: 1.5,
-
-            display: "-webkit-box",
-
-            WebkitLineClamp: 2,
-
-            WebkitBoxOrient: "vertical",
-
-            overflow: "hidden",
+            color: "#e9edef",
+            fontSize: "0.92rem",
+            lineHeight: 1.3,
+            fontWeight: 500,
           }}
         >
-          {`${name} sent you a friend request.`}
+          <Box component="span" sx={{ fontWeight: 700, color: "#00a884" }}>
+            {name}
+          </Box>{" "}
+          wants to be your friend.
         </Typography>
 
         <Stack direction={"row"} spacing={1}>
           <Button
-            variant="contained"
+            size="small"
             disabled={loadingId === _id}
-            onClick={() =>
-              handler({
-                _id,
-                accept: true,
-              })
-            }
+            onClick={() => handler({ _id, accept: true })}
             sx={{
-              borderRadius: "12px",
-
+              minWidth: "60px",
+              borderRadius: "8px",
               textTransform: "none",
-
-              background: "var(--emerald)",
-
-              fontWeight: 600,
-
-              boxShadow: "none",
-
-              "&:hover": {
-                background: "#059669",
-                boxShadow: "none",
-              },
+              bgcolor: "#00a884",
+              color: "#111b21",
+              fontWeight: 700,
+              fontSize: "0.75rem",
+              "&:hover": { bgcolor: "#008f6f" },
             }}
           >
             Accept
           </Button>
 
           <Button
+            size="small"
             variant="outlined"
             disabled={loadingId === _id}
-            onClick={() =>
-              handler({
-                _id,
-                accept: false,
-              })
-            }
+            onClick={() => handler({ _id, accept: false })}
             sx={{
-              borderRadius: "12px",
-
+              minWidth: "60px",
+              borderRadius: "8px",
               textTransform: "none",
-
-              borderColor: "var(--border-color)",
-
-              color: "var(--text-secondary)",
-
+              borderColor: "rgba(255, 255, 255, 0.1)",
+              color: "#ef4444",
+              fontSize: "0.75rem",
               "&:hover": {
                 borderColor: "#ef4444",
-                color: "#ef4444",
+                bgcolor: "rgba(239, 68, 68, 0.05)",
               },
             }}
           >

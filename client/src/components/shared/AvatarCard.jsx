@@ -1,7 +1,5 @@
 import React from "react";
-
 import { Avatar, AvatarGroup, Box } from "@mui/material";
-
 import { transfromImage } from "../../lib/features";
 
 const AvatarCard = ({ avatar = [], max = 4 }) => {
@@ -11,35 +9,28 @@ const AvatarCard = ({ avatar = [], max = 4 }) => {
     <Box
       sx={{
         position: "relative",
+        width: "fit-content",
       }}
     >
       <AvatarGroup
         max={max}
-        spacing="medium"
         sx={{
           justifyContent: "flex-start",
-
           "& .MuiAvatar-root": {
-            width: 46,
-
-            height: 46,
-
-            fontSize: "0.92rem",
-
+            width: 44,
+            height: 44,
+            fontSize: "0.9rem",
             fontWeight: 600,
-
-            border: "2px solid #0F172A",
-
-            background: "linear-gradient(135deg, #1E293B 0%, #334155 100%)",
-
-            color: "#F8FAFC",
-
-            transition: "all 0.22s ease",
-
-            boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
-
+            // Border ko sidebar background (#111B21) se match kiya hai
+            border: "2px solid #111b21",
+            // Solid dark background for initial letters
+            background: "#2a3942",
+            color: "#e9edef",
+            transition: "transform 0.2s ease",
+            // Shadows messaging apps mein avatars par nahi hoti
+            boxShadow: "none",
             "&:hover": {
-              transform: "translateY(-2px) scale(1.03)",
+              transform: "scale(1.05)",
             },
           },
         }}

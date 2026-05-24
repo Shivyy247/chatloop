@@ -1,18 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isNewGroup: false,
-    isAddMember: false,
-    isNotification: false,
-    isMobile: false,
-    isSearch: false,
-    isFileMenu: false,
-    isDeleteMenu: false,
-    uploadingLoader: false,
-    selectedDeleteChat: {
-        chatId: "",
-        groupChat: false,
-    }
+  isNewGroup: false,
+  isAddMember: false,
+  isNotification: false,
+  isMobile: false,
+  isSearch: false,
+  isProfile: false, // <-- Naya Profile State
+  isFileMenu: false,
+  isDeleteMenu: false,
+  uploadingLoader: false,
+  selectedDeleteChat: {
+    chatId: "",
+    groupChat: false,
+  },
 };
 
 const miscSlice = createSlice({
@@ -33,6 +34,10 @@ const miscSlice = createSlice({
     },
     setIsSearch: (state, action) => {
       state.isSearch = action.payload;
+    },
+    setIsProfile: (state, action) => {
+      // <-- Naya Profile Reducer
+      state.isProfile = action.payload;
     },
     setIsFileMenu: (state, action) => {
       state.isFileMenu = action.payload;
@@ -56,6 +61,7 @@ export const {
   setIsNotification,
   setIsMobile,
   setIsSearch,
+  setIsProfile, // <-- Export kiya
   setIsFileMenu,
   setIsDeleteMenu,
   setUploadingLoader,

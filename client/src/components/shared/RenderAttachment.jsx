@@ -1,13 +1,15 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { transfromImage } from "../../lib/features";
 import {
   FileOpen as FileOpenIcon,
   InsertDriveFile as FileIcon,
 } from "@mui/icons-material";
 
-
 const RenderAttachment = ({ file, url }) => {
+  // WhatsApp Style subtle border
+  const commonBorder = "1px solid rgba(255, 255, 255, 0.1)";
+
   switch (file) {
     case "video":
       return (
@@ -17,8 +19,9 @@ const RenderAttachment = ({ file, url }) => {
           width={"200px"}
           controls
           style={{
-            borderRadius: "12px",
-            background: "black",
+            borderRadius: "8px",
+            background: "#000",
+            display: "block",
           }}
         />
       );
@@ -29,11 +32,11 @@ const RenderAttachment = ({ file, url }) => {
           src={transfromImage(url, 200)}
           alt="Attachment"
           width={"200px"}
-          height={"150px"}
           style={{
             objectFit: "cover",
-            borderRadius: "12px",
-            border: "1px solid var(--border-color)",
+            borderRadius: "8px",
+            border: commonBorder,
+            display: "block",
           }}
         />
       );
@@ -42,10 +45,15 @@ const RenderAttachment = ({ file, url }) => {
       return (
         <Box
           sx={{
-            background: "var(--bg-primary)",
-            padding: "0.6rem",
-            borderRadius: "12px",
-            border: "1px solid var(--border-color)",
+            background: "#111b21", // Dark sidebar color for audio bars
+            padding: "0.5rem",
+            borderRadius: "8px",
+            border: commonBorder,
+            width: "200px",
+            "& audio": {
+              width: "100%",
+              height: "35px",
+            },
           }}
         >
           <audio src={url} preload="none" controls />
@@ -57,25 +65,31 @@ const RenderAttachment = ({ file, url }) => {
         <Box
           sx={{
             width: 200,
-            padding: "1rem",
-
+            padding: "0.75rem",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            gap: "0.5rem",
-
-            borderRadius: "12px",
-
-            background: "var(--bg-primary)",
-
-            border: "1px solid var(--border-color)",
-
-            color: "var(--text-primary)",
+            gap: "0.75rem",
+            borderRadius: "8px",
+            background: "#1f2c33", // Lighter charcoal for files
+            border: commonBorder,
+            color: "#e9edef",
           }}
         >
-          <FileIcon />
+          <FileIcon sx={{ color: "#8696a0" }} />
 
-          <FileOpenIcon />
+          <Typography
+            variant="caption"
+            noWrap
+            sx={{
+              fontSize: "0.8rem",
+              color: "#e9edef",
+              flex: 1,
+            }}
+          >
+            File Attachment
+          </Typography>
+
+          <FileOpenIcon sx={{ fontSize: "1.2rem", color: "#00a884" }} />
         </Box>
       );
   }

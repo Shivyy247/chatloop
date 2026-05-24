@@ -1,20 +1,13 @@
 import { Menu, Stack, Typography, Box } from "@mui/material";
-
 import React, { useEffect } from "react";
-
 import { useSelector } from "react-redux";
-
 import { setIsDeleteMenu } from "../../redux/reducers/misc";
-
 import {
   Delete as DeleteIcon,
   ExitToApp as ExitToAppIcon,
 } from "@mui/icons-material";
-
 import { useNavigate } from "react-router-dom";
-
 import { useAsyncMutation } from "../../constants/hooks/hooks";
-
 import {
   useDeleteChatMutation,
   useLeaveGroupMutation,
@@ -39,13 +32,11 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
 
   const closeHandler = () => {
     dispatch(setIsDeleteMenu(false));
-
-    deleteMenuAnchor.current = null;
+    if (deleteMenuAnchor.current) deleteMenuAnchor.current = null;
   };
 
   const leaveGroupHandler = () => {
     closeHandler();
-
     leaveGroup("Leaving Group...", {
       chatId: selectedDeleteChat.chatId,
     });
@@ -53,7 +44,6 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
 
   const deleteChatHandler = () => {
     closeHandler();
-
     deleteChat("Deleting Chat...", {
       chatId: selectedDeleteChat.chatId,
     });
@@ -63,7 +53,7 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
     if (deleteChatData?.success || leaveGroupData?.success) {
       navigate("/");
     }
-  }, [deleteChatData, leaveGroupData]);
+  }, [deleteChatData, leaveGroupData, navigate]);
 
   return (
     <Menu
@@ -80,18 +70,11 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
       }}
       PaperProps={{
         sx: {
-          width: "14rem",
-
-          mt: 1,
-
-          borderRadius: "18px",
-
-          background: "var(--bg-secondary)",
-
-          border: "1px solid var(--border-color)",
-
-          boxShadow: "var(--shadow-md)",
-
+          width: "12rem", // Thoda compact width
+          borderRadius: "12px",
+          bgcolor: "#233138", // WhatsApp dark menu background
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          boxShadow: "0 8px 16px rgba(0,0,0,0.5)",
           overflow: "hidden",
         },
       }}
@@ -100,47 +83,40 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
         onClick={isGroup ? leaveGroupHandler : deleteChatHandler}
         direction={"row"}
         alignItems={"center"}
-        spacing={"0.9rem"}
+        spacing={"1rem"}
         sx={{
-          padding: "0.95rem 1rem",
-
+          padding: "0.8rem 1rem",
           cursor: "pointer",
-
           transition: "0.2s ease",
-
           "&:hover": {
-            background: "rgba(239,68,68,0.08)",
+            bgcolor: "#182229", // WhatsApp dark hover tone
           },
         }}
       >
         <Box
           sx={{
-            width: 40,
-            height: 40,
-
-            borderRadius: "12px",
-
-            background: "rgba(239,68,68,0.12)",
-
-            color: "#ef4444",
-
+            width: 35,
+            height: 35,
+            borderRadius: "50%",
+            bgcolor: "rgba(239, 68, 68, 0.15)", // Subtle red background
+            color: "#ef4444", // Dangerous action red
             display: "flex",
-
             alignItems: "center",
-
             justifyContent: "center",
           }}
         >
-          {isGroup ? <ExitToAppIcon /> : <DeleteIcon />}
+          {isGroup ? (
+            <ExitToAppIcon sx={{ fontSize: "1.2rem" }} />
+          ) : (
+            <DeleteIcon sx={{ fontSize: "1.2rem" }} />
+          )}
         </Box>
 
         <Typography
           sx={{
-            color: "var(--text-primary)",
-
+            color: "#e9edef", // Ivory text
             fontWeight: 500,
-
-            fontSize: "0.95rem",
+            fontSize: "0.9rem",
           }}
         >
           {isGroup ? "Leave Group" : "Delete Chat"}

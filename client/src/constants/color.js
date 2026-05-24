@@ -1,107 +1,58 @@
-// =========================
-// WHATSAPP INSPIRED DARK THEME
-// =========================
+// ==========================================
+// THE MESSAGING GIANT - DARK THEME PALETTE
+// ==========================================
 
-export const primary = "#111B21";
+// Surfaces & Backgrounds
+export const chatBackground = "#0C0D10"; // Base Background (Darkest)
+export const primary = "#18191D"; // Sidebar & Header Surface
+export const secondary = "#202329"; // Cards & Elevation
+export const tertiary = "#2B2E33"; // Hover states
+export const activeChat = "#2B2E33"; // Active chat highlight
 
-export const secondary = "#202C33";
+// Accents (The Iconic Emerald)
+export const accent = "#00A884"; // Main Brand Color
+export const accentLight = "rgba(0, 168, 132, 0.12)";
+export const emerald = "#00A884";
+export const emeraldDark = "#008F70";
 
-export const tertiary = "#2A3942";
+// Text - Soft colors for eye comfort
+export const textPrimary = "#E9EDEF"; // Main headings/messages
+export const textSecondary = "#8696A0"; // Sub-text / Timestamps
+export const textMuted = "#667781"; // Very subtle text
 
-export const accent = "#00A884";
+// Chat Bubbles
+export const selfMessage = "#005C4B"; // Your messages (Deep Green)
+export const otherMessage = "#202329"; // Their messages (Dark Grey)
 
-export const accentLight = "rgba(0,168,132,0.16)";
-
-export const hover = "#2F3E46";
-
-export const border = "#2A3942";
-
-// =========================
-// TEXT
-// =========================
-
-export const textPrimary = "#E9EDEF";
-
-export const textSecondary = "#8696A0";
-
-export const textMuted = "#667781";
-
-// =========================
-// CHAT
-// =========================
-
-export const selfMessage = "#005C4B";
-
-export const otherMessage = "#202C33";
-
-export const activeChat = "#2A3942";
-
-export const chatBackground = "#0B141A";
-
-// =========================
-// STATUS
-// =========================
-
+// Status & Borders
 export const online = "#00C853";
+export const border = "rgba(255, 255, 255, 0.06)";
+export const borderLight = "rgba(255, 255, 255, 0.04)";
 
-// =========================
-// SHADOWS
-// =========================
+// ==========================================
+// MAPPING FOR OLD EXPORTS (DNT TOUCH LOGIC)
+// ==========================================
 
-export const shadowSm = "0 2px 10px rgba(0,0,0,0.18)";
+export const orange = accent;
+export const orangeLight = accentLight;
 
-export const shadowMd = "0 4px 18px rgba(0,0,0,0.22)";
+export const bgPrimary = chatBackground;
+export const bgSecondary = primary;
+export const bgTertiary = secondary;
 
-// =========================
-// OLD EXPORTS SAFE
-// =========================
-
-export const orange = "#00A884";
-
-export const orangeLight = "rgba(0,168,132,0.15)";
-
-export const bgPrimary = primary;
-
-export const bgSecondary = secondary;
-
-export const bgTertiary = tertiary;
-
-export const headerBg = secondary;
-
-export const sidebarBg = secondary;
-
-export const profileBg = secondary;
-
+export const headerBg = primary;
+export const sidebarBg = primary;
+export const profileBg = primary;
 export const chatBodyBg = chatBackground;
 
-export const emerald = accent;
-
-export const emeraldDark = "#008069";
-
-export const emeraldLight = accentLight;
-
-export const emeraldHover = hover;
-
-export const borderLight = border;
-
-export const borderExtraLight = border;
-
 export const cardBg = secondary;
-
-export const hoverBg = hover;
-
+export const hoverBg = tertiary;
 export const activeChatBg = activeChat;
 
 export const selfMessageBg = selfMessage;
-
 export const otherMessageBg = otherMessage;
 
-export const lightprimary = primary;
-
-export const lightpurple = primary;
-
-export const purple = accent;
-
-export const darkPrimary = border;
-
+// Compatibility Fixes for MUI
 export const grayColor = secondary;
+export const darkPrimary = chatBackground;
+export const lightprimary = primary;

@@ -6,13 +6,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-
 import React, { memo } from "react";
-
 import AddIcon from "@mui/icons-material/Add";
-
 import RemoveIcon from "@mui/icons-material/Remove";
-
 import { transfromImage } from "../../lib/features";
 
 const UserItem = ({
@@ -27,7 +23,7 @@ const UserItem = ({
   return (
     <ListItem
       sx={{
-        padding: "0.35rem 0",
+        padding: "0.25rem 0",
       }}
     >
       <Stack
@@ -36,60 +32,38 @@ const UserItem = ({
         spacing={"1rem"}
         width={"100%"}
         sx={{
-          padding: "0.85rem 1rem",
-
-          borderRadius: "18px",
-
-          background: "var(--bg-secondary)",
-
-          border: "1px solid var(--border-color)",
-
-          transition: "0.25s ease",
-
+          padding: "0.6rem 0.8rem",
+          borderRadius: "12px", // Professional semi-rounded
+          bgcolor: "#1f2c33", // WhatsApp Card dark tone
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          transition: "0.2s ease-in-out",
           "&:hover": {
-            background: "var(--hover-color)",
-            transform: "translateY(-1px)",
+            bgcolor: "#2a3942", // Light grey-green hover
           },
-
           ...styling,
         }}
       >
-        <Box
+        <Avatar
+          src={transfromImage(avatar)}
           sx={{
-            position: "relative",
+            width: 44,
+            height: 44,
+            border: "1px solid rgba(255, 255, 255, 0.1)",
           }}
-        >
-          <Avatar
-            src={transfromImage(avatar)}
-            sx={{
-              width: 48,
-              height: 48,
-            }}
-          />
-        </Box>
+        />
 
         <Typography
           variant="body1"
           sx={{
             flexGrow: 1,
-
-            color: "var(--text-primary)",
-
+            color: "#e9edef", // Soft Ivory
             fontWeight: 500,
-
             fontSize: "0.95rem",
-
             display: "-webkit-box",
-
             WebkitLineClamp: 1,
-
             WebkitBoxOrient: "vertical",
-
             overflow: "hidden",
-
             textOverflow: "ellipsis",
-
-            width: "100%",
           }}
         >
           {name}
@@ -100,33 +74,29 @@ const UserItem = ({
           onClick={() => handler?.(_id)}
           disabled={handlerIsLoading}
           sx={{
-            width: 38,
-            height: 38,
-
-            borderRadius: "12px",
-
-            background: isAdded
-              ? "rgba(239,68,68,0.12)"
-              : "rgba(16,185,129,0.12)",
-
-            color: isAdded ? "#ef4444" : "#10B981",
-
-            transition: "0.2s ease",
-
+            width: 32,
+            height: 32,
+            borderRadius: "50%",
+            // Emerald Green for Add, Muted Red for Remove
+            bgcolor: isAdded
+              ? "rgba(239, 68, 68, 0.15)"
+              : "rgba(0, 168, 132, 0.15)",
+            color: isAdded ? "#ef4444" : "#00a884",
             "&:hover": {
-              background: isAdded
-                ? "rgba(239,68,68,0.18)"
-                : "rgba(16,185,129,0.18)",
-
-              transform: "scale(1.05)",
+              bgcolor: isAdded
+                ? "rgba(239, 68, 68, 0.25)"
+                : "rgba(0, 168, 132, 0.25)",
             },
-
             "&.Mui-disabled": {
-              opacity: 0.6,
+              opacity: 0.4,
             },
           }}
         >
-          {isAdded ? <RemoveIcon /> : <AddIcon />}
+          {isAdded ? (
+            <RemoveIcon sx={{ fontSize: "1.2rem" }} />
+          ) : (
+            <AddIcon sx={{ fontSize: "1.2rem" }} />
+          )}
         </IconButton>
       </Stack>
     </ListItem>

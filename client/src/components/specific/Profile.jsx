@@ -1,138 +1,107 @@
 import { Avatar, Stack, Typography, Box } from "@mui/material";
-
 import {
   Face as FaceIcon,
   AlternateEmail as UserNameIcon,
   CalendarMonth as CalendarIcon,
   Info as InfoIcon,
 } from "@mui/icons-material";
-
 import React from "react";
-
 import moment from "moment";
-
 import { transfromImage } from "../../lib/features";
 
 const Profile = ({ user }) => {
   return (
     <Stack
-      spacing={"2rem"}
+      spacing={"2.5rem"} // Increased for better breathing space
       alignItems={"center"}
       sx={{
         height: "100%",
-
-        padding: "1.6rem 1.2rem",
-
-        background: "linear-gradient(to bottom, #111827 0%, #0F172A 100%)",
-
+        padding: "2rem 1.5rem",
+        background: "var(--bg-sidebar)", // #18191D - Matching the sidebar
         overflowY: "auto",
-
         position: "relative",
-
-        "&::-webkit-scrollbar": {
-          width: "5px",
-        },
-
+        "&::-webkit-scrollbar": { width: "4px" },
         "&::-webkit-scrollbar-thumb": {
-          background: "rgba(255,255,255,0.08)",
-
-          borderRadius: "20px",
+          background: "rgba(255,255,255,0.1)",
+          borderRadius: "10px",
         },
       }}
     >
+      {/* Subtle Glow - Kam kiya taaki distracting na ho */}
       <Box
         sx={{
           position: "absolute",
-
-          width: "180px",
-
-          height: "180px",
-
+          width: "150px",
+          height: "150px",
           borderRadius: "50%",
-
-          background: "rgba(20,184,166,0.08)",
-
-          filter: "blur(80px)",
-
-          top: "-40px",
-
-          right: "-40px",
+          background: "var(--primary-light)",
+          filter: "blur(90px)",
+          top: "-30px",
+          right: "-30px",
+          opacity: 0.4,
         }}
       />
 
       {/* PROFILE TOP */}
-
       <Stack
-        spacing={1.3}
+        spacing={"2rem"}
         alignItems={"center"}
-        width={"100%"}
         sx={{
-          position: "relative",
+          height: "100%",
+          padding: "2rem 1.5rem",
+          bgcolor: "#111b21",
+          overflowY: "auto", // Scroll allow karega par dikhayega nahi niche waali properties se
 
-          zIndex: 2,
+          // Hide scrollbar for Chrome, Safari and Opera
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          // Hide scrollbar for IE, Edge and Firefox
+          msOverflowStyle: "none" /* IE and Edge */,
+          scrollbarWidth: "none" /* Firefox */,
         }}
       >
-        <Box
-          sx={{
-            position: "relative",
-          }}
-        >
+        <Box sx={{ position: "relative" }}>
           <Avatar
             src={transfromImage(user?.avatar?.url)}
             sx={{
-              width: 118,
-
-              height: 118,
-
-              border: "4px solid rgba(255,255,255,0.06)",
-
-              boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+              width: 124,
+              height: 124,
+              border: "3px solid var(--bg-card)",
+              boxShadow: "0 12px 24px rgba(0,0,0,0.4)",
             }}
           />
-
+          {/* Online Status Dot */}
           <Box
             sx={{
-              width: 16,
-
-              height: 16,
-
+              width: 18,
+              height: 18,
               borderRadius: "50%",
-
-              background: "#22C55E",
-
-              border: "3px solid #111827",
-
+              background: "var(--primary)",
+              border: "3px solid var(--bg-sidebar)",
               position: "absolute",
-
               bottom: 8,
-
               right: 8,
             }}
           />
         </Box>
 
-        <Stack spacing={0.3} alignItems={"center"}>
+        <Stack spacing={0.2} alignItems={"center"}>
           <Typography
             sx={{
-              fontWeight: 700,
-
-              fontSize: "1.18rem",
-
+              fontWeight: 600,
+              fontSize: "1.25rem",
               color: "var(--text-primary)",
-
-              letterSpacing: "-0.4px",
+              letterSpacing: "-0.3px",
             }}
           >
             {user?.name}
           </Typography>
-
           <Typography
             sx={{
               color: "var(--text-secondary)",
-
               fontSize: "0.9rem",
-
-              fontWeight: 500,
+              opacity: 0.8,
             }}
           >
             @{user?.username}
@@ -140,39 +109,31 @@ const Profile = ({ user }) => {
         </Stack>
       </Stack>
 
-      {/* INFO CARDS */}
-
+      {/* INFO CARDS SECTION */}
       <Stack
-        spacing={"1rem"}
+        spacing={"0.75rem"}
         width={"100%"}
-        sx={{
-          position: "relative",
-
-          zIndex: 2,
-        }}
+        sx={{ position: "relative", zIndex: 2 }}
       >
         <ProfileCard
           heading="Bio"
-          text={user?.bio || "No bio available"}
-          icon={<InfoIcon fontSize="small" />}
+          text={user?.bio || "Hey there! I am using ChatLoop."}
+          icon={<InfoIcon sx={{ fontSize: "1.2rem" }} />}
         />
-
         <ProfileCard
           heading="Username"
           text={user?.username}
-          icon={<UserNameIcon fontSize="small" />}
+          icon={<UserNameIcon sx={{ fontSize: "1.2rem" }} />}
         />
-
         <ProfileCard
           heading="Name"
           text={user?.name}
-          icon={<FaceIcon fontSize="small" />}
+          icon={<FaceIcon sx={{ fontSize: "1.2rem" }} />}
         />
-
         <ProfileCard
           heading="Joined"
-          text={moment(user?.createdAt).fromNow()}
-          icon={<CalendarIcon fontSize="small" />}
+          text={moment(user?.createdAt).format("MMMM Do, YYYY")} // Professional date format
+          icon={<CalendarIcon sx={{ fontSize: "1.2rem" }} />}
         />
       </Stack>
     </Stack>
@@ -185,80 +146,55 @@ const ProfileCard = ({ text, icon, heading }) => (
     spacing={"1rem"}
     alignItems={"center"}
     sx={{
-      background: "rgba(255,255,255,0.03)",
-
-      borderRadius: "20px",
-
+      background: "rgba(255,255,255,0.02)",
+      borderRadius: "12px", // Matching AppLayout design
       padding: "1rem",
-
-      border: "1px solid rgba(255,255,255,0.05)",
-
-      backdropFilter: "blur(14px)",
-
-      transition: "all 0.22s ease",
-
-      cursor: "default",
-
+      border: "1px solid var(--border-color)",
+      transition: "all 0.2s ease",
       "&:hover": {
-        transform: "translateY(-3px)",
-
-        background: "rgba(255,255,255,0.05)",
-
-        borderColor: "rgba(20,184,166,0.16)",
+        background: "rgba(255,255,255,0.04)",
+        borderColor: "rgba(255,255,255,0.1)",
       },
     }}
   >
     <Box
       sx={{
-        width: 44,
-
-        height: 44,
-
-        borderRadius: "14px",
-
-        background:
-          "linear-gradient(135deg, rgba(20,184,166,0.16), rgba(20,184,166,0.05))",
-
-        color: "#5EEAD4",
-
+        width: 40,
+        height: 40,
+        borderRadius: "10px",
+        background: "rgba(255,255,255,0.03)",
+        color: "var(--primary)",
         display: "flex",
-
         alignItems: "center",
-
         justifyContent: "center",
-
         flexShrink: 0,
+        border: "1px solid var(--border-color)",
       }}
     >
       {icon}
     </Box>
 
-    <Stack spacing={0.2} sx={{ overflow: "hidden" }}>
-      <Typography
-        noWrap
-        sx={{
-          fontWeight: 600,
-
-          fontSize: "0.94rem",
-
-          color: "var(--text-primary)",
-        }}
-      >
-        {text}
-      </Typography>
-
+    <Stack spacing={0.1} sx={{ overflow: "hidden" }}>
       <Typography
         sx={{
-          fontSize: "0.72rem",
-
+          fontSize: "0.7rem",
           color: "var(--text-secondary)",
-
-          letterSpacing: "0.4px",
-
+          fontWeight: 600,
           textTransform: "uppercase",
+          letterSpacing: "0.5px",
         }}
       >
         {heading}
+      </Typography>
+      <Typography
+        sx={{
+          fontWeight: 500,
+          fontSize: "0.95rem",
+          color: "var(--text-primary)",
+          wordBreak: "break-word",
+        }}
+      >
+        {text}
       </Typography>
     </Stack>
   </Stack>
