@@ -10,7 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense } from "react";
 
 import {
   Menu as MenuIcon,
@@ -19,8 +19,6 @@ import {
   Search as SearchIcons,
   Add as AddIcon,
   Logout as LogoutIcon,
-  DarkMode as DarkModeIcon,
-  LightMode as LightModeIcon,
 } from "@mui/icons-material";
 
 import { useNavigate } from "react-router-dom";
@@ -59,36 +57,6 @@ const Header = () => {
 
   const { notificationCount } = useSelector((state) => state.chat);
 
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "dark") {
-      document.body.classList.add("dark");
-
-      setDarkMode(true);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const isDark = document.body.classList.contains("dark");
-
-    if (isDark) {
-      document.body.classList.remove("dark");
-
-      localStorage.setItem("theme", "light");
-
-      setDarkMode(false);
-    } else {
-      document.body.classList.add("dark");
-
-      localStorage.setItem("theme", "dark");
-
-      setDarkMode(true);
-    }
-  };
-
   const handleMobile = () => dispatch(setIsMobile(true));
 
   const OpenSearchDialog = () => dispatch(setIsSearch(true));
@@ -97,6 +65,7 @@ const Header = () => {
 
   const openNotification = () => {
     dispatch(setIsNotification(true));
+
     dispatch(resetNotificationCount());
   };
 
@@ -120,17 +89,29 @@ const Header = () => {
     <>
       <Box
         sx={{
-          flexGrow: 1,
-          height: "4.5rem",
+          padding: {
+            xs: "0.7rem",
+            sm: "0.9rem",
+          },
+
+          paddingBottom: 0,
+
+          background: "transparent",
         }}
       >
         <AppBar
           position="static"
           elevation={0}
           sx={{
-            backgroundColor: "var(--bg-secondary)",
+            background: "rgba(17, 24, 39, 0.78)",
 
-            borderBottom: "1px solid var(--border-color)",
+            border: "1px solid var(--border-color)",
+
+            backdropFilter: "blur(18px)",
+
+            borderRadius: "24px",
+
+            boxShadow: "var(--shadow-sm)",
 
             color: "var(--text-primary)",
           }}
@@ -140,18 +121,16 @@ const Header = () => {
               minHeight: "4.5rem !important",
 
               px: {
-                xs: 1,
+                xs: 1.2,
                 sm: 2,
-                md: 3,
+                md: 2.5,
               },
             }}
           >
-            {/* LOGO */}
-
             <Stack
               direction="row"
               alignItems="center"
-              spacing={0.8}
+              spacing={1.1}
               onClick={() => navigate("/")}
               sx={{
                 cursor: "pointer",
@@ -162,60 +141,62 @@ const Header = () => {
                 src="/logof.png"
                 alt="Logo"
                 sx={{
-                  width: 34,
-                  height: 34,
+                  width: 40,
+                  height: 40,
                   objectFit: "contain",
+
+                  filter: "drop-shadow(0 0 12px rgba(94,234,212,0.35))",
                 }}
               />
 
               <Typography
                 variant="h6"
                 sx={{
-                  display: { xs: "none", sm: "block" },
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
 
                   fontWeight: 700,
 
-                  fontSize: "1.22rem",
+                  fontSize: "1.15rem",
+
+                  letterSpacing: "-0.4px",
 
                   color: "var(--text-primary)",
-
-                  letterSpacing: "-0.5px",
                 }}
               >
                 ChatLoop
               </Typography>
             </Stack>
 
-            {/* MOBILE MENU */}
-
             <Box
               sx={{
-                display: { xs: "block", sm: "none" },
+                display: {
+                  xs: "block",
+                  sm: "none",
+                },
 
                 ml: 1,
               }}
             >
-              <IconButton
+              <IconBtn
+                title="Menu"
+                icon={<MenuIcon />}
                 onClick={handleMobile}
-                sx={{
-                  color: "var(--text-secondary)",
-
-                  borderRadius: "12px",
-
-                  "&:hover": {
-                    backgroundColor: "var(--hover-color)",
-                  },
-                }}
-              >
-                <MenuIcon />
-              </IconButton>
+              />
             </Box>
 
             <Box sx={{ flexGrow: 1 }} />
 
-            {/* ACTIONS */}
-
-            <Stack direction={"row"} spacing={0.5}>
+            <Stack
+              direction={"row"}
+              spacing={{
+                xs: 0.5,
+                sm: 0.7,
+              }}
+              alignItems={"center"}
+            >
               <IconBtn
                 title="Search"
                 icon={<SearchIcons />}
@@ -229,7 +210,7 @@ const Header = () => {
               />
 
               <IconBtn
-                title="Manage Group"
+                title="Groups"
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
               />
@@ -239,12 +220,6 @@ const Header = () => {
                 icon={<NotificationsIcon />}
                 onClick={openNotification}
                 value={notificationCount}
-              />
-
-              <IconBtn
-                title={darkMode ? "Light Mode" : "Dark Mode"}
-                icon={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-                onClick={toggleTheme}
               />
 
               <IconBtn
@@ -287,17 +262,23 @@ const IconBtn = ({ title, icon, onClick, value }) => {
         sx={{
           color: "var(--text-secondary)",
 
-          borderRadius: "12px",
-
           width: 42,
           height: 42,
 
-          transition: "0.2s ease",
+          borderRadius: "14px",
+
+          background: "rgba(255,255,255,0.03)",
+
+          border: "1px solid rgba(255,255,255,0.04)",
+
+          transition: "var(--transition)",
 
           "&:hover": {
-            backgroundColor: "var(--hover-color)",
+            backgroundColor: "var(--primary-hover)",
 
-            color: "var(--emerald)",
+            color: "var(--primary)",
+
+            transform: "translateY(-2px)",
           },
         }}
       >

@@ -1,91 +1,107 @@
-// export const orange = "#ea7070";
-// export const orangeLight = "rgba(234, 112, 112, 0.2)";
+// =========================
+// WHATSAPP INSPIRED DARK THEME
+// =========================
 
-// export const headerBg = "#081120";
+export const primary = "#111B21";
 
-// export const grayColor = "#0B1527";
+export const secondary = "#202C33";
 
-// export const chatBodyBg = "#030712";
+export const tertiary = "#2A3942";
 
-// export const tealAccent = "#5EEAD4";
+export const accent = "#00A884";
 
-// export const textMain = "#F8FAFC";
+export const accentLight = "rgba(0,168,132,0.16)";
 
-// export const textSecondary = "#94A3B8";
+export const hover = "#2F3E46";
 
-// export const borderLight = "rgba(255,255,255,0.06)";
+export const border = "#2A3942";
 
-// export const glassBg = "rgba(15,23,42,0.75)";
+// =========================
+// TEXT
+// =========================
 
-//temporary colors darkPrimary
+export const textPrimary = "#E9EDEF";
 
-export const orange = "#ea7070";
-export const orangeLight = "rgba(234, 112, 112, 0.15)";
+export const textSecondary = "#8696A0";
 
-/* =========================
-   MAIN BACKGROUNDS
-========================= */
+export const textMuted = "#667781";
 
-export const headerBg = "#FFFFFF";
+// =========================
+// CHAT
+// =========================
 
-export const grayColor = "#FFFFFF";
+export const selfMessage = "#005C4B";
 
-export const chatBodyBg = "#F8FAFC";
+export const otherMessage = "#202C33";
 
-export const profileBg = "#FFFFFF";
+export const activeChat = "#2A3942";
 
-/* =========================
-   EMERALD ACCENTS
-========================= */
+export const chatBackground = "#0B141A";
 
-export const emerald = "#10B981";
+// =========================
+// STATUS
+// =========================
 
-export const emeraldLight = "#D1FAE5";
+export const online = "#00C853";
 
-export const emeraldHover = "#ECFDF5";
+// =========================
+// SHADOWS
+// =========================
 
-/* =========================
-   TEXT COLORS
-========================= */
+export const shadowSm = "0 2px 10px rgba(0,0,0,0.18)";
 
-export const textMain = "#0F172A";
+export const shadowMd = "0 4px 18px rgba(0,0,0,0.22)";
 
-export const textSecondary = "#64748B";
+// =========================
+// OLD EXPORTS SAFE
+// =========================
 
-export const textMuted = "#94A3B8";
+export const orange = "#00A884";
 
-/* =========================
-   BORDERS / SURFACES
-========================= */
+export const orangeLight = "rgba(0,168,132,0.15)";
 
-export const borderLight = "#E2E8F0";
+export const bgPrimary = primary;
 
-export const glassBg = "rgba(255,255,255,0.85)";
+export const bgSecondary = secondary;
 
-export const cardBg = "#FFFFFF";
+export const bgTertiary = tertiary;
 
-export const hoverBg = "rgba(16,185,129,0.06)";
+export const headerBg = secondary;
 
-/* =========================
-   SHADOWS
-========================= */
+export const sidebarBg = secondary;
 
-export const shadowSm = "0 1px 3px rgba(15,23,42,0.05)";
+export const profileBg = secondary;
 
-export const shadowMd = "0 4px 12px rgba(15,23,42,0.06)";
+export const chatBodyBg = chatBackground;
 
-/* =========================
-   TEMP COLORS
-========================= */
+export const emerald = accent;
 
-export const accent = emerald;
+export const emeraldDark = "#008069";
 
-export const lightprimary = "#F8FAFC";
+export const emeraldLight = accentLight;
 
-export const lightpurple = "#F8FAFC";
+export const emeraldHover = hover;
 
-export const primary = "#FFFFFF";
+export const borderLight = border;
 
-export const purple = emerald;
+export const borderExtraLight = border;
 
-export const darkPrimary = "#E2E8F0";
+export const cardBg = secondary;
+
+export const hoverBg = hover;
+
+export const activeChatBg = activeChat;
+
+export const selfMessageBg = selfMessage;
+
+export const otherMessageBg = otherMessage;
+
+export const lightprimary = primary;
+
+export const lightpurple = primary;
+
+export const purple = accent;
+
+export const darkPrimary = border;
+
+export const grayColor = secondary;

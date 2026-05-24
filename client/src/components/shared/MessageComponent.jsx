@@ -1,267 +1,3 @@
-// import { Box, Typography } from "@mui/material";
-
-// import moment from "moment";
-
-// import React, { memo } from "react";
-
-// import { fileFormat } from "../../lib/features";
-
-// import RenderAttachment from "./RenderAttachment";
-
-// import { motion } from "framer-motion";
-
-// const MessageComponent = ({ message, user }) => {
-//   const { sender, content, attachments = [], createdAt } = message || {};
-
-//   const sameSender = sender?._id === user?._id;
-
-//   const timeAgo = moment(createdAt).format("h:mm A");
-
-//   return (
-//     <motion.div
-//       initial={{
-//         opacity: 0,
-//         y: 12,
-//         scale: 0.98,
-//       }}
-//       animate={{
-//         opacity: 1,
-//         y: 0,
-//         scale: 1,
-//       }}
-//       transition={{
-//         duration: 0.22,
-//       }}
-//       style={{
-//         alignSelf: sameSender ? "flex-end" : "flex-start",
-
-//         maxWidth: "75%",
-
-//         display: "flex",
-
-//         flexDirection: "column",
-//       }}
-//     >
-//       <Box
-//         sx={{
-//           position: "relative",
-
-//           padding: "0.9rem 1rem",
-
-//           borderRadius: sameSender
-//             ? "22px 22px 6px 22px"
-//             : "22px 22px 22px 6px",
-
-//           background: sameSender
-//             ? "linear-gradient(135deg,#5B6CFF,#6E7DFF)"
-//             : "rgba(255,255,255,0.05)",
-
-//           border: sameSender ? "none" : "1px solid rgba(255,255,255,0.06)",
-
-//           color: "white",
-
-//           backdropFilter: "blur(18px)",
-
-//           overflow: "hidden",
-
-//           boxShadow: sameSender ? "0 10px 30px rgba(91,108,255,0.28)" : "none",
-//         }}
-//       >
-//         {/* Glow */}
-
-//         {sameSender && (
-//           <Box
-//             sx={{
-//               position: "absolute",
-
-//               width: 100,
-//               height: 100,
-
-//               borderRadius: "50%",
-
-//               background: "rgba(255,255,255,0.10)",
-
-//               filter: "blur(50px)",
-
-//               top: -40,
-//               right: -40,
-//             }}
-//           />
-//         )}
-
-//         {/* Sender */}
-
-//         {!sameSender && (
-//           <Typography
-//             sx={{
-//               color: "#7BE7D7",
-
-//               fontWeight: 600,
-
-//               fontSize: "0.78rem",
-
-//               marginBottom: "0.35rem",
-//             }}
-//           >
-//             {sender?.name || "Unknown"}
-//           </Typography>
-//         )}
-
-//         {/* Message */}
-
-//         {content && (
-//           <Typography
-//             sx={{
-//               fontSize: "0.95rem",
-
-//               lineHeight: 1.6,
-
-//               color: "white",
-
-//               wordBreak: "break-word",
-
-//               zIndex: 2,
-
-//               position: "relative",
-//             }}
-//           >
-//             {content}
-//           </Typography>
-//         )}
-
-//         {/* Attachments */}
-
-//         {attachments.length > 0 &&
-//           attachments.map((attachment, index) => {
-//             const url = attachment.url;
-
-//             const file = fileFormat(url);
-
-//             return (
-//               <Box
-//                 key={index}
-//                 sx={{
-//                   marginTop: "0.8rem",
-
-//                   borderRadius: "16px",
-
-//                   overflow: "hidden",
-
-//                   border: "1px solid rgba(255,255,255,0.08)",
-//                 }}
-//               >
-//                 <a
-//                   href={url}
-//                   target="_blank"
-//                   download
-//                   style={{
-//                     color: "white",
-
-//                     textDecoration: "none",
-//                   }}
-//                 >
-//                   <RenderAttachment file={file} url={url} />
-//                 </a>
-//               </Box>
-//             );
-//           })}
-
-//         {/* Time */}
-
-//         <Typography
-//           sx={{
-//             fontSize: "0.7rem",
-
-//             opacity: 0.72,
-
-//             marginTop: "0.45rem",
-
-//             textAlign: "right",
-
-//             color: sameSender ? "rgba(255,255,255,0.82)" : "#94A3B8",
-//           }}
-//         >
-//           {timeAgo}
-//         </Typography>
-//       </Box>
-//     </motion.div>
-//   );
-// };
-
-// export default memo(MessageComponent);
-
-// import { Box, Typography } from "@mui/material";
-// import moment from "moment";
-// import React, { memo } from "react";
-// import { fileFormat } from "../../lib/features";
-// import RenderAttachment from "./RenderAttachment";
-// import { motion } from 'framer-motion';
-
-// const MessageComponent = ({ message, user }) => {
-//   const { sender, content, attachments = [], createdAt } = message || {};
-
-//   const sameSender = sender?._id === user?._id;
-
-//   const timeAgo = moment(createdAt).fromNow();
-
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, x: -100 }}
-//       animate={{ opacity: 1, x: 0 }}
-//       transition={{ duration: 0.3 }}
-//       style={{
-//         alignSelf: sameSender ? "flex-end" : "flex-start",
-//         backgroundColor: "white",
-//         color: "black",
-//         borderRadius: "5px",
-//         padding: "0.5rem",
-//         width: "fit-content",
-//         display: "flex",
-//         flexDirection: "column",
-//       }}
-//     >
-//       {!sameSender && (
-//         <Typography color={"#2694ab"} fontWeight={"600"} variant="caption">
-//           {sender?.name || "Unknown"}
-//         </Typography>
-//       )}
-
-//       {content && <Typography>{content}</Typography>}
-
-//       {attachments.length > 0 &&
-//         attachments.map((attachment, index) => {
-//           const url = attachment.url;
-//           const file = fileFormat(url);
-
-//           return (
-//             <Box key={index}>
-//               <a
-//                 href={url}
-//                 target="_blank"
-//                 download
-//                 style={{
-//                   color: "black",
-//                 }}
-//               >
-//                 <RenderAttachment file={file} url={url} />
-//               </a>
-//             </Box>
-//           );
-//         })}
-
-//       <Typography
-//         variant="caption"
-//         color="textSecondary"
-//         style={{ alignSelf: "flex-end" }}
-//       >
-//         {timeAgo}
-//       </Typography>
-//     </motion.div>
-//   );
-// };
-
-// export default memo(MessageComponent);
-
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import React, { memo } from "react";
@@ -280,49 +16,72 @@ const MessageComponent = ({ message, user }) => {
     <motion.div
       initial={{
         opacity: 0,
-        y: 8,
+        y: 10,
       }}
       animate={{
         opacity: 1,
         y: 0,
       }}
       transition={{
-        duration: 0.2,
+        duration: 0.18,
       }}
       style={{
-        alignSelf: sameSender ? "flex-end" : "flex-start",
-        maxWidth: "72%",
         display: "flex",
+
         flexDirection: "column",
+
+        alignItems: sameSender ? "flex-end" : "flex-start",
+
+        width: "100%",
       }}
     >
       <Box
         sx={{
-          px: "1rem",
-          py: "0.7rem",
+          maxWidth: {
+            xs: "85%",
+            sm: "74%",
+            md: "68%",
+          },
+
+          px: "0.95rem",
+
+          py: "0.72rem",
 
           borderRadius: sameSender
-            ? "18px 18px 4px 18px"
-            : "18px 18px 18px 4px",
+            ? "18px 18px 5px 18px"
+            : "18px 18px 18px 5px",
 
-          background: sameSender ? "#10B981" : "#FFFFFF",
+          background: sameSender ? "var(--primary)" : "var(--bg-card)",
 
-          color: sameSender ? "white" : "#111827",
+          color: sameSender ? "#ffffff" : "var(--text-primary)",
 
-          border: sameSender ? "none" : "1px solid rgba(16,185,129,0.12)",
+          border: sameSender ? "none" : "1px solid var(--border-color)",
 
           boxShadow: sameSender
-            ? "0 4px 10px rgba(16,185,129,0.18)"
-            : "0 2px 8px rgba(0,0,0,0.04)",
+            ? "0 2px 10px rgba(0,168,132,0.14)"
+            : "0 2px 8px rgba(0,0,0,0.16)",
+
+          backdropFilter: "blur(10px)",
+
+          transition: "0.2s ease",
+
+          "&:hover": {
+            transform: "translateY(-1px)",
+          },
         }}
       >
         {!sameSender && (
           <Typography
             sx={{
-              fontSize: "0.78rem",
+              fontSize: "0.76rem",
+
               fontWeight: 600,
-              color: "#059669",
-              mb: "0.2rem",
+
+              color: "var(--primary)",
+
+              mb: "0.28rem",
+
+              letterSpacing: "0.2px",
             }}
           >
             {sender?.name || "Unknown"}
@@ -332,9 +91,13 @@ const MessageComponent = ({ message, user }) => {
         {content && (
           <Typography
             sx={{
-              fontSize: "0.95rem",
-              lineHeight: 1.5,
+              fontSize: "0.94rem",
+
+              lineHeight: 1.55,
+
               wordBreak: "break-word",
+
+              color: sameSender ? "#ffffff" : "var(--text-primary)",
             }}
           >
             {content}
@@ -352,8 +115,12 @@ const MessageComponent = ({ message, user }) => {
                 key={index}
                 sx={{
                   mt: "0.7rem",
-                  borderRadius: "12px",
+
+                  borderRadius: "14px",
+
                   overflow: "hidden",
+
+                  border: "1px solid rgba(255,255,255,0.05)",
                 }}
               >
                 <a
@@ -362,7 +129,8 @@ const MessageComponent = ({ message, user }) => {
                   download
                   style={{
                     textDecoration: "none",
-                    color: sameSender ? "white" : "#111827",
+
+                    color: sameSender ? "#ffffff" : "var(--text-primary)",
                   }}
                 >
                   <RenderAttachment file={file} url={url} />
@@ -373,11 +141,17 @@ const MessageComponent = ({ message, user }) => {
 
         <Typography
           sx={{
-            fontSize: "0.68rem",
-            mt: "0.35rem",
+            fontSize: "0.66rem",
+
+            mt: "0.42rem",
+
             textAlign: "right",
-            opacity: 0.7,
-            color: sameSender ? "white" : "#6B7280",
+
+            color: sameSender
+              ? "rgba(255,255,255,0.72)"
+              : "var(--text-secondary)",
+
+            letterSpacing: "0.2px",
           }}
         >
           {timeAgo}

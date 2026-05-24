@@ -16,65 +16,101 @@
 
 
 import React from "react";
+
 import AppLayout from "../components/layout/AppLayout";
+
 import { Box, Typography, Stack } from "@mui/material";
-import { chatBodyBg, textSecondary } from "../constants/color";
 
 const Home = () => {
   return (
     <Box
       sx={{
-        bgcolor: chatBodyBg, // Midnight Black (#020617)
+        background: "var(--bg-primary)",
+
         height: "100%",
+
         display: "flex",
+
         flexDirection: "column",
+
         alignItems: "center",
+
         justifyContent: "center",
+
         position: "relative",
+
         overflow: "hidden",
+
+        transition: "0.25s ease",
       }}
     >
-      {/* Ghost Watermark Logo - Very subtle Branding */}
+      {/* WATERMARK */}
+
       <Box
         component="img"
-        src="/logo.jpg"
+        src="/logof.png"
         alt="Watermark"
         sx={{
           position: "absolute",
-          width: "300px",
-          height: "300px",
-          opacity: 0.03, // Extremely subtle
-          filter: "grayscale(1) brightness(2)",
+
+          width: {
+            xs: 180,
+            sm: 260,
+            md: 320,
+          },
+
+          height: {
+            xs: 180,
+            sm: 260,
+            md: 320,
+          },
+
+          opacity: 0.04,
+
+          filter: "grayscale(1)",
+
           pointerEvents: "none",
-          mixBlendMode: "screen",
+
+          userSelect: "none",
         }}
       />
+
+      {/* CONTENT */}
 
       <Stack
         spacing={1}
         alignItems={"center"}
-        sx={{ position: "relative", zIndex: 1 }}
+        sx={{
+          position: "relative",
+
+          zIndex: 2,
+        }}
       >
         <Typography
-          variant="h5"
-          color="white"
+          variant="h4"
           sx={{
-            fontWeight: 600,
-            letterSpacing: "1px",
-            opacity: 0.8,
+            fontWeight: 700,
+
+            color: "var(--text-primary)",
+
+            letterSpacing: "-0.5px",
+
+            textAlign: "center",
           }}
         >
           Welcome to ChatLoop
         </Typography>
+
         <Typography
-          variant="body1"
           sx={{
-            color: textSecondary,
-            fontSize: "0.9rem",
-            fontWeight: 300,
+            color: "var(--text-secondary)",
+
+            fontSize: "0.95rem",
+
+            textAlign: "center",
           }}
         >
-          Select a friend or group to start looping
+          Select a chat to start messaging
         </Typography>
       </Stack>
     </Box>

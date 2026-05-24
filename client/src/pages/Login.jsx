@@ -45,26 +45,21 @@ const Login = () => {
     const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "dark") {
-      document.body.classList.add("dark");
-
+      document.documentElement.classList.add("dark");
       setDarkMode(true);
     }
   }, []);
 
   const toggleTheme = () => {
-    const isDark = document.body.classList.contains("dark");
+    const isDark = document.documentElement.classList.contains("dark");
 
     if (isDark) {
-      document.body.classList.remove("dark");
-
+      document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
-
       setDarkMode(false);
     } else {
-      document.body.classList.add("dark");
-
+      document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
-
       setDarkMode(true);
     }
   };

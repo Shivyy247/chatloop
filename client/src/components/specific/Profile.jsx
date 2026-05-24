@@ -1,241 +1,3 @@
-// import { Avatar, Stack, Typography, Box } from "@mui/material";
-
-// import {
-//   Face as FaceIcon,
-//   AlternateEmail as UserNameIcon,
-//   CalendarMonth as CalenderIcon,
-//   Info as InfoIcon,
-// } from "@mui/icons-material";
-
-// import React from "react";
-
-// import moment from "moment";
-
-// import { transfromImage } from "../../lib/features";
-
-// const Profile = ({ user }) => {
-//   return (
-//     <Stack
-//       direction={"column"}
-//       alignItems={"center"}
-//       spacing={"1.1rem"}
-//       sx={{
-//         height: "100%",
-//         minHeight: 0,
-//         flex: 1,
-//         justifyContent: "flex-start",
-//         paddingTop: "1rem",
-//         paddingBottom: 0,
-//       }}
-//     >
-//       {/* TOP SECTION */}
-
-//       <Stack spacing={1} alignItems={"center"}>
-//         <Box sx={{ position: "relative" }}>
-//           <Box
-//             sx={{
-//               position: "absolute",
-//               inset: -10,
-//               borderRadius: "50%",
-//               background: "rgba(91,108,255,0.10)",
-//               filter: "blur(24px)",
-//               zIndex: 0,
-//             }}
-//           />
-
-//           <Avatar
-//             src={transfromImage(user?.avatar?.url)}
-//             sx={{
-//               width: 170,
-//               height: 170,
-//               objectFit: "cover",
-//               border: "3px solid rgba(255,255,255,0.06)",
-//               boxShadow: "0 20px 50px rgba(0,0,0,0.35)",
-//               position: "relative",
-//               zIndex: 1,
-//             }}
-//           />
-//         </Box>
-
-//         <Typography
-//           sx={{
-//             fontSize: "1.2rem",
-//             fontWeight: 600,
-//             color: "var(--text-primary)",
-//           }}
-//         >
-//           {user?.name}
-//         </Typography>
-
-//         <Typography
-//           sx={{
-//             color: "var(--text-secondary)",
-//             fontSize: "0.9rem",
-//           }}
-//         >
-//           @{user?.username}
-//         </Typography>
-//       </Stack>
-
-//       {/* INFO CARDS */}
-
-//       <Stack spacing={"0.85rem"} width={"100%"}>
-//         <ProfileCard
-//           heading="Bio"
-//           text={user?.bio || "No bio available"}
-//           Icon={<InfoIcon />}
-//         />
-//         <ProfileCard
-//           heading="Username"
-//           text={user?.username}
-//           Icon={<UserNameIcon />}
-//         />
-//         <ProfileCard heading="Name" text={user?.name} Icon={<FaceIcon />} />
-//         <ProfileCard
-//           heading="Joined"
-//           text={moment(user?.createdAt).fromNow()}
-//           Icon={<CalenderIcon />}
-//         />
-//       </Stack>
-//     </Stack>
-//   );
-// };
-
-// const ProfileCard = ({ text, Icon, heading }) => (
-//   <Stack
-//     direction={"row"}
-//     alignItems={"center"}
-//     spacing={"1rem"}
-//     sx={{
-//       color: "white",
-//       padding: "1rem 1.1rem",
-//       borderRadius: "16px",
-
-//       background: "rgba(12,22,41,0.92)",
-
-//       border: "1px solid rgba(255,255,255,0.05)",
-
-//       transition: "0.2s ease",
-
-//       position: "relative",
-//       overflow: "hidden",
-
-//       "&:hover": {
-//         background: "rgba(12,22,41,1)",
-//         transform: "translateY(-2px)",
-//         border: "1px solid rgba(255,255,255,0.08)",
-//       },
-//     }}
-//   >
-//     {/* subtle glow (same tone as chatlist background system) */}
-//     <Box
-//       sx={{
-//         position: "absolute",
-//         width: 80,
-//         height: 80,
-//         borderRadius: "50%",
-//         background: "rgba(91,108,255,0.08)",
-//         filter: "blur(40px)",
-//         right: -30,
-//         top: -30,
-//       }}
-//     />
-
-//     {/* Icon */}
-//     <Box
-//       sx={{
-//         width: 40,
-//         height: 40,
-//         borderRadius: "12px",
-//         background: "rgba(255,255,255,0.04)",
-//         display: "flex",
-//         alignItems: "center",
-//         justifyContent: "center",
-//         color: "var(--text-secondary)",
-//       }}
-//     >
-//       {Icon}
-//     </Box>
-
-//     {/* Text */}
-//     <Stack spacing={0.2} sx={{ zIndex: 1, overflow: "hidden" }}>
-//       <Typography
-//         noWrap
-//         sx={{
-//           fontWeight: 500,
-//           color: "var(--text-primary)",
-//           fontSize: "0.92rem",
-//         }}
-//       >
-//         {text}
-//       </Typography>
-
-//       <Typography
-//         sx={{
-//           color: "var(--text-secondary)",
-//           fontSize: "0.7rem",
-//           textTransform: "uppercase",
-//           letterSpacing: "1px",
-//         }}
-//       >
-//         {heading}
-//       </Typography>
-//     </Stack>
-//   </Stack>
-// );
-
-// export default Profile;
-
-// import { Avatar, Stack, Typography } from '@mui/material';
-// import {
-//     Face as FaceIcon,
-//     AlternateEmail as UserNameIcon,
-//     CalendarMonth as CalenderIcon
-// } from "@mui/icons-material"
-// import React from 'react'
-// import moment from "moment"
-// import { transfromImage } from '../../lib/features';
-
-// const Profile = ({user}) => {
-//   return (
-//     <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
-//       <Avatar
-//         src={transfromImage(user?.avatar?.url)}
-//         sx={{
-//           width: 200,
-//           height: 200,
-//           objectFit: "contain",
-//           marginBottom: "1rem",
-//           border: "5px solid white",
-//         }}
-//       />
-//       <ProfileCard heading={"Bio"} text={user?.bio} />
-//       <ProfileCard
-//         heading={"Username"}
-//         text={user?.username}
-//         Icon={<UserNameIcon />}
-//       />
-//       <ProfileCard heading={"Name"} text={user?.name} Icon={<FaceIcon />} />
-
-//       <ProfileCard
-//         heading={"Joined"}
-//         text={moment(user.createdAt).fromNow()}
-//         Icon={<CalenderIcon />}
-//       />
-//     </Stack>
-//   );
-// }
-
-// const ProfileCard = ({ text, Icon, heading }) => <Stack direction={"row"} alignItems={"center"} spacing={"1rem"} color={"white"} textAlign={"center"}>
-//     {Icon && Icon}
-//     <Stack>
-//         <Typography variant='body1'>{text}</Typography>
-//         <Typography color={"gray"} variant='caption' >{heading}</Typography>
-//     </Stack>
-// </Stack>;
-
-// export default Profile
-
 import { Avatar, Stack, Typography, Box } from "@mui/material";
 
 import {
@@ -254,64 +16,163 @@ import { transfromImage } from "../../lib/features";
 const Profile = ({ user }) => {
   return (
     <Stack
-      spacing={"1.5rem"}
+      spacing={"2rem"}
       alignItems={"center"}
       sx={{
         height: "100%",
-        padding: "1.5rem 1rem",
-        background: "#F9FAFB",
+
+        padding: "1.6rem 1.2rem",
+
+        background: "linear-gradient(to bottom, #111827 0%, #0F172A 100%)",
+
+        overflowY: "auto",
+
+        position: "relative",
+
+        "&::-webkit-scrollbar": {
+          width: "5px",
+        },
+
+        "&::-webkit-scrollbar-thumb": {
+          background: "rgba(255,255,255,0.08)",
+
+          borderRadius: "20px",
+        },
       }}
     >
-      <Avatar
-        src={transfromImage(user?.avatar?.url)}
+      <Box
         sx={{
-          width: 110,
-          height: 110,
-          border: "4px solid white",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+          position: "absolute",
+
+          width: "180px",
+
+          height: "180px",
+
+          borderRadius: "50%",
+
+          background: "rgba(20,184,166,0.08)",
+
+          filter: "blur(80px)",
+
+          top: "-40px",
+
+          right: "-40px",
         }}
       />
 
-      <Stack spacing={0.3} alignItems={"center"}>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontSize: "1.1rem",
-            color: "#111827",
-          }}
-        >
-          {user?.name}
-        </Typography>
+      {/* PROFILE TOP */}
 
-        <Typography
+      <Stack
+        spacing={1.3}
+        alignItems={"center"}
+        width={"100%"}
+        sx={{
+          position: "relative",
+
+          zIndex: 2,
+        }}
+      >
+        <Box
           sx={{
-            color: "#6B7280",
-            fontSize: "0.9rem",
+            position: "relative",
           }}
         >
-          @{user?.username}
-        </Typography>
+          <Avatar
+            src={transfromImage(user?.avatar?.url)}
+            sx={{
+              width: 118,
+
+              height: 118,
+
+              border: "4px solid rgba(255,255,255,0.06)",
+
+              boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+            }}
+          />
+
+          <Box
+            sx={{
+              width: 16,
+
+              height: 16,
+
+              borderRadius: "50%",
+
+              background: "#22C55E",
+
+              border: "3px solid #111827",
+
+              position: "absolute",
+
+              bottom: 8,
+
+              right: 8,
+            }}
+          />
+        </Box>
+
+        <Stack spacing={0.3} alignItems={"center"}>
+          <Typography
+            sx={{
+              fontWeight: 700,
+
+              fontSize: "1.18rem",
+
+              color: "var(--text-primary)",
+
+              letterSpacing: "-0.4px",
+            }}
+          >
+            {user?.name}
+          </Typography>
+
+          <Typography
+            sx={{
+              color: "var(--text-secondary)",
+
+              fontSize: "0.9rem",
+
+              fontWeight: 500,
+            }}
+          >
+            @{user?.username}
+          </Typography>
+        </Stack>
       </Stack>
 
-      <Stack spacing={"0.9rem"} width={"100%"}>
+      {/* INFO CARDS */}
+
+      <Stack
+        spacing={"1rem"}
+        width={"100%"}
+        sx={{
+          position: "relative",
+
+          zIndex: 2,
+        }}
+      >
         <ProfileCard
           heading="Bio"
           text={user?.bio || "No bio available"}
-          icon={<InfoIcon />}
+          icon={<InfoIcon fontSize="small" />}
         />
 
         <ProfileCard
           heading="Username"
           text={user?.username}
-          icon={<UserNameIcon />}
+          icon={<UserNameIcon fontSize="small" />}
         />
 
-        <ProfileCard heading="Name" text={user?.name} icon={<FaceIcon />} />
+        <ProfileCard
+          heading="Name"
+          text={user?.name}
+          icon={<FaceIcon fontSize="small" />}
+        />
 
         <ProfileCard
           heading="Joined"
           text={moment(user?.createdAt).fromNow()}
-          icon={<CalendarIcon />}
+          icon={<CalendarIcon fontSize="small" />}
         />
       </Stack>
     </Stack>
@@ -324,33 +185,63 @@ const ProfileCard = ({ text, icon, heading }) => (
     spacing={"1rem"}
     alignItems={"center"}
     sx={{
-      background: "white",
-      borderRadius: "14px",
+      background: "rgba(255,255,255,0.03)",
+
+      borderRadius: "20px",
+
       padding: "1rem",
-      border: "1px solid #E5E7EB",
+
+      border: "1px solid rgba(255,255,255,0.05)",
+
+      backdropFilter: "blur(14px)",
+
+      transition: "all 0.22s ease",
+
+      cursor: "default",
+
+      "&:hover": {
+        transform: "translateY(-3px)",
+
+        background: "rgba(255,255,255,0.05)",
+
+        borderColor: "rgba(20,184,166,0.16)",
+      },
     }}
   >
     <Box
       sx={{
-        width: 42,
-        height: 42,
-        borderRadius: "12px",
-        background: "#ECFDF5",
-        color: "#10B981",
+        width: 44,
+
+        height: 44,
+
+        borderRadius: "14px",
+
+        background:
+          "linear-gradient(135deg, rgba(20,184,166,0.16), rgba(20,184,166,0.05))",
+
+        color: "#5EEAD4",
+
         display: "flex",
+
         alignItems: "center",
+
         justifyContent: "center",
+
+        flexShrink: 0,
       }}
     >
       {icon}
     </Box>
 
-    <Stack spacing={0.2}>
+    <Stack spacing={0.2} sx={{ overflow: "hidden" }}>
       <Typography
+        noWrap
         sx={{
           fontWeight: 600,
-          fontSize: "0.92rem",
-          color: "#111827",
+
+          fontSize: "0.94rem",
+
+          color: "var(--text-primary)",
         }}
       >
         {text}
@@ -359,9 +250,12 @@ const ProfileCard = ({ text, icon, heading }) => (
       <Typography
         sx={{
           fontSize: "0.72rem",
-          color: "#6B7280",
+
+          color: "var(--text-secondary)",
+
+          letterSpacing: "0.4px",
+
           textTransform: "uppercase",
-          letterSpacing: "0.5px",
         }}
       >
         {heading}
