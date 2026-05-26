@@ -11,8 +11,8 @@ import {
   ArcElement,
   Legend,
 } from "chart.js";
-import { getLast7Days } from "../../lib/features";
-
+import { getLast70Days } from "../../lib/features";
+import { Box } from "@mui/material";
 ChartJS.register(
   CategoryScale,
   Tooltip,
@@ -24,7 +24,7 @@ ChartJS.register(
   Legend,
 );
 
-const labels = getLast7Days();
+const labels = getLast70Days();
 
 // --- DARK THEME COLORS ---
 const emerald = "#00a884";
