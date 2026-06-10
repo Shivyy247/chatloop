@@ -52,6 +52,7 @@ const Header = () => {
   const OpenSearchDialog = () => dispatch(setIsSearch(true));
   const openNewGroup = () => dispatch(setIsNewGroup(true));
   const openProfile = () => dispatch(setIsProfile(true));
+
   const openNotification = () => {
     dispatch(setIsNotification(true));
     dispatch(resetNotificationCount());
@@ -64,6 +65,7 @@ const Header = () => {
       const { data } = await axios.get(`${server}/api/v1/user/logout`, {
         withCredentials: true,
       });
+
       dispatch(userNotExists());
       toast.success(data.message);
     } catch (error) {
@@ -78,38 +80,45 @@ const Header = () => {
           position="static"
           elevation={0}
           sx={{
-            bgcolor: "#202C33 !important",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+            bgcolor: "#202C33",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
             color: "#E9EDEF",
           }}
         >
-          {/* disableGutters + px:0 poori padding khatam kar dega */}
-          <Toolbar disableGutters sx={{ minHeight: "64px !important", px: 0 }}>
-            {/* EXTREME LEFT: tight alignment */}
+          <Toolbar
+            disableGutters
+            sx={{
+              minHeight: "64px !important",
+              px: 0,
+            }}
+          >
+            {/* Logo */}
             <Stack
               direction="row"
               alignItems="center"
-              spacing={0.5} // Gap ekdum kam kar diya
+              // spacing={0.1}
               onClick={() => navigate("/")}
-              sx={{ cursor: "pointer", ml: 1 }} // Sirf halka sa margin taaki screen edge se na chipke
+              sx={{
+                cursor: "pointer",
+                ml: 0.5,
+              }}
             >
               <Box
                 component="img"
-                src="/logo1.png"
+                src="/fff.png"
                 sx={{
-                  width: 32,
-                  height: 32,
+                  width: 34,
+                  height: 34,
                   objectFit: "contain",
                 }}
               />
+
               <Typography
-                variant="h6"
                 sx={{
                   fontWeight: 700,
-                  fontSize: "1.1rem",
+                  fontSize: "1.25rem",
                   color: "#E9EDEF",
-                  letterSpacing: "0.2px", // Tight letter spacing
-                  ml: 0.2, // Extra push correction
+                  letterSpacing: "0.2px",
                   display: { xs: "none", sm: "block" },
                 }}
               >
@@ -117,10 +126,9 @@ const Header = () => {
               </Typography>
             </Stack>
 
-            {/* Push everything to the right */}
             <Box sx={{ flexGrow: 1 }} />
 
-            {/* RIGHT ICONS */}
+            {/* Right Icons */}
             <Stack
               direction="row"
               spacing={0}
@@ -138,16 +146,19 @@ const Header = () => {
                 icon={<SearchIcons />}
                 onClick={OpenSearchDialog}
               />
+
               <IconBtn
                 title="New Group"
                 icon={<AddIcon />}
                 onClick={openNewGroup}
               />
+
               <IconBtn
                 title="Groups"
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
               />
+
               <IconBtn
                 title="Notifications"
                 icon={<NotificationsIcon />}
@@ -156,10 +167,20 @@ const Header = () => {
               />
 
               <Tooltip title="My Profile">
-                <IconButton onClick={openProfile} sx={{ p: "4px", ml: 0.5 }}>
+                <IconButton
+                  onClick={openProfile}
+                  sx={{
+                    p: "4px",
+                    ml: 0.5,
+                  }}
+                >
                   <Avatar
                     src={user?.avatar?.url}
-                    sx={{ width: 30, height: 30, border: "2px solid #00A884" }}
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      border: "2px solid #00A884",
+                    }}
                   />
                 </IconButton>
               </Tooltip>
@@ -174,17 +195,18 @@ const Header = () => {
         </AppBar>
       </Box>
 
-      {/* Dialogs logic... */}
       {isSearch && (
         <Suspense fallback={<Backdrop open />}>
           <SearchDialog />
         </Suspense>
       )}
+
       {isNotification && (
         <Suspense fallback={<Backdrop open />}>
           <NofificationDialog />
         </Suspense>
       )}
+
       {isNewGroup && (
         <Suspense fallback={<Backdrop open />}>
           <NewGroupDialog />
@@ -202,9 +224,10 @@ const IconBtn = ({ title, icon, onClick, value }) => {
         sx={{
           color: "#AEBAC1",
           padding: "8px",
+          transition: "0.2s",
           "&:hover": {
             bgcolor: "rgba(255,255,255,0.08)",
-            color: "#00A884",
+            color: "#E9EDEF",
           },
         }}
       >

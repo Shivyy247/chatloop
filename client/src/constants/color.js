@@ -56,3 +56,5 @@ export const otherMessageBg = otherMessage;
 export const grayColor = secondary;
 export const darkPrimary = chatBackground;
 export const lightprimary = primary;
+
+export const lightpurple = primary;

@@ -56,7 +56,7 @@ const Home = () => {
             textAlign: "center",
           }}
         >
-          ChatLoop for Desktop
+          ChatLoop 
         </Typography>
 
         <Typography
@@ -68,9 +68,9 @@ const Home = () => {
             lineHeight: 1.5,
           }}
         >
-          Send and receive messages without keeping your phone online.
+          Find your crew. Start the conversation
           <br />
-          Select a chat to start messaging.
+          Select a chat to get started
         </Typography>
       </Stack>
 
