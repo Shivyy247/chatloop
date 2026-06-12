@@ -78,37 +78,35 @@ const Header = () => {
       <Box sx={{ flexGrow: 0 }}>
         <AppBar
           position="static"
-          elevation={0}
+          elevation={4}
           sx={{
-            bgcolor: "#202C33",
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            bgcolor: "#0f141a",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
             color: "#E9EDEF",
           }}
         >
           <Toolbar
             disableGutters
             sx={{
-              minHeight: "64px !important",
-              px: 0,
+              minHeight: "70px !important",
+              px: 1,
             }}
           >
-            {/* Logo */}
+            {/* LOGO */}
             <Stack
               direction="row"
               alignItems="center"
-              // spacing={0.1}
+              spacing={1}
               onClick={() => navigate("/")}
-              sx={{
-                cursor: "pointer",
-                ml: 0.5,
-              }}
+              sx={{ cursor: "pointer" }}
             >
               <Box
                 component="img"
-                src="/fff.png"
+                src="/logo-go-1.png"
+                alt="logo"
                 sx={{
-                  width: 34,
-                  height: 34,
+                  width: 24,
+                  height: 24,
                   objectFit: "contain",
                 }}
               />
@@ -116,9 +114,8 @@ const Header = () => {
               <Typography
                 sx={{
                   fontWeight: 700,
-                  fontSize: "1.25rem",
-                  color: "#E9EDEF",
-                  letterSpacing: "0.2px",
+                  fontSize: "1.5rem",
+                  color: "#00c8aa",
                   display: { xs: "none", sm: "block" },
                 }}
               >
@@ -128,10 +125,10 @@ const Header = () => {
 
             <Box sx={{ flexGrow: 1 }} />
 
-            {/* Right Icons */}
+            {/* RIGHT ICONS */}
             <Stack
               direction="row"
-              spacing={0}
+              spacing={0.5}
               alignItems="center"
               sx={{ mr: 1 }}
             >
@@ -167,19 +164,13 @@ const Header = () => {
               />
 
               <Tooltip title="My Profile">
-                <IconButton
-                  onClick={openProfile}
-                  sx={{
-                    p: "4px",
-                    ml: 0.5,
-                  }}
-                >
+                <IconButton onClick={openProfile} sx={{ p: "4px", ml: 0.5 }}>
                   <Avatar
                     src={user?.avatar?.url}
                     sx={{
                       width: 32,
                       height: 32,
-                      border: "2px solid #00A884",
+                      border: "2px solid #00c8aa",
                     }}
                   />
                 </IconButton>
@@ -195,6 +186,7 @@ const Header = () => {
         </AppBar>
       </Box>
 
+      {/* MODALS */}
       {isSearch && (
         <Suspense fallback={<Backdrop open />}>
           <SearchDialog />
@@ -226,8 +218,8 @@ const IconBtn = ({ title, icon, onClick, value }) => {
           padding: "8px",
           transition: "0.2s",
           "&:hover": {
-            bgcolor: "rgba(255,255,255,0.08)",
-            color: "#E9EDEF",
+            bgcolor: "rgba(0,200,170,0.08)",
+            color: "#00c8aa",
           },
         }}
       >
@@ -236,11 +228,12 @@ const IconBtn = ({ title, icon, onClick, value }) => {
             badgeContent={value}
             sx={{
               "& .MuiBadge-badge": {
-                bgcolor: "#00A884",
-                color: "white",
+                bgcolor: "#00c8aa",
+                color: "#000",
                 fontSize: "0.6rem",
                 minWidth: "16px",
                 height: "16px",
+                fontWeight: 600,
               },
             }}
           >

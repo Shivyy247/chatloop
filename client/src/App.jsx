@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectRoute from "./components/auth/ProtectRoute";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { LayoutLoader } from "./components/layout/Loaders";
 import axios from "axios";
 import { server } from "./constants/config";
@@ -23,12 +23,7 @@ const MessageMang = lazy(() => import("./pages/admin/MessageMang"));
 
 const App = () => {
   const { user, loader } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
-
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark",
-  );
 
   useEffect(() => {
     axios
@@ -36,16 +31,6 @@ const App = () => {
       .then(({ data }) => dispatch(userExists(data.user)))
       .catch(() => dispatch(userNotExists()));
   }, [dispatch]);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.body.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
 
   return loader ? (
     <LayoutLoader />
@@ -56,28 +41,13 @@ const App = () => {
           <Route
             element={
               <SocketProvider>
-                <ProtectRoute
-                  user={user}
-                  darkMode={darkMode}
-                  setDarkMode={setDarkMode}
-                />
+                <ProtectRoute user={user} />
               </SocketProvider>
             }
           >
-            <Route
-              path="/"
-              element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />}
-            />
-
-            <Route
-              path="/group"
-              element={<Group darkMode={darkMode} setDarkMode={setDarkMode} />}
-            />
-
-            <Route
-              path="/chat/:chatId"
-              element={<Chat darkMode={darkMode} setDarkMode={setDarkMode} />}
-            />
+            <Route path="/" element={<Home />} />
+            <Route path="/group" element={<Group />} />
+            <Route path="/chat/:chatId" element={<Chat />} />
           </Route>
 
           <Route

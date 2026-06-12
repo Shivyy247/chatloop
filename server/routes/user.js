@@ -1,8 +1,10 @@
 import express from "express"
 import {
   getMyProfile,
+  updateProfile,
   login,
   newUser,
+  googleLogin,
   searchUser,
   logout,
   sendFriendRequest,
@@ -19,13 +21,17 @@ const app = express.Router();
 
 app.post("/new", singleAvatar, registervalidator(), validateHandle, newUser);
 
-app.post("/login" , loginvalidator() , validateHandle, login);
+app.post("/login", loginvalidator(), validateHandle, login);
+
+app.post("/google", googleLogin);
 
 // after here user must be logged in to access the routes
 
 app.use(isAuthenticated);
 
 app.get("/me", getMyProfile);
+
+app.put("/update", updateProfile);
 
 app.get("/logout", logout);
 

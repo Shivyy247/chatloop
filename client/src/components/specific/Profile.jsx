@@ -1,146 +1,189 @@
-import { Avatar, Stack, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Avatar,
+  Stack,
+  Typography,
+  Box,
+  Button,
+  TextField,
+} from "@mui/material";
 import {
   Face as FaceIcon,
   AlternateEmail as UserNameIcon,
   CalendarMonth as CalendarIcon,
   Info as InfoIcon,
+  Edit as EditIcon,
 } from "@mui/icons-material";
-import React from "react";
 import moment from "moment";
-import { transfromImage } from "../../lib/features";
+import { useDispatch } from "react-redux";
+import { useUpdateProfileMutation } from "../../redux/api/api";
+import toast from "react-hot-toast";
+import { userExists } from "../../redux/reducers/auth";
 
 const Profile = ({ user }) => {
+  const dispatch = useDispatch();
+
+  const [editMode, setEditMode] = useState(false);
+  const [updateProfile] = useUpdateProfileMutation();
+
+  const [name, setName] = useState(user?.name || "");
+  const [username, setUsername] = useState(user?.username || "");
+  const [bio, setBio] = useState(user?.bio || "");
+
+  const handleUpdate = async () => {
+    try {
+      const res = await updateProfile({
+        name,
+        bio,
+        username,
+      }).unwrap();
+
+      dispatch(userExists(res.user));
+      toast.success(res.message);
+      setEditMode(false);
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to update profile");
+    }
+  };
+
   return (
     <Stack
-      spacing={"2rem"}
+      spacing={"1.6rem"}
       alignItems={"center"}
       sx={{
         height: "100%",
-        padding: "2rem 1.5rem",
-        background:
-          "linear-gradient(180deg, #14232c 0%, #101b22 50%, #0d171d 100%)",
-        borderLeft: "1px solid rgba(255,255,255,0.08)",
-        boxShadow: "-10px 0 30px rgba(0,0,0,0.25)",
-        overflow: "hidden",
-        position: "relative",
+        p: "1.5rem",
+        bgcolor: "#0f141a",
+        borderLeft: "1px solid rgba(255,255,255,0.06)",
+        overflowY: "auto",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          width: "220px",
-          height: "220px",
-          borderRadius: "50%",
-          background: "rgba(0,200,170,0.18)",
-          filter: "blur(100px)",
-          top: "-60px",
-          right: "-60px",
-          zIndex: 0,
-        }}
-      />
-
-      <Stack
-        spacing={"1.5rem"}
-        alignItems={"center"}
-        sx={{
-          width: "100%",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
+      <Stack spacing={"1rem"} alignItems={"center"} width={"100%"}>
         <Typography
           sx={{
-            fontSize: "0.8rem",
+            fontSize: "0.75rem",
             color: "#00c8aa",
-            fontWeight: 700,
-            letterSpacing: "1.5px",
-            textTransform: "uppercase",
+            fontWeight: 600,
+            letterSpacing: "1px",
           }}
         >
-          Profile Details
+          PROFILE
         </Typography>
 
-        <Box sx={{ position: "relative" }}>
-          <Avatar
-            src={transfromImage(user?.avatar?.url)}
-            sx={{
-              width: 130,
-              height: 130,
-              border: "4px solid rgba(255,255,255,0.08)",
-              boxShadow:
-                "0 15px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,200,170,0.15)",
-            }}
-          />
+        <Avatar
+          src={user?.avatar?.url}
+          sx={{
+            width: 110,
+            height: 110,
+            border: "2px solid rgba(255,255,255,0.1)",
+          }}
+        />
 
-          <Box
-            sx={{
-              width: 18,
-              height: 18,
-              borderRadius: "50%",
-              background: "#00c853",
-              border: "3px solid #14232c",
-              position: "absolute",
-              bottom: 10,
-              right: 10,
-            }}
-          />
-        </Box>
-
-        <Stack spacing={0.5} alignItems={"center"}>
+        <Box textAlign={"center"}>
           <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: "1.5rem",
-              color: "#ffffff",
-              textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-            }}
+            sx={{ color: "#fff", fontWeight: 600, fontSize: "1.2rem" }}
           >
             {user?.name}
           </Typography>
-
-          <Typography
-            sx={{
-              color: "#9fb4bc",
-              fontSize: "0.95rem",
-              fontWeight: 500,
-            }}
-          >
+          <Typography sx={{ color: "#8aa1aa", fontSize: "0.9rem" }}>
             @{user?.username}
           </Typography>
-        </Stack>
+        </Box>
+
+        <Button
+          startIcon={<EditIcon />}
+          variant="contained"
+          onClick={() => setEditMode(!editMode)}
+          sx={{
+            bgcolor: "#00c8aa",
+            textTransform: "none",
+            fontWeight: 500,
+            "&:hover": { bgcolor: "#00b196" },
+          }}
+        >
+          {editMode ? "Cancel" : "Edit Profile"}
+        </Button>
       </Stack>
 
-      <Stack
-        spacing={"1rem"}
-        width={"100%"}
-        sx={{
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
-        <ProfileCard
-          heading="Bio"
-          text={user?.bio || "Hey there! I am using ChatLoop."}
-          icon={<InfoIcon sx={{ fontSize: "1.2rem" }} />}
-        />
+      <Stack spacing={"1rem"} width={"100%"}>
+        {editMode ? (
+          <>
+            <TextField
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              InputLabelProps={{ style: { color: "#8aa1aa" } }}
+              sx={{
+                input: { color: "#fff" },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                },
+              }}
+            />
 
-        <ProfileCard
-          heading="Username"
-          text={user?.username}
-          icon={<UserNameIcon sx={{ fontSize: "1.2rem" }} />}
-        />
+            <TextField
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              fullWidth
+              InputLabelProps={{ style: { color: "#8aa1aa" } }}
+              sx={{
+                input: { color: "#fff" },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                },
+              }}
+            />
 
-        <ProfileCard
-          heading="Name"
-          text={user?.name}
-          icon={<FaceIcon sx={{ fontSize: "1.2rem" }} />}
-        />
+            <TextField
+              label="Bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              fullWidth
+              multiline
+              rows={3}
+              InputLabelProps={{ style: { color: "#8aa1aa" } }}
+              sx={{
+                textarea: { color: "#fff" },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                },
+              }}
+            />
 
-        <ProfileCard
-          heading="Joined"
-          text={moment(user?.createdAt).format("MMMM Do, YYYY")}
-          icon={<CalendarIcon sx={{ fontSize: "1.2rem" }} />}
-        />
+            <Button
+              variant="contained"
+              onClick={handleUpdate}
+              sx={{
+                bgcolor: "#00c8aa",
+                textTransform: "none",
+                "&:hover": { bgcolor: "#00b196" },
+              }}
+            >
+              Save Changes
+            </Button>
+          </>
+        ) : (
+          <>
+            <ProfileCard
+              heading="Bio"
+              text={user?.bio || "Hey there! I am using ChatLoop."}
+              icon={<InfoIcon />}
+            />
+            <ProfileCard
+              heading="Username"
+              text={user?.username}
+              icon={<UserNameIcon />}
+            />
+            <ProfileCard heading="Name" text={user?.name} icon={<FaceIcon />} />
+            <ProfileCard
+              heading="Joined"
+              text={moment(user?.createdAt).format("MMMM Do, YYYY")}
+              icon={<CalendarIcon />}
+            />
+          </>
+        )}
       </Stack>
     </Stack>
   );
@@ -148,65 +191,43 @@ const Profile = ({ user }) => {
 
 const ProfileCard = ({ text, icon, heading }) => (
   <Stack
-    direction={"row"}
+    direction="row"
     spacing={"1rem"}
-    alignItems={"center"}
+    alignItems="center"
     sx={{
-      background: "rgba(255,255,255,0.05)",
-      backdropFilter: "blur(12px)",
-      borderRadius: "14px",
-      padding: "1rem",
-      border: "1px solid rgba(255,255,255,0.08)",
-      boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-      transition: "all 0.25s ease",
-
-      "&:hover": {
-        background: "rgba(255,255,255,0.08)",
-        borderColor: "rgba(0,200,170,0.3)",
-        transform: "translateY(-2px)",
-      },
+      p: "0.9rem",
+      borderRadius: "12px",
+      bgcolor: "#141b22",
+      border: "1px solid rgba(255,255,255,0.06)",
     }}
   >
     <Box
       sx={{
-        width: 44,
-        height: 44,
-        borderRadius: "12px",
-        background: "rgba(0,200,170,0.12)",
-        border: "1px solid rgba(0,200,170,0.2)",
-        color: "#00c8aa",
+        width: 40,
+        height: 40,
+        borderRadius: "10px",
+        bgcolor: "rgba(0,200,170,0.1)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        flexShrink: 0,
+        color: "#00c8aa",
       }}
     >
       {icon}
     </Box>
 
-    <Stack spacing={0.25} sx={{ overflow: "hidden" }}>
+    <Stack>
       <Typography
         sx={{
-          fontSize: "0.72rem",
+          fontSize: "0.7rem",
           color: "#8aa1aa",
-          fontWeight: 700,
           textTransform: "uppercase",
-          letterSpacing: "0.8px",
         }}
       >
         {heading}
       </Typography>
 
-      <Typography
-        sx={{
-          fontWeight: 500,
-          fontSize: "1rem",
-          color: "#ffffff",
-          wordBreak: "break-word",
-        }}
-      >
-        {text}
-      </Typography>
+      <Typography sx={{ color: "#fff", fontWeight: 500 }}>{text}</Typography>
     </Stack>
   </Stack>
 );

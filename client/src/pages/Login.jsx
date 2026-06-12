@@ -1,88 +1,49 @@
-import React, { useEffect, useState } from "react";
-
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-
-import { Avatar, Box, IconButton, InputAdornment, Stack } from "@mui/material";
+import React, { useState } from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import {
+  Box,
+  Stack,
+  Typography,
+  TextField,
+  Button,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 
 import {
   CameraAlt as CameraAltIcon,
-  DarkMode as DarkModeIcon,
-  LightMode as LightModeIcon,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
 
 import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
-
-import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
-
+import { useInputValidation, useStrongPassword, useFileHandler } from "6pp";
 import { usernameValidator } from "../utils/validators";
 
 import axios from "axios";
-
 import { server } from "../constants/config";
-
 import { useDispatch } from "react-redux";
-
 import { userExists } from "../redux/reducers/auth";
-
 import toast from "react-hot-toast";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
 
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      setDarkMode(true);
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const isDark = document.documentElement.classList.contains("dark");
-
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setDarkMode(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setDarkMode(true);
-    }
-  };
-
-  const toggleLogin = () => setIsLogin((prev) => !prev);
+  const toggleLogin = () => setIsLogin((p) => !p);
 
   const name = useInputValidation("");
-
   const bio = useInputValidation("");
-
   const username = useInputValidation("", usernameValidator);
-
   const password = useStrongPassword();
-
   const avatar = useFileHandler("single");
 
   const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     const toastId = toast.loading("Logging in...");
-
     setIsLoading(true);
 
     try {
@@ -92,21 +53,13 @@ const Login = () => {
           username: username.value,
           password: password.value,
         },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+        { withCredentials: true },
       );
 
       dispatch(userExists(data.user));
-
-      toast.success(data.message, {
-        id: toastId,
-      });
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong!", {
+      toast.success(data.message, { id: toastId });
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Login failed", {
         id: toastId,
       });
     } finally {
@@ -116,21 +69,14 @@ const Login = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     const toastId = toast.loading("Creating account...");
-
     setIsLoading(true);
 
     const formData = new FormData();
-
     formData.append("avatar", avatar.file);
-
     formData.append("name", name.value);
-
     formData.append("bio", bio.value);
-
     formData.append("username", username.value);
-
     formData.append("password", password.value);
 
     try {
@@ -139,12 +85,9 @@ const Login = () => {
       });
 
       dispatch(userExists(data.user));
-
-      toast.success(data.message, {
-        id: toastId,
-      });
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong!", {
+      toast.success(data.message, { id: toastId });
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Signup failed", {
         id: toastId,
       });
     } finally {
@@ -155,295 +98,251 @@ const Login = () => {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
-
-        background: "linear-gradient(135deg,var(--bg-primary),var(--bg-chat))",
-
-        position: "relative",
-
+        display: "flex",
+        height: "100vh",
         overflow: "hidden",
+        bgcolor: "#0f141a",
       }}
     >
-      {/* TOP BAR */}
-
-      <Stack
-        direction={"row"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
+      {/* LEFT SIDE */}
+      <Box
         sx={{
-          position: "absolute",
-
-          top: 0,
-
-          left: 0,
-
-          width: "100%",
-
-          padding: "1.2rem 1.5rem",
-
-          zIndex: 10,
+          flex: 1,
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          bgcolor: "#0c1117",
+          borderRight: "1px solid rgba(255,255,255,0.06)",
+          position: "relative",
+          overflow: "hidden",
+          p: 4,
         }}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={1}>
+        {/* TOP SOFT GLOW */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "-80px",
+            left: "-80px",
+            width: 220,
+            height: 220,
+            background:
+              "radial-gradient(circle, rgba(0,200,170,0.15), transparent 70%)",
+            filter: "blur(10px)",
+          }}
+        />
+
+        {/* BOTTOM SOFT GLOW */}
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "-80px",
+            right: "-80px",
+            width: 220,
+            height: 220,
+            background:
+              "radial-gradient(circle, rgba(91,108,255,0.12), transparent 70%)",
+            filter: "blur(10px)",
+          }}
+        />
+
+        {/* CONTENT */}
+        <Stack spacing={1.2} alignItems="center" sx={{ zIndex: 2 }}>
+          {/* LOGO + NAME */}
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Box
+              component="img"
+              src="/logo-go-1.png"
+              alt="logo"
+              sx={{ width: 30, height: 30 }}
+            />
+
+            <Typography
+              sx={{ fontSize: "2.2rem", fontWeight: 700, color: "#00c8aa" }}
+            >
+              ChatLoop
+            </Typography>
+          </Stack>
+
+          <Typography sx={{ color: "#8aa1aa", textAlign: "center" }}>
+            A clean modern chat experience
+          </Typography>
+
+          {/* SMALL IDENTITY CARD */}
           <Box
-            component={"img"}
-            src="/logof.png"
-            alt="logo"
             sx={{
-              width: 42,
-              height: 42,
-              objectFit: "contain",
-            }}
-          />
-
-          <Typography
-            sx={{
-              fontWeight: 700,
-
-              fontSize: "1.2rem",
-
-              color: "var(--text-primary)",
+              mt: 3,
+              px: 2,
+              py: 1,
+              borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.08)",
+              color: "#8aa1aa",
+              fontSize: "0.8rem",
+              letterSpacing: "1px",
             }}
           >
-            ChatLoop
-          </Typography>
+            FAST • SIMPLE • MODERN CHAT
+          </Box>
         </Stack>
 
-        <IconButton
-          onClick={toggleTheme}
+        {/* WATERMARK */}
+        <Typography
           sx={{
-            width: 46,
-            height: 46,
-
-            borderRadius: "14px",
-
-            background: "var(--bg-secondary)",
-
-            border: "1px solid var(--border-color)",
-
-            color: "var(--text-primary)",
-
-            "&:hover": {
-              background: "var(--hover-color)",
-            },
+            position: "absolute",
+            bottom: 18,
+            fontSize: "0.75rem",
+            color: "rgba(255,255,255,0.05)",
+            letterSpacing: "3px",
           }}
         >
-          {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-        </IconButton>
-      </Stack>
+          CHATLOOP
+        </Typography>
+      </Box>
 
-      <Container
-        component={"main"}
-        maxWidth="sm"
+      {/* RIGHT SIDE */}
+      <Box
         sx={{
-          minHeight: "100vh",
-
+          flex: 1,
           display: "flex",
-
-          justifyContent: "center",
-
+          justifyContent: "flex-start",
           alignItems: "center",
+          p: 6,
+          overflow: "hidden",
         }}
       >
-        <Paper
-          elevation={0}
-          sx={{
-            width: "100%",
+        <Stack spacing={2.2} sx={{ width: "100%", maxWidth: 420 }}>
+          <Typography
+            sx={{ color: "#fff", fontSize: "1.6rem", fontWeight: 600 }}
+          >
+            {isLogin ? "Welcome Back" : "Create Account"}
+          </Typography>
 
-            maxWidth: 560,
+          <Typography sx={{ color: "#8aa1aa", fontSize: "0.9rem" }}>
+            {isLogin ? "Login to continue" : "Join ChatLoop today"}
+          </Typography>
 
-            padding: {
-              xs: "2rem",
-              sm: "2.5rem",
-            },
-
-            borderRadius: "32px",
-
-            background: "var(--bg-secondary)",
-
-            border: "1px solid var(--border-color)",
-
-            boxShadow: "var(--shadow-md)",
-          }}
-        >
-          <Stack spacing={3}>
-            <Stack spacing={1} alignItems={"center"}>
-              <Typography
-                variant="h3"
+          {!isLogin && (
+            <Stack alignItems="flex-start" spacing={1}>
+              <Avatar
+                src={avatar.preview}
                 sx={{
-                  fontWeight: 700,
-
-                  color: "var(--text-primary)",
-
-                  fontSize: {
-                    xs: "2rem",
-                    sm: "2.6rem",
-                  },
+                  width: 100,
+                  height: 100,
+                  border: "2px solid rgba(255,255,255,0.1)",
                 }}
-              >
-                {isLogin ? "Welcome Back" : "Create Account"}
-              </Typography>
+              />
 
-              <Typography
-                sx={{
-                  color: "var(--text-secondary)",
-                }}
-              >
-                {isLogin ? "Login to continue chatting" : "Join ChatLoop today"}
-              </Typography>
+              <IconButton component="label" sx={{ color: "#00c8aa" }}>
+                <CameraAltIcon />
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={avatar.changeHandler}
+                />
+              </IconButton>
             </Stack>
+          )}
 
-            {!isLogin && (
-              <Stack
-                position={"relative"}
-                width={"fit-content"}
-                margin={"auto"}
-              >
-                <Avatar
-                  src={avatar.preview}
-                  sx={{
-                    width: 120,
-                    height: 120,
-
-                    border: "3px solid var(--border-color)",
-                  }}
-                />
-
-                <IconButton
-                  component="label"
-                  sx={{
-                    position: "absolute",
-
-                    bottom: 0,
-
-                    right: 0,
-
-                    width: 38,
-                    height: 38,
-
-                    background: "linear-gradient(135deg,#5B6CFF,#7BE7D7)",
-
-                    color: "white",
-
-                    "&:hover": {
-                      opacity: 0.9,
-                    },
-                  }}
-                >
-                  <CameraAltIcon />
-
-                  <VisuallyHiddenInput
-                    type="file"
-                    onChange={avatar.changeHandler}
+          <form onSubmit={isLogin ? handleLogin : handleSignUp}>
+            <Stack spacing={1.5}>
+              {!isLogin && (
+                <>
+                  <TextField
+                    label="Name"
+                    value={name.value}
+                    onChange={name.changeHandler}
+                    fullWidth
+                    InputLabelProps={{ style: { color: "#8aa1aa" } }}
+                    sx={{ input: { color: "#fff" } }}
                   />
-                </IconButton>
-              </Stack>
-            )}
 
-            <form onSubmit={isLogin ? handleLogin : handleSignUp}>
-              <Stack spacing={2}>
-                {!isLogin && (
-                  <>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Name"
-                      value={name.value}
-                      onChange={name.changeHandler}
-                    />
+                  <TextField
+                    label="Bio"
+                    value={bio.value}
+                    onChange={bio.changeHandler}
+                    fullWidth
+                    InputLabelProps={{ style: { color: "#8aa1aa" } }}
+                    sx={{ input: { color: "#fff" } }}
+                  />
+                </>
+              )}
 
-                    <TextField
-                      required
-                      fullWidth
-                      label="Bio"
-                      value={bio.value}
-                      onChange={bio.changeHandler}
-                    />
-                  </>
-                )}
+              <TextField
+                label="Username"
+                value={username.value}
+                onChange={username.changeHandler}
+                fullWidth
+                InputLabelProps={{ style: { color: "#8aa1aa" } }}
+                sx={{ input: { color: "#fff" } }}
+              />
 
-                <TextField
-                  required
-                  fullWidth
-                  label="Username"
-                  value={username.value}
-                  onChange={username.changeHandler}
-                />
+              <TextField
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                value={password.value}
+                onChange={password.changeHandler}
+                fullWidth
+                InputLabelProps={{ style: { color: "#8aa1aa" } }}
+                sx={{ input: { color: "#fff" } }}
+              />
 
-                <TextField
-                  required
-                  fullWidth
-                  type={showPassword ? "text" : "password"}
-                  label="Password"
-                  value={password.value}
-                  onChange={password.changeHandler}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => setShowPassword((prev) => !prev)}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+              <Button
+                type="submit"
+                disabled={isLoading}
+                fullWidth
+                sx={{
+                  bgcolor: "#00c8aa",
+                  color: "#000",
+                  fontWeight: 600,
+                  py: 1.2,
+                  textTransform: "none",
+                  "&:hover": { bgcolor: "#00b196" },
+                }}
+              >
+                {isLogin ? "Login" : "Sign Up"}
+              </Button>
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  disabled={isLoading}
-                  sx={{
-                    height: 54,
+              <Typography sx={{ color: "#8aa1aa", textAlign: "left" }}>
+                OR
+              </Typography>
 
-                    borderRadius: "16px",
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  try {
+                    const { data } = await axios.post(
+                      `${server}/api/v1/user/google`,
+                      { token: credentialResponse.credential },
+                      { withCredentials: true },
+                    );
 
-                    marginTop: "0.5rem",
+                    dispatch(userExists(data.user));
+                    toast.success("Login successful");
 
-                    background: "linear-gradient(135deg,#5B6CFF,#7BE7D7)",
+                    window.location.href = !data.user.bio
+                      ? "/complete-profile"
+                      : "/";
+                  } catch {
+                    toast.error("Google login failed");
+                  }
+                }}
+                onError={() => toast.error("Google Login Failed")}
+              />
 
-                    fontSize: "1rem",
-
-                    fontWeight: 700,
-
-                    textTransform: "none",
-
-                    boxShadow: "0 10px 30px rgba(91,108,255,0.25)",
-                  }}
-                >
-                  {isLogin ? "Login" : "Sign Up"}
-                </Button>
-
-                <Typography
-                  textAlign={"center"}
-                  sx={{
-                    color: "var(--text-secondary)",
-                  }}
-                >
-                  OR
-                </Typography>
-
-                <Button
-                  fullWidth
-                  variant="text"
-                  onClick={toggleLogin}
-                  sx={{
-                    color: "var(--text-primary)",
-
-                    textTransform: "none",
-
-                    fontWeight: 600,
-                  }}
-                >
-                  {isLogin ? "Don't have an account? Sign Up" : "Back to Login"}
-                </Button>
-              </Stack>
-            </form>
-          </Stack>
-        </Paper>
-      </Container>
+              <Button
+                onClick={toggleLogin}
+                sx={{
+                  color: "#8aa1aa",
+                  textTransform: "none",
+                  fontWeight: 500,
+                  justifyContent: "flex-start",
+                }}
+              >
+                {isLogin ? "Create new account" : "Back to login"}
+              </Button>
+            </Stack>
+          </form>
+        </Stack>
+      </Box>
     </Box>
   );
 };

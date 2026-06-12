@@ -106,6 +106,15 @@ const api = createApi({
       providesTags: ["Chat"],
     }),
 
+    updateProfile: builder.mutation({
+      query: (data) => ({
+        url: "user/update",
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+    }),
+
     newgroup: builder.mutation({
       query: ({ name, members }) => ({
         url: "chat/new",
@@ -163,8 +172,6 @@ const api = createApi({
       }),
       invalidatesTags: ["Chat"],
     }),
-
-
   }),
 });
 
@@ -180,6 +187,7 @@ export const {
   useSendAttachmentsMutation,
   useMyGroupsQuery,
   useAvailableFriendsQuery,
+  useUpdateProfileMutation,
   useNewgroupMutation,
   useRenameGroupMutation,
   useRemoveGroupMemberMutation,
