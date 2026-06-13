@@ -1,72 +1,122 @@
-# 💬 Chatloop – Real-Time Chat Application
+# ChatLoop 
 
-Chatloop is a full-stack real-time chat application built with modern web technologies. It provides a clean, responsive interface for users to communicate through personal chats and group conversations, along with an admin dashboard for managing users and activity.
-
-## 🚀 Features
-
-- 🔐 Authentication & Protected Routes
-- 👤 User Profiles & Avatar Support
-- 💬 One-to-One and Group Chats
-- 📎 Attachments & Media Sharing
-- 🔔 Notifications System
-- 🔍 Search Functionality
-- 📊 Admin Dashboard (Users, Chats, Messages)
-- 📱 Fully Responsive UI
-
-## 🏗️ Project Structure
-
-### 📁 Client (Frontend)
-
-Organized using a modular and scalable architecture:
-
-- `components/`
-  - `auth/` → Authentication & route protection
-  - `dialogs/` → Modals like add member, delete confirmation
-  - `layout/` → App layout (AdminLayout, Header, etc.)
-  - `shared/` → Reusable UI components (AvatarCard, ChatItem, etc.)
-  - `specific/` → Feature-specific components (Chats, Notifications, Profile, Search)
-
-- `styles/` → Styled components and theme styling
-- `constants/` → Static data & configuration
-- `hooks/` → Custom React hooks
-- `lib/` → Utility functions & features
-
-### 🧠 Key Highlights
-
-- Uses **component-based architecture** for scalability
-- Clean separation of:
-  - UI (components)
-  - Logic (hooks, lib)
-  - Data (constants)
-- Admin panel with sidebar navigation:
-  - Dashboard
-  - Users
-  - Chats
-  - Messages
-
-## 🎨 UI/UX
-
-- Built with modern UI practices
-- Consistent design system
-- Responsive layout for all screen sizes
-- Sidebar-based admin navigation
-
-## 🛠️ Tech Stack
-
-- Frontend: React.js
-- Styling: MUI + Styled Components
-- Routing: React Router
-- State Management: (your choice — add if using Redux/Zustand/etc.)
-
-## 📌 Future Improvements
-
-- Real-time messaging with WebSockets
-- Message reactions & read receipts
-- Dark mode support
-- File upload optimization
+ChatLoop is a full-stack real-time chat application that allows users to register, log in, and chat instantly with other users using WebSockets. It provides secure authentication and smooth real-time messaging experience.
 
 ---
 
-## 👩‍💻 Author
+## 🚀 Features
 
-**Shivani Barman**
+- User registration and login
+- Google OAuth authentication
+- Real-time one-to-one chat
+- Instant messaging using Socket.io
+- JWT-based authentication
+- User list and chat functionality
+- Responsive UI
+
+---
+
+## 🛠️ Tech Stack
+
+Frontend:
+- React (Vite)
+- Material UI (MUI)
+- Axios
+- React Router
+
+Backend:
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- Socket.io
+- JWT Authentication
+- Google OAuth
+
+---
+
+## ⚙️ Setup Instructions
+
+### Clone Repository
+git clone https://github.com/Shivyy247/chatloop.git  
+cd chatloop  
+
+---
+
+### Backend Setup
+cd server  
+npm install  
+
+Create a `.env` file:
+
+PORT=5000  
+MONGO_URI=your_mongodb_connection_string  
+JWT_SECRET=your_jwt_secret  
+CLIENT_URL=http://localhost:5173  
+GOOGLE_CLIENT_ID=your_google_client_id  
+GOOGLE_CLIENT_SECRET=your_google_client_secret  
+
+Run backend:
+npm start or npm run dev 
+
+---
+
+### Frontend Setup
+cd client  
+npm install  
+npm run dev  
+
+Create a `.env` file:
+
+VITE_API_URL=http://localhost:5000  
+
+---
+
+## 🔌 API Endpoints
+
+Authentication:
+- POST /api/auth/register → Register user
+- POST /api/auth/login → Login user
+- POST /api/auth/google → Google login
+
+Users:
+- GET /api/users → Get all users
+
+Messages:
+- POST /api/message/send → Send message
+- GET /api/message/:chatId → Get messages
+
+---
+
+## ⚡ Socket Events
+
+- connection → user connected
+- send_message → send message
+- receive_message → receive message
+- disconnect → user disconnected
+
+---
+
+## 🚀 Deployment
+
+Frontend → Vercel 
+Backend → Render  
+Database → MongoDB Atlas  
+
+---
+
+## 📌 Important Notes
+
+- Backend must be running before frontend
+- Correct API URL must be set in frontend `.env`
+- Socket server must be running for real-time chat
+- Enable CORS in backend for frontend origin
+
+---
+
+## 👨‍💻 Author
+
+Shivani Barman
+
+---
+
+Distance means nothing when every message carries a piece of you!!
