@@ -102,7 +102,7 @@ const Header = () => {
             >
               <Box
                 component="img"
-                src="/logo-go-1.png"
+                src="/logi.png"
                 alt="logo"
                 sx={{
                   width: 24,
