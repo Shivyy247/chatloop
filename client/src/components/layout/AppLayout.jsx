@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Title from "../shared/Title";
 import Header from "./Header";
-import Chatlist from "../specific/Chatlist";
+import Chatlist from "../specific/ChatList";
 import Profile from "../specific/Profile";
 import DeleteChatMenu from "./DeleteChatMenu";
 import { useMyChatsQuery } from "../../redux/api/api";
