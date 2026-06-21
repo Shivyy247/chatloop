@@ -48,9 +48,9 @@ app.get("/message/:id",getMessagesvalidator(), validateHandle, getMessages);
 // get chat details, rename, delete
 app
   .route("/:id")
-  .get(getChatDetails, getChatDetailsvalidator(), validateHandle)
-  .put(renameGroup, renameGroupvalidator(), validateHandle)
-  .delete(deleteChat, getChatDetailsvalidator(), validateHandle);
+  .get(getChatDetailsvalidator(), validateHandle, getChatDetails)
+  .put(renameGroupvalidator(), validateHandle, renameGroup)
+  .delete(getChatDetailsvalidator(), validateHandle, deleteChat);
 
 // app.get("/chat/:id/", A);
 // app.put("/chat/:id/", B);

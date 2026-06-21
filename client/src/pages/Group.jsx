@@ -172,14 +172,14 @@ const Group = () => {
             sx={{
               "& .MuiOutlinedInput-root": {
                 color: "#e9edef",
-                "& fieldset": { borderColor: "#00a884" },
+                "& fieldset": { borderColor: "#00c8aa" },
               },
             }}
           />
           <IconButton
             onClick={updateGroupName}
             disabled={isLoadingGroupName}
-            sx={{ color: "#00a884" }}
+            sx={{ color: "#00c8aa" }}
           >
             <DoneIcon />
           </IconButton>
@@ -225,7 +225,7 @@ const Group = () => {
         startIcon={<AddIcon />}
         onClick={openAddMemberHandler}
         sx={{
-          bgcolor: "#00a884",
+          bgcolor: "#00c8aa",
           borderRadius: "10px",
           textTransform: "none",
           "&:hover": { bgcolor: "#008f6f" },
@@ -280,7 +280,7 @@ const Group = () => {
             </Typography>
 
             <Stack
-              maxWidth={"45rem"}
+              maxWidth={"75rem"}
               width={"100%"}
               sx={{
                 px: { xs: "1rem", sm: "2rem", md: "4rem" },
@@ -296,13 +296,17 @@ const Group = () => {
               spacing={"1rem"}
             >
               {isLoadingRemoveMember ? (
-                <CircularProgress sx={{ m: "auto", color: "#00a884" }} />
+                <CircularProgress sx={{ m: "auto", color: "#00c8aa" }} />
               ) : (
                 members.map((i) => (
                   <UserItem
                     user={i}
                     key={i._id}
                     isAdded
+                    isAdmin={
+                      String(i._id) ===
+                      String(groupDetails?.data?.chat?.creator)
+                    }
                     styling={{
                       bgcolor: "#1f2c33",
                       padding: "0.8rem 1.2rem",
@@ -396,7 +400,7 @@ const GroupListItem = memo(({ group, chatId }) => {
         <AvatarCard avatar={avatar} />
         <Typography
           sx={{
-            color: isActive ? "#00a884" : "#e9edef",
+            color: isActive ? "#00c8aa" : "#e9edef",
             fontWeight: isActive ? 600 : 400,
           }}
         >

@@ -7,9 +7,23 @@ const schema = new Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      public_id: String,
+      url: String,
+    },
     groupChat: {
       type: Boolean,
       default: false,
+    },
+    avatar: {
+      public_id: {
+        type: String,
+        default: "",
+      },
+      url: {
+        type: String,
+        default: "",
+      },
     },
     creator: {
       type: Types.ObjectId,
@@ -17,10 +31,10 @@ const schema = new Schema(
     },
     members: [
       {
-      type: Types.ObjectId,
-      ref: "User",
-      }
-    ]
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,

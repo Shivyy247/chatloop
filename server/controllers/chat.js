@@ -284,6 +284,7 @@ const getChatDetails = TryCatch(async (req, res, next) => {
         const chat = await Chat
             .findById(req.params.id)
             .populate("members", "name avatar")
+            .populate("creator", "name avatar")
             .lean();
 
         if (!chat) return next(new ErrorHandler("Chat not found!", 404));
@@ -293,6 +294,8 @@ const getChatDetails = TryCatch(async (req, res, next) => {
             name,
             avatar: avatar.url,
         }))
+
+        chat.creator = chat.creator?._id;
 
         return res.status(200).json({
             success: true,
