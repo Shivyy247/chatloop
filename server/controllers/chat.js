@@ -298,8 +298,11 @@ const getChatDetails = TryCatch(async (req, res, next) => {
         chat.creator = chat.creator?._id;
 
         return res.status(200).json({
-            success: true,
-            chat,
+          success: true,
+          chat: {
+            ...chat,
+            avatar: chat.avatar?.url || "",
+          },
         });
     }
     else {
@@ -318,6 +321,42 @@ const getChatDetails = TryCatch(async (req, res, next) => {
 
 
 })
+
+const updateGroupAvatar = TryCatch(async (req, res, next) => {
+  const chatId = req.params.id;
+
+  const chat = await Chat.findById(chatId);
+
+  if (!chat) return next(new ErrorHandler("Chat not found", 404));
+
+  if (!chat.groupChat)
+    return next(new ErrorHandler("This is not a group chat", 400));
+
+  if (chat.creator.toString() !== req.user.toString())
+    return next(
+      new ErrorHandler("You are not allowed to update group avatar", 403),
+    );
+
+  const file = req.file;
+
+  if (!file) return next(new ErrorHandler("Please upload an image", 400));
+
+  const result = await uploadFilesToCloudinary([file]);
+
+  chat.avatar = {
+    public_id: result[0].public_id,
+    url: result[0].url,
+  };
+
+  await chat.save();
+
+  emitEvent(req, REFETCH_CHATS, chat.members);
+
+  return res.status(200).json({
+    success: true,
+    message: "Group avatar updated successfully",
+  });
+});
 
 const renameGroup = TryCatch(async (req, res, next) => {
 
@@ -458,6 +497,7 @@ export {
   leaveMembers,
   sendAttachments,
   getChatDetails,
+  updateGroupAvatar,
   renameGroup,
   deleteChat,
   getMessages,
