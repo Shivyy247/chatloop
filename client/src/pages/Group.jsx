@@ -18,7 +18,9 @@ import {
   TextField,
   Tooltip,
   Typography,
+  Avatar,
 } from "@mui/material";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import React, { Suspense, lazy, memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -33,6 +35,7 @@ import {
   useMyGroupsQuery,
   useRemoveGroupMemberMutation,
   useRenameGroupMutation,
+  useUpdateGroupAvatarMutation,
 } from "../redux/api/api";
 import { setIsAddMember } from "../redux/reducers/misc";
 
@@ -66,6 +69,9 @@ const Group = () => {
   const [deleteGroup, isLoadingDeleteGroup] = useAsyncMutation(
     useDeleteChatMutation,
   );
+  const [updateAvatar, isLoadingAvatar] = useAsyncMutation(
+    useUpdateGroupAvatarMutation,
+  );
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -73,6 +79,7 @@ const Group = () => {
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
   const [members, setMembers] = useState([]);
+  const [groupAvatar, setGroupAvatar] = useState("");
 
   useErrors([
     { isError: myGroups.isError, error: myGroups.error },
@@ -81,9 +88,15 @@ const Group = () => {
 
   useEffect(() => {
     if (groupDetails.data) {
+      console.log("CHAT DETAILS:", groupDetails.data.chat);
       setGroupName(groupDetails.data.chat.name);
       setGroupNameUpdatedValue(groupDetails.data.chat.name);
       setMembers(groupDetails.data.chat.members);
+      setGroupAvatar(
+        groupDetails.data.chat.avatar?.url ||
+          groupDetails.data.chat.avatar ||
+          "",
+      );
     }
     return () => {
       setGroupName("");
@@ -117,6 +130,20 @@ const Group = () => {
 
   const removeMemberHandler = (userId) => {
     removeMember("Removing Member...", { chatId, userId });
+  };
+
+  const changeAvatarHandler = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    updateAvatar("Updating Avatar...", {
+      chatId,
+      data: formData,
+    });
   };
 
   const IconBtns = (
@@ -262,7 +289,49 @@ const Group = () => {
         {IconBtns}
         {groupName ? (
           <Stack alignItems="center" sx={{ py: "2rem" }}>
-            {GroupNameHeader}
+            <Stack alignItems="center" spacing={2}>
+              <Box
+                sx={{
+                  position: "relative",
+                  width: 140,
+                  height: 140,
+                }}
+              >
+                <Avatar
+                  src={groupAvatar}
+                  sx={{
+                    width: 140,
+                    height: 140,
+                    fontSize: "3rem",
+                  }}
+                />
+
+                <IconButton
+                  component="label"
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    bgcolor: "#00c8aa",
+                    color: "#fff",
+                    "&:hover": {
+                      bgcolor: "#00a98d",
+                    },
+                  }}
+                >
+                  <CameraAltIcon />
+
+                  <input
+                    hidden
+                    type="file"
+                    accept="image/*"
+                    onChange={changeAvatarHandler}
+                  />
+                </IconButton>
+              </Box>
+
+              {GroupNameHeader}
+            </Stack>
 
             <Typography
               margin={"1rem 2rem"}
@@ -376,8 +445,16 @@ const GroupList = ({ myGroups = [], chatId }) => (
 );
 
 const GroupListItem = memo(({ group, chatId }) => {
-  const { name, avatar, _id } = group;
+  const { name, avatar, groupAvatar, _id } = group;
+
+  console.log("GROUP ITEM:", {
+    name,
+    avatar,
+    groupAvatar,
+    _id,
+  });
   const isActive = chatId === _id;
+
 
   return (
     <Link
@@ -397,7 +474,7 @@ const GroupListItem = memo(({ group, chatId }) => {
           transition: "0.2s",
         }}
       >
-        <AvatarCard avatar={avatar} />
+        <AvatarCard avatar={avatar} groupAvatar={groupAvatar} />
         <Typography
           sx={{
             color: isActive ? "#00c8aa" : "#e9edef",

@@ -70,9 +70,17 @@ const uploadFilesToCloudinary = async (files = []) => {
     }
 }
 
-const deleteFilesFromCloudinary = async (public_ids) => {
-    //delete files from cloudinary
-}
+const deleteFilesFromCloudinary = async (public_ids = []) => {
+  try {
+    const deletePromises = public_ids.map((id) =>
+      cloudinary.uploader.destroy(id),
+    );
+
+    await Promise.all(deletePromises);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export {
   connectDB,

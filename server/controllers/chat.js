@@ -38,24 +38,27 @@ const getMyChats = TryCatch(async (req, res, next) => {
         "name avatar"
     );
 
-    const transformedChats = chats.map(({ _id, name, members, groupChat }) => {
-        
+    const transformedChats = chats.map(
+      ({ _id, name, members, groupChat, avatar }) => {
         const otherMember = getOtherMember(members, req.user);
+
         return {
-            _id,
-            groupChat,
-            avatar:
-                groupChat ? members.slice(0, 3).map(({ avatar }) => avatar.url) : [otherMember.avatar.url]
-            ,
-            name: groupChat ? name : otherMember.name,
-            members: members.reduce((prev, curr) => {
-                if (curr._id.toString() !== req.user.toString()) {
-                    prev.push(curr._id)
-                }
-                return prev;
-            }, []),
+          _id,
+          groupChat,
+          groupAvatar: avatar?.url || "",
+          avatar: groupChat
+            ? members.slice(0, 3).map(({ avatar }) => avatar.url)
+            : [otherMember.avatar.url],
+          name: groupChat ? name : otherMember.name,
+          members: members.reduce((prev, curr) => {
+            if (curr._id.toString() !== req.user.toString()) {
+              prev.push(curr._id);
+            }
+            return prev;
+          }, []),
         };
-     });
+      },
+    );
 
 
   return res.status(200).json({
@@ -66,19 +69,26 @@ const getMyChats = TryCatch(async (req, res, next) => {
 
 const getMyGroups = TryCatch(async (req, res, next) => {
     console.log(req.user);
+
     const chats = await Chat.find({
         members: req.user,
         groupChat: true,
         creator: req.user,
     }).populate("members", "name avatar");
-    console.log(chats);
+    console.log("CHATS:", JSON.stringify(chats, null, 2));
 
-    const groups = chats.map(({ members, _id, groupChat, name }) => ({
+
+    const groups = chats.map(({ members, _id, groupChat, name, avatar }) => {
+      console.log("GROUP AVATAR FROM DB:", avatar);
+
+      return {
         _id,
         groupChat,
         name,
         avatar: members.slice(0, 3).map(({ avatar }) => avatar.url),
-    }));
+        groupAvatar: avatar?.url || "",
+      };
+    });
 
     return res.status(200).json({
         success: true,
@@ -341,12 +351,16 @@ const updateGroupAvatar = TryCatch(async (req, res, next) => {
 
   if (!file) return next(new ErrorHandler("Please upload an image", 400));
 
-  const result = await uploadFilesToCloudinary([file]);
+    const result = await uploadFilesToCloudinary([file]);
+    
+    if (chat.avatar?.public_id) {
+      await deleteFilesFromCloudinary([chat.avatar.public_id]);
+    }
 
   chat.avatar = {
     public_id: result[0].public_id,
     url: result[0].url,
-  };
+    };
 
   await chat.save();
 
@@ -430,6 +444,9 @@ const deleteChat = TryCatch(async (req, res, next) => {
             public_ids.push(public_id)
         )
     );
+    if (chat.avatar?.public_id) {
+      public_ids.push(chat.avatar.public_id);
+    }
 
     await Promise.all([
       // delete files from cloudinary
