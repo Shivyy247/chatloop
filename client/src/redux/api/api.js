@@ -115,6 +115,16 @@ const api = createApi({
       }),
     }),
 
+    updateGroupAvatar: builder.mutation({
+      query: ({ chatId, data }) => ({
+        url: `chat/avatar/${chatId}`,
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+      invalidatesTags: ["Chat"],
+    }),
+
     newgroup: builder.mutation({
       query: ({ name, members }) => ({
         url: "chat/new",
@@ -188,10 +198,11 @@ export const {
   useMyGroupsQuery,
   useAvailableFriendsQuery,
   useUpdateProfileMutation,
+  useUpdateGroupAvatarMutation,
   useNewgroupMutation,
   useRenameGroupMutation,
   useRemoveGroupMemberMutation,
   useAddGroupMembersMutation,
   useDeleteChatMutation,
-  useLeaveGroupMutation
+  useLeaveGroupMutation,
 } = api;
