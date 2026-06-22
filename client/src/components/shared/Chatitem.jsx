@@ -4,6 +4,8 @@ import { memo } from "react";
 import AvatarCard from "./AvatarCard";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import GroupsIcon from "@mui/icons-material/Groups";
+
 
 const Chatitem = ({
   avatar = [],
@@ -11,6 +13,7 @@ const Chatitem = ({
   name,
   _id,
   groupChat = false,
+  members = [],
   isOnline,
   newMessageAlert,
   index = 0,
@@ -67,19 +70,45 @@ const Chatitem = ({
           {/* Avatar Section */}
           <Box sx={{ position: "relative", flexShrink: 0 }}>
             <AvatarCard avatar={avatar} groupAvatar={groupAvatar} />
-            {isOnline && (
+
+            {groupChat ? (
               <Box
                 sx={{
                   position: "absolute",
-                  bottom: 2,
-                  right: 2,
-                  width: "10px",
-                  height: "10px",
+                  bottom: -2,
+                  right: -2,
+                  width: 18,
+                  height: 18,
                   borderRadius: "50%",
-                  background: "#00a884",
-                  border: "2px solid #111b21", // Sidebar background color for contrast
+                  bgcolor: "#00a884",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "2px solid #111b21",
                 }}
-              />
+              >
+                <GroupsIcon
+                  sx={{
+                    fontSize: 10,
+                    color: "#fff",
+                  }}
+                />
+              </Box>
+            ) : (
+              isOnline && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 2,
+                    right: 2,
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "50%",
+                    background: "#00a884",
+                    border: "2px solid #111b21",
+                  }}
+                />
+              )
             )}
           </Box>
 
@@ -105,7 +134,11 @@ const Chatitem = ({
                 opacity: activeChat ? 0.9 : 1,
               }}
             >
-              {isOnline ? "Online" : "Tap to chat"}
+              {groupChat
+                ? `${members?.length || 0} members • Group`
+                : isOnline
+                  ? "Online"
+                  : "Tap to chat"}
             </Typography>
           </Stack>
 

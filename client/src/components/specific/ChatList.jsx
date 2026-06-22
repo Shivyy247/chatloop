@@ -87,6 +87,7 @@ const Chatlist = ({
               _id={_id}
               key={_id}
               groupChat={groupChat}
+              members={members}
               name={name}
               // Active highlight ke liye current chatId check
               isActive={chatId === _id}
