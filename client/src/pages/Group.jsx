@@ -284,11 +284,23 @@ const Group = () => {
         item
         xs={12}
         sm={8}
-        sx={{ position: "relative", overflowY: "auto", overflowX: "hidden" }}
+        sx={{
+          position: "relative",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
       >
         {IconBtns}
         {groupName ? (
-          <Stack alignItems="center" sx={{ py: "2rem" }}>
+          <Stack
+            alignItems="center"
+            sx={{
+              py: "2rem",
+              minHeight: "100%",
+            }}
+          >
             <Stack alignItems="center" spacing={2}>
               <Box
                 sx={{
@@ -354,7 +366,8 @@ const Group = () => {
               sx={{
                 px: { xs: "1rem", sm: "2rem", md: "4rem" },
                 py: "1rem",
-                height: "50vh",
+                flex: 1,
+                minHeight: 0,
                 overflowY: "auto",
                 "&::-webkit-scrollbar": { width: "4px" },
                 "&::-webkit-scrollbar-thumb": {
@@ -387,7 +400,18 @@ const Group = () => {
               )}
             </Stack>
 
-            {ButtonGroup}
+            <Box
+              sx={{
+                width: "100%",
+                mt: "auto",
+                position: "sticky",
+                bottom: 0,
+                bgcolor: "#0b141a",
+                borderTop: "1px solid #222d34",
+              }}
+            >
+              {ButtonGroup}
+            </Box>
           </Stack>
         ) : (
           <Stack height="100%" justifyContent="center" alignItems="center">
