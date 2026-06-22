@@ -96,17 +96,17 @@ const Header = () => {
             <Stack
               direction="row"
               alignItems="center"
-              spacing={1}
+              spacing={-0.9}
               onClick={() => navigate("/")}
               sx={{ cursor: "pointer" }}
             >
               <Box
                 component="img"
-                src="/logi.png"
+                src="/logogo.png"
                 alt="logo"
                 sx={{
-                  width: 24,
-                  height: 24,
+                  width: 60,
+                  height: 60,
                   objectFit: "contain",
                 }}
               />

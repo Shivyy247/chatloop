@@ -38,27 +38,45 @@ const getMyChats = TryCatch(async (req, res, next) => {
         "name avatar"
     );
 
-    const transformedChats = chats.map(
-      ({ _id, name, members, groupChat, avatar }) => {
-        const otherMember = getOtherMember(members, req.user);
+    // const transformedChats = chats.map(
+    //   ({ _id, name, members, groupChat, avatar }) => {
+    //     const otherMember = getOtherMember(members, req.user);
 
-        return {
-          _id,
-          groupChat,
-          groupAvatar: avatar?.url || "",
-          avatar: groupChat
-            ? members.slice(0, 3).map(({ avatar }) => avatar.url)
-            : [otherMember.avatar.url],
-          name: groupChat ? name : otherMember.name,
-          members: members.reduce((prev, curr) => {
-            if (curr._id.toString() !== req.user.toString()) {
-              prev.push(curr._id);
-            }
-            return prev;
-          }, []),
-        };
-      },
-    );
+    //     return {
+    //       _id,
+    //       groupChat,
+    //       groupAvatar: avatar?.url || "",
+    //       avatar: groupChat
+    //         ? members.slice(0, 3).map(({ avatar }) => avatar?.url || avatar)
+    //         : [otherMember.avatar?.url || otherMember.avatar],
+    //       name: groupChat ? name : otherMember.name,
+    //       members: members.reduce((prev, curr) => {
+    //         if (curr._id.toString() !== req.user.toString()) {
+    //           prev.push(curr._id);
+    //         }
+    //         return prev;
+    //       }, []),
+    //     };
+    //   },
+  // );
+  const transformedChats = chats.map(
+    ({ _id, name, members, groupChat, avatar }) => {
+      console.log("CHAT:", name);
+      console.log("GROUP AVATAR:", avatar?.url);
+
+      const otherMember = getOtherMember(members, req.user);
+
+      return {
+        _id,
+        groupChat,
+        groupAvatar: avatar?.url || "",
+        avatar: groupChat
+          ? members.slice(0, 3).map(({ avatar }) => avatar?.url || avatar)
+          : [otherMember.avatar?.url || otherMember.avatar],
+        name: groupChat ? name : otherMember.name,
+      };
+    },
+  );
 
 
   return res.status(200).json({
@@ -68,7 +86,8 @@ const getMyChats = TryCatch(async (req, res, next) => {
 });
 
 const getMyGroups = TryCatch(async (req, res, next) => {
-    console.log(req.user);
+  console.log(req.user);
+  console.log("GET MY GROUPS HIT");
 
     const chats = await Chat.find({
         members: req.user,
@@ -85,7 +104,10 @@ const getMyGroups = TryCatch(async (req, res, next) => {
         _id,
         groupChat,
         name,
-        avatar: members.slice(0, 3).map(({ avatar }) => avatar.url),
+        avatar: members.slice(0, 3).map((member) => {
+          console.log("MEMBER AVATAR:", member.avatar);
+          return member.avatar?.url || member.avatar;
+        }),
         groupAvatar: avatar?.url || "",
       };
     });
@@ -300,10 +322,10 @@ const getChatDetails = TryCatch(async (req, res, next) => {
         if (!chat) return next(new ErrorHandler("Chat not found!", 404));
 
         chat.members = chat.members.map(({ _id, name, avatar }) => ({
-             _id,
-            name,
-            avatar: avatar.url,
-        }))
+          _id,
+          name,
+          avatar: avatar?.url || avatar,
+        }));
 
         chat.creator = chat.creator?._id;
 

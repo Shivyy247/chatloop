@@ -150,12 +150,12 @@ const Login = () => {
         {/* CONTENT */}
         <Stack spacing={1.2} alignItems="center" sx={{ zIndex: 2 }}>
           {/* LOGO + NAME */}
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={-0.9}>
             <Box
               component="img"
-              src="/logo-go-1.png"
+              src="/logogo.png"
               alt="logo"
-              sx={{ width: 30, height: 30 }}
+              sx={{ width: 64, height: 60 }}
             />
 
             <Typography

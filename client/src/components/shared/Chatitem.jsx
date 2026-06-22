@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 
 const Chatitem = ({
   avatar = [],
+  groupAvatar,
   name,
   _id,
   groupChat = false,
@@ -65,7 +66,7 @@ const Chatitem = ({
 
           {/* Avatar Section */}
           <Box sx={{ position: "relative", flexShrink: 0 }}>
-            <AvatarCard avatar={avatar} />
+            <AvatarCard avatar={avatar} groupAvatar={groupAvatar} />
             {isOnline && (
               <Box
                 sx={{
