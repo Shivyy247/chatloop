@@ -87,7 +87,7 @@ const UserItem = ({
                 fontWeight: 700,
               }}
             >
-              👑 Admin
+              Admin
             </Box>
           )}
         </Box>
